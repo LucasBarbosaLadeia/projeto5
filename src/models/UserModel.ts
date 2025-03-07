@@ -1,7 +1,13 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database"; // Importa a conexão com o banco
 
-export class UserModel extends Model {}
+export class UserModel extends Model {
+  public id_usuario!: number;
+  public name!: string;
+  public senha!: string;
+  public email!: string;
+  public endereco!: string;
+}
 
 UserModel.init(
   {
@@ -11,7 +17,7 @@ UserModel.init(
       primaryKey: true,
       allowNull: false,
     },
-    nome: {
+    name: {
       type: DataTypes.STRING(100),
       allowNull: false,
     },
