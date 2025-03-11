@@ -5,6 +5,8 @@ import actorRoutes from "./routes/ActorRoutes";
 import actorfilmRoutes from "./routes/ActorFilmRoutes";
 import userRoutes from "./routes/UserRoutes";
 import filmRoutes from "./routes/FilmRoutes";
+import evaluations from "./routes/EvaluationsRoutes";
+
 const app = express();
 const port = 3000;
 
@@ -19,6 +21,7 @@ app.use(actorRoutes);
 app.use(actorfilmRoutes);
 app.use(userRoutes);
 app.use(filmRoutes);
+app.use(evaluations);
 
 sequelize
   .sync({ alter: true })
