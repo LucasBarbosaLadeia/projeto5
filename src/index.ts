@@ -3,7 +3,8 @@ import sequelize from "./config/database";
 import userRoute from "./routes/UserRoutes";
 import actorRoutes from "./routes/ActorRoutes";
 import actorfilmRoutes from "./routes/ActorFilmRoutes";
-
+import userRoutes from "./routes/UserRoutes";
+import filmRoutes from "./routes/FilmRoutes";
 const app = express();
 const port = 3000;
 
@@ -12,9 +13,13 @@ app.get("/", (req, res) => {
 });
 
 app.use(express.json());
+
 app.use(userRoute);
 app.use(actorRoutes);
 app.use(actorfilmRoutes);
+app.use(userRoutes);
+app.use(filmRoutes);
+
 
 sequelize
   .sync({ alter: true })
