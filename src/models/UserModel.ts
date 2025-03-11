@@ -1,4 +1,3 @@
-
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database"; // Importa a conexão com o banco
 
@@ -24,11 +23,11 @@ UserModel.init(
     },
     senha: {
       type: DataTypes.STRING(255), // Armazena senhas criptografadas
-      allowNull: false,
+      allowNull: true,
     },
     email: {
       type: DataTypes.STRING(100),
-      allowNull: false,
+      allowNull: true,
       unique: true,
     },
     endereco: {
