@@ -2,7 +2,7 @@ import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database"; // Importa a conexão com o banco
 
 export class UserModel extends Model {
-  public id_usuario!: number;
+  public id_users!: number;
   public name!: string;
   public senha!: string;
   public email!: string;
@@ -11,7 +11,7 @@ export class UserModel extends Model {
 
 UserModel.init(
   {
-    id_usuario: {
+    id_users: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
@@ -37,7 +37,7 @@ UserModel.init(
   },
   {
     sequelize, // Conexão com o banco de dados
-    tableName: "usuarios", // Nome da tabela no BD
+    tableName: "users", // Nome da tabela no BD
     timestamps: false, // Se não houver `created_at` e `updated_at`
   }
 );
