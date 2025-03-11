@@ -17,7 +17,7 @@ export const getActorById = async (
   return res.json(user);
 };
 
-// método que cria um novo usuário
+// método que cria um novo ator
 export const createActor = async (req: Request, res: Response) => {
   try {
     const { name } = req.body;
