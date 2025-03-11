@@ -20,7 +20,6 @@ app.use(actorfilmRoutes);
 app.use(userRoutes);
 app.use(filmRoutes);
 
-
 sequelize
   .sync({ alter: true })
   .then(() => {
