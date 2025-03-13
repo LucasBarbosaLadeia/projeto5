@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database"; // Importa a conexão com o banco
+import EvaluationsModel from "./EvaluationsModel";
 
 export class UserModel extends Model {
   public id_users!: number;
@@ -11,7 +12,7 @@ export class UserModel extends Model {
 
 UserModel.init(
   {
-    id_users: {
+    id_user: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
