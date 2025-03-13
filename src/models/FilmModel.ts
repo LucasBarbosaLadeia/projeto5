@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
+import EvaluationsModel from "./EvaluationsModel";
 
 export class FilmModel extends Model {
   public id_film!: number;

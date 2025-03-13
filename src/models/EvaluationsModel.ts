@@ -1,5 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
+import FilmModel from "./FilmModel";
+import UserModel from "./UserModel";
 
 export class EvaluationsModel extends Model {
   public id_film!: number;
@@ -11,12 +13,7 @@ export class EvaluationsModel extends Model {
 
 EvaluationsModel.init(
   {
-    id_film: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-    },
-    id_actor: {
+    id_evaluation: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
@@ -40,5 +37,16 @@ EvaluationsModel.init(
     timestamps: false,
   }
 );
+
+// Relacionamento: Uma avaliação pertence a um filme
+EvaluationsModel.belongsTo(FilmModel, {
+  foreignKey: "id_film", // Definindo a chave estrangeira correta
+  as: "films", // Nome da relação
+});
+
+EvaluationsModel.belongsTo(UserModel, {
+  foreignKey: "id_user",
+  as: "usues",
+});
 
 export default EvaluationsModel;

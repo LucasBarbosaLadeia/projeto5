@@ -1,5 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
+import UserModel from "./UserModel";
+import FilmModel from "./FilmModel";
 
 export class FavoritesModel extends Model {
   public id_favorito!: number;
@@ -32,5 +34,15 @@ FavoritesModel.init(
     timestamps: false,
   }
 );
+
+FavoritesModel.belongsTo(FilmModel, {
+  foreignKey: "id_film", // Definindo a chave estrangeira correta
+  as: "films", // Nome da relação
+});
+
+FavoritesModel.belongsTo(UserModel, {
+  foreignKey: "id_user",
+  as: "usues",
+});
 
 export default FavoritesModel;
