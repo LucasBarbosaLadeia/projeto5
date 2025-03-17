@@ -1,7 +1,7 @@
 import express from "express";
 import {
   getAll,
-}  from "../controller/SubscriptionController";
+}  from "../controller/SubscriptionPaymentController";
   const router = express.Router();
 
   router.get("/subscritionPayment", getAll);

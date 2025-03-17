@@ -23,6 +23,6 @@ PaymentFormModel.init ({
     tableName: "paymentForms",
     timestamps: false, 
 }
-)
+);
 
 export default PaymentFormModel

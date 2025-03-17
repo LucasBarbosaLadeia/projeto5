@@ -31,6 +31,6 @@ SubscriptionModel.init ({
     timestamps: false, // Se não houver created_at e updated_at
   }
 
-)
+);
 
 export default SubscriptionModel;
