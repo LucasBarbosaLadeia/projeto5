@@ -83,7 +83,7 @@ export const destroyUserById = async (
 
     await user.destroy();
 
-    res.status(204).send();
+    res.status(200).json({ message: "Usuario deletado" + user });
   } catch (error) {
     res.status(500).json("Erro interno no servidor " + error);
   }

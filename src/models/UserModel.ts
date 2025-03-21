@@ -37,7 +37,6 @@ UserModel.init(
     email: {
       type: DataTypes.STRING(100),
       allowNull: true,
-      unique: true,
     },
     endereco: {
       type: DataTypes.STRING(200),
