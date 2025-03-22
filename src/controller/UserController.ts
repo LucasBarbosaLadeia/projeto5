@@ -25,7 +25,7 @@ const userSchema = z.object({
   password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
   endereco: z.string().min(1, "O endereço é obrigatório"),
   email: z.string().email("E-mail inválido"),
-  cpf: cpfValidator, // testar mais tarde lembre de corrigir o banco de dados
+  cpf: cpfValidator.or(z.string().min(11, "CPF inválido")),
 });
 
 const updateUserSchema = userSchema.partial();
