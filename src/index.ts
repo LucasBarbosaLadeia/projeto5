@@ -10,6 +10,10 @@ import evaluations from "./routes/EvaluationsRoutes";
 import favorites from "./routes/FavoritesRoutes";
 import login from "./routes/loginRoutes";
 import { METHODS } from "http";
+import paymentForms from "./routes/PaymentFormRoutes";
+import subscriptions from "./routes/SubscriptionRoutes";
+import subscriptionPayment from "./routes/SubscriptionPaymentRoutes";
+
 
 const app = express();
 const port = 3000;
