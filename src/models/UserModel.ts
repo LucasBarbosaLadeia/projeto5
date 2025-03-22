@@ -1,13 +1,21 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database"; // Importa a conexão com o banco
-import EvaluationsModel from "./EvaluationsModel";
+import bcrypt from "bcryptjs";
 
 export class UserModel extends Model {
   public id_users!: number;
   public name!: string;
-  public senha!: string;
+  public password!: string;
   public email!: string;
   public endereco!: string;
+
+  public async hashPassword() {
+    this.password = await bcrypt.hash(this.password!, 10);
+  }
+
+  public async validatePassword(password: string) {
+    return await bcrypt.compare(password, this.password!);
+  }
 }
 
 UserModel.init(
@@ -22,18 +30,21 @@ UserModel.init(
       type: DataTypes.STRING(100),
       allowNull: false,
     },
-    senha: {
+    password: {
       type: DataTypes.STRING(255), // Armazena senhas criptografadas
-      allowNull: true,
+      allowNull: false,
     },
     email: {
       type: DataTypes.STRING(100),
-      allowNull: true,
-      unique: true,
+      allowNull: false,
     },
     endereco: {
       type: DataTypes.STRING(200),
       allowNull: true, // Pode ser nulo
+    },
+    cpf: {
+      type: DataTypes.STRING(11),
+      allowNull: false,
     },
   },
   {
@@ -42,5 +53,15 @@ UserModel.init(
     timestamps: false, // Se não houver `created_at` e `updated_at`
   }
 );
+
+UserModel.beforeCreate(async (user: UserModel) => {
+  await user.hashPassword();
+});
+
+UserModel.beforeUpdate(async (user: UserModel) => {
+  if (user.changed("password")) {
+    await user.hashPassword();
+  }
+});
 
 export default UserModel;
