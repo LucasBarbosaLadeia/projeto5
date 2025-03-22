@@ -7,7 +7,7 @@ import {
   updateUser,
   destroyUserById,
 } from "../controller/UserController";
-import { authMiddleware } from "../middleware/authMiddleware";
+import { authMiddleware } from "../validators/authMiddleware";
 
 const router = express.Router();
 

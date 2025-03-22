@@ -32,15 +32,19 @@ UserModel.init(
     },
     password: {
       type: DataTypes.STRING(255), // Armazena senhas criptografadas
-      allowNull: true,
+      allowNull: false,
     },
     email: {
       type: DataTypes.STRING(100),
-      allowNull: true,
+      allowNull: false,
     },
     endereco: {
       type: DataTypes.STRING(200),
       allowNull: true, // Pode ser nulo
+    },
+    cpf: {
+      type: DataTypes.STRING(11),
+      allowNull: false,
     },
   },
   {

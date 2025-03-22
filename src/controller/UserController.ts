@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import UserModel from "../models/UserModel";
 import { z } from "zod";
+import { cpfValidator } from "../validators/cpfValidator";
 
 // método que busca todos
 export const getAll = async (req: Request, res: Response) => {
@@ -24,6 +25,7 @@ const userSchema = z.object({
   password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
   endereco: z.string().min(1, "O endereço é obrigatório"),
   email: z.string().email("E-mail inválido"),
+  cpf: cpfValidator, // testar mais tarde lembre de corrigir o banco de dados
 });
 
 const updateUserSchema = userSchema.partial();
