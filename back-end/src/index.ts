@@ -1,10 +1,9 @@
 import express from "express";
 import cors from "cors";
 import sequelize from "./config/database";
-import userRoute from "./routes/UserRoutes";
+import userRoutes from "./routes/UserRoutes";
 import actorRoutes from "./routes/ActorRoutes";
 import actorfilmRoutes from "./routes/ActorFilmRoutes";
-import userRoutes from "./routes/UserRoutes";
 import filmRoutes from "./routes/FilmRoutes";
 import evaluations from "./routes/EvaluationsRoutes";
 import favorites from "./routes/FavoritesRoutes";
@@ -24,10 +23,11 @@ app.use(cors(corsOptions)); // Aplica as configurações de CORS
 
 app.use(express.json());
 
-app.use(userRoute);
+
 app.use(actorRoutes);
 app.use(actorfilmRoutes);
-app.use(userRoutes);
+app.use("/api/users", userRoutes);
+
 app.use(filmRoutes);
 app.use(evaluations);
 app.use(favorites);

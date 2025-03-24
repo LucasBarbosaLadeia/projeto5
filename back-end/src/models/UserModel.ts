@@ -3,12 +3,12 @@ import sequelize from "../config/database"; // Importa a conexão com o banco
 import bcrypt from "bcryptjs";
 
 export class UserModel extends Model {
-  public id_users!: number;
+  public id_user!: number;
   public name!: string;
   public password!: string;
   public email!: string;
   public endereco!: string;
-
+  public cpf!: string;
   public async hashPassword() {
     this.password = await bcrypt.hash(this.password!, 10);
   }

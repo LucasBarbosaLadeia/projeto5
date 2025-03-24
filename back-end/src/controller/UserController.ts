@@ -31,7 +31,9 @@ const userSchema = z.object({
 const updateUserSchema = userSchema.partial();
 
 export const createUser = async (req: Request, res: Response) => {
+  console.log('Request Body:', req.body); 
   try {
+    console.log(req.body);
     const userData = userSchema.parse(req.body);
 
     const newUser = await UserModel.create(userData);
