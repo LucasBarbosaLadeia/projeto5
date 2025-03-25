@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import UserModel from "../models/UserModel";
+import { userSchema } from "../schemas/userSchema";
 import { z } from "zod";
-import { cpfValidator } from "../validators/cpfValidator";
 
 // método que busca todos
 export const getAll = async (req: Request, res: Response) => {
@@ -20,20 +20,10 @@ export const getUserById = async (
 };
 
 // método que cria um novo usuário
-const userSchema = z.object({
-  name: z.string().min(1, "O nome é obrigatório"),
-  password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
-  endereco: z.string().min(1, "O endereço é obrigatório"),
-  email: z.string().email("E-mail inválido"),
-  cpf: cpfValidator.or(z.string().min(11, "CPF inválido")),
-});
-
-const updateUserSchema = userSchema.partial();
-
 export const createUser = async (req: Request, res: Response) => {
   try {
     const userData = userSchema.parse(req.body);
-
+    console.log(userData);
     const newUser = await UserModel.create(userData);
 
     return res
@@ -53,7 +43,7 @@ export const updateUser = async (
   res: Response
 ) => {
   try {
-    const userData = updateUserSchema.parse(req.body);
+    const userData = userSchema.parse(req.body);
 
     const user = await UserModel.findByPk(req.params.id);
     if (!user) {
