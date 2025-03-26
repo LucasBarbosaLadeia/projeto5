@@ -1,4 +1,13 @@
 import { NextFunction, Response, Request } from "express";
+
+// Extend the Request interface to include the user property
+declare global {
+  namespace Express {
+    interface Request {
+      user?: any;
+    }
+  }
+}
 import { verifyToken } from "../utils/jwt";
 
 export const authMiddleware = (
@@ -15,7 +24,7 @@ export const authMiddleware = (
 
   try {
     const decoded = verifyToken(token);
-    req.body.user = decoded;
+    req.user = decoded;
     next();
   } catch (error) {
     return res.status(401).json({ msg: "Token inválido" });

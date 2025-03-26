@@ -23,7 +23,6 @@ export const getUserById = async (
 export const createUser = async (req: Request, res: Response) => {
   try {
     const userData = userSchema.parse(req.body);
-    console.log(userData);
     const newUser = await UserModel.create(userData);
 
     return res
