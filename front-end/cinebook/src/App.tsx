@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router";
-import Login from "./pages/Login";
-import Home from "./pages/Home";
-import SignUp from "./pages/SignUp";
+import Login from "./pages/public/Login";
+import SignUp from "./pages/public/SignUp";
+import Movies from "./pages/auth/movies";
 
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/home/:id" element={<Home />} />
+        <Route path="/movies" element={<Movies />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
     </BrowserRouter>

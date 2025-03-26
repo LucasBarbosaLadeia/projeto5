@@ -7,14 +7,12 @@ import actorfilmRoutes from "./routes/ActorFilmRoutes";
 import filmRoutes from "./routes/FilmRoutes";
 import evaluations from "./routes/EvaluationsRoutes";
 import favorites from "./routes/FavoritesRoutes";
-<<<<<<< HEAD:src/index.ts
 import paymentForms from "./routes/PaymentFormRoutes";
 import subscriptions from "./routes/SubscriptionRoutes";
 import subscriptionPayment from "./routes/SubscriptionPaymentRoutes";
-=======
-import login from "./routes/loginRoutes";
+import loginRoutes from "./routes/loginRoutes";
 import { METHODS } from "http";
->>>>>>> b30aeed798a8d79a4fbc3262b538e7745050ffce:back-end/src/index.ts
+
 
 const app = express();
 const port = 3000;
@@ -34,10 +32,10 @@ app.use(actorRoutes);
 app.use(actorfilmRoutes);
 app.use("/api/users", userRoutes);
 
-app.use(filmRoutes);
+app.use("/api", filmRoutes);
 app.use(evaluations);
 app.use(favorites);
-app.use(login);
+app.use("/api", loginRoutes);
 
 sequelize
   .sync({ alter: true })
