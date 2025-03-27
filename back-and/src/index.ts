@@ -9,11 +9,6 @@ import filmRoutes from "./routes/FilmRoutes";
 import evaluations from "./routes/EvaluationsRoutes";
 import favorites from "./routes/FavoritesRoutes";
 import login from "./routes/loginRoutes";
-import { METHODS } from "http";
-import paymentForms from "./routes/PaymentFormRoutes";
-import subscriptions from "./routes/SubscriptionRoutes";
-import subscriptionPayment from "./routes/SubscriptionPaymentRoutes";
-
 
 const app = express();
 const port = 3000;
@@ -24,7 +19,7 @@ const corsOptions = {
   allowedHeaders: "Content-Type,Authorization",
 };
 
-app.use(cors(corsOptions)); // Aplica as configurações de CORS
+app.use(cors(corsOptions));
 
 app.use(express.json());
 

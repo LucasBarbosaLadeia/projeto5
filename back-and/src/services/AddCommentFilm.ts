@@ -2,22 +2,24 @@ import { EvaluationsModel } from "../models/EvaluationsModel";
 
 export const addCommentToFilm = async (
   filmId: number,
-  commentData: {
-    comment: string;
-    autor: string;
-    id_users: number;
-    date_review: Date;
-  }
+  comment: string,
+  userId: number
 ) => {
-  // Criando o comentário e salvando no banco de dados
-  const comment = await EvaluationsModel.create({
-    comment: commentData.comment,
-    autor: commentData.autor,
-    date_review: commentData.date_review,
-    id_users: commentData.id_users,
-    id_film: filmId,
-  });
+  try {
+    console.log("Recebendo dados para salvar:", { filmId, comment, userId });
 
-  // Retorna o comentário criado
-  return comment;
+    const newComment = await EvaluationsModel.create({
+      film_id: filmId,
+      comment: comment,
+      id_user: userId,
+      date_review: new Date(),
+    });
+
+    console.log("Comentário salvo com sucesso:", newComment);
+    return newComment;
+  } catch (error) {
+    console.log(filmId, comment, userId, new Date());
+    console.error("Erro ao salvar comentário:", error);
+    throw new Error("Erro ao salvar comentário");
+  }
 };
