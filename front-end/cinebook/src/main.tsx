@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App.tsx";
 
 import axios from "axios";
+import { AuthProvider } from "./contexts/AuthContext.tsx";
 
 const token = localStorage.getItem("token");
 axios.defaults.baseURL = "http://localhost:3000/api";
@@ -13,6 +14,8 @@ console.log("Token carregado:", token);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
+    <AuthProvider>
+      <App />
+    </AuthProvider>
   </StrictMode>
 );

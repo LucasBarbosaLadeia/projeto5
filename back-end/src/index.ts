@@ -30,7 +30,7 @@ app.use(express.json());
 
 app.use(actorRoutes);
 app.use(actorfilmRoutes);
-app.use("/api/users", userRoutes);
+app.use("/api", userRoutes);
 
 app.use("/api", filmRoutes);
 app.use(evaluations);

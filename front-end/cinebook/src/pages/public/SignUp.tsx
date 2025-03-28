@@ -1,7 +1,9 @@
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router";
-import axios from "axios";
+
 import { cpf } from "cpf-cnpj-validator"; 
+import api from "../../utils/api";
+
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -36,7 +38,7 @@ const SignUp = () => {
     });
     try {
       setLoading(true);
-      await axios.post("/users", {
+      await api.post("/users", {
        name,
         email,
        password,
