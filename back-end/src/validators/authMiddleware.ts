@@ -1,4 +1,12 @@
 import { NextFunction, Response, Request } from "express";
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: any;
+    }
+  }
+}
 import { verifyToken } from "../utils/jwt";
 
 export const authMiddleware = (
@@ -15,7 +23,7 @@ export const authMiddleware = (
 
   try {
     const decoded = verifyToken(token);
-    req.body.user = decoded;
+    req.user = decoded;
     next();
   } catch (error) {
     return res.status(401).json({ msg: "Token inválido" });

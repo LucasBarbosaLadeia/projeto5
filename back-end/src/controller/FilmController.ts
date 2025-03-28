@@ -1,7 +1,7 @@
-import { Request, Response } from "express"; 
+import { Request, Response } from "express";
 import FilmModel from "../models/FilmModel";
+import { filmSchema } from "../schemas/FilmSchema";
 
-// método que busca todos
 export const getAll = async (req: Request, res: Response) => {
   const films = await FilmModel.findAll();
   res.send(films);
@@ -17,17 +17,14 @@ export const getFilmById = async (
   return res.json(film);
 };
 
-// método que cria um novo usuário
 export const createFilm = async (req: Request, res: Response) => {
   try {
-    const { name } = req.body;
+    const film = filmSchema.parse(req.body);
+    const newFilm = await FilmModel.create(film);
 
-    if (!name || name === "") {
-      return res.status(400).json({ error: "Name is required" });
-    }
-
-    const film = await FilmModel.create({ name });
-    res.status(201).json(film);
+    return res
+      .status(201)
+      .json({ message: "filme criado com sucesso", film: newFilm });
   } catch (error) {
     res.status(500).json("Erro interno no servidor " + error);
   }
