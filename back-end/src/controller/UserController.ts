@@ -1,7 +1,12 @@
 import { Request, Response } from "express";
 import UserModel from "../models/UserModel";
+<<<<<<< HEAD
 import { z } from "zod";
 import { cpfValidator } from "../validators/cpfValidator";
+=======
+import { userSchema } from "../schemas/userSchema";
+import { z } from "zod";
+>>>>>>> aaed07f096c937496bde8a96e800eef39a4337c7
 
 // método que busca todos
 export const getAll = async (req: Request, res: Response) => {
@@ -20,6 +25,7 @@ export const getUserById = async (
 };
 
 // método que cria um novo usuário
+<<<<<<< HEAD
 const userSchema = z.object({
   name: z.string().min(1, "O nome é obrigatório"),
   password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
@@ -36,6 +42,11 @@ export const createUser = async (req: Request, res: Response) => {
     console.log(req.body);
     const userData = userSchema.parse(req.body);
 
+=======
+export const createUser = async (req: Request, res: Response) => {
+  try {
+    const userData = userSchema.parse(req.body);
+>>>>>>> aaed07f096c937496bde8a96e800eef39a4337c7
     const newUser = await UserModel.create(userData);
 
     return res
@@ -55,7 +66,11 @@ export const updateUser = async (
   res: Response
 ) => {
   try {
+<<<<<<< HEAD
     const userData = updateUserSchema.parse(req.body);
+=======
+    const userData = userSchema.parse(req.body);
+>>>>>>> aaed07f096c937496bde8a96e800eef39a4337c7
 
     const user = await UserModel.findByPk(req.params.id);
     if (!user) {
