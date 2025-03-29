@@ -1,16 +1,11 @@
 import { Request, Response } from "express";
 import EvaluationsModel from "../models/EvaluationsModel";
-<<<<<<< HEAD
-=======
 import { addCommentToFilm } from "../services/AddCommentFilm";
->>>>>>> aaed07f096c937496bde8a96e800eef39a4337c7
 
 export const getAll = async (req: Request, res: Response) => {
   const evaluations = await EvaluationsModel.findAll();
   res.send(evaluations);
 };
-<<<<<<< HEAD
-=======
 
 export const getEvaluationById = async (
   req: Request<{ id: string }>,
@@ -40,4 +35,3 @@ export const addCommentController = async (req: Request, res: Response) => {
     });
   }
 };
->>>>>>> aaed07f096c937496bde8a96e800eef39a4337c7

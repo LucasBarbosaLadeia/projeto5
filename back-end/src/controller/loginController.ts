@@ -3,10 +3,6 @@ import UserModel from "../models/UserModel";
 import { generateToken } from "../utils/jwt";
 
 export const loginUser = async (req: Request, res: Response) => {
-<<<<<<< HEAD
-  console.log("Recebendo dados do login:", req.body);
-=======
->>>>>>> aaed07f096c937496bde8a96e800eef39a4337c7
   const { email, password } = req.body;
 
   if (!email || !password) {
