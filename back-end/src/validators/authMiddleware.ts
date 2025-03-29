@@ -1,4 +1,6 @@
 import { NextFunction, Response, Request } from "express";
+<<<<<<< HEAD
+=======
 
 declare global {
   namespace Express {
@@ -7,6 +9,7 @@ declare global {
     }
   }
 }
+>>>>>>> aaed07f096c937496bde8a96e800eef39a4337c7
 import { verifyToken } from "../utils/jwt";
 
 export const authMiddleware = (
@@ -23,7 +26,11 @@ export const authMiddleware = (
 
   try {
     const decoded = verifyToken(token);
+<<<<<<< HEAD
+    req.body.user = decoded;
+=======
     req.user = decoded;
+>>>>>>> aaed07f096c937496bde8a96e800eef39a4337c7
     next();
   } catch (error) {
     return res.status(401).json({ msg: "Token inválido" });
