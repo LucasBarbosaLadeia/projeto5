@@ -1,7 +1,6 @@
 import { Sequelize } from "sequelize";
-const IsTest = process.env.NODE_ENV === 'test'
-const sequelize = new Sequelize(
-  IsTest ? "cinebook_test" : "cinebook", "root", "", {
+
+const sequelize = new Sequelize("cinebook", "root", "", {
   host: "localhost",
   dialect: "mysql",
 });

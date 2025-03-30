@@ -49,7 +49,7 @@ export const updateFilm = async (
       return res.status(404).json({ error: "Film not found" });
     }
 
-    film.film_name = name;
+    film.name = name;
 
     await film.save();
     res.status(201).json(film);

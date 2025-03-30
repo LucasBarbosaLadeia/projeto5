@@ -8,7 +8,6 @@ export class UserModel extends Model {
   public password!: string;
   public email!: string;
   public endereco!: string;
-  public cpf!: string;
   public async hashPassword() {
     this.password = await bcrypt.hash(this.password!, 10);
   }

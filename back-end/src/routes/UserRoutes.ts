@@ -11,11 +11,12 @@ import { authMiddleware } from "../validators/authMiddleware";
 
 const router = express.Router();
 
-router.post("/", createUser);
-router.get("/", getAll);
-router.get("/:id", authMiddleware, getUserById);
-router.put("/:id", authMiddleware, updateUser);
-router.delete("/:id", authMiddleware, destroyUserById);
+router.post("/users", createUser);
+
+router.get("/users", authMiddleware, getAll);
+router.get("/users/:id", authMiddleware, getUserById);
+router.put("/users/:id", authMiddleware, updateUser);
+router.delete("/users/:id", authMiddleware, destroyUserById);
 
 export default router;
 //

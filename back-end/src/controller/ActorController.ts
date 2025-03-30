@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import ActorModel from "../models/ActorModel";
+import { actorSchema } from "../schemas/ActorSchema";
 
 // método que busca todos
 export const getAll = async (req: Request, res: Response) => {
@@ -20,14 +21,12 @@ export const getActorById = async (
 // método que cria um novo ator
 export const createActor = async (req: Request, res: Response) => {
   try {
-    const { name } = req.body;
+    const actor = actorSchema.parse(req.body);
+    const newActor = await ActorModel.create(actor);
 
-    if (!name || name === "") {
-      return res.status(400).json({ error: "Name is required" });
-    }
-
-    const actor = await ActorModel.create({ name });
-    res.status(201).json(actor);
+    return res
+      .status(201)
+      .json({ message: "Ator criado com sucesso", actor: newActor });
   } catch (error) {
     res.status(500).json("Erro interno no servidor " + error);
   }
@@ -39,17 +38,10 @@ export const updateActor = async (
   res: Response
 ) => {
   try {
-    const { name } = req.body;
-    if (!name || name === "") {
-      return res.status(400).json({ error: "Name is required" });
-    }
-
     const actor = await ActorModel.findByPk(req.params.id);
     if (!actor) {
       return res.status(404).json({ error: "actor not found" });
     }
-
-    actor.name = name;
 
     await actor.save();
     res.status(201).json(actor);

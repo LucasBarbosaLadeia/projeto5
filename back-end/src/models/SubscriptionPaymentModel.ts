@@ -4,29 +4,28 @@ import SubscriptionModel from "./SubscriptionModel";
 import PaymentFormModel from "./PaymentFormModel";
 
 export class SubscriptionPaymentModel extends Model {
-    public id_payment_form!: number;
+  public id_payment_form!: number;
   public id_Subscription!: number;
 }
 
-SubscriptionPaymentModel.init (
-    {
-        id_subscription: {
-                type: DataTypes.INTEGER,
-                primaryKey: true,
-                allowNull: false,
-        
-            },
-            id_payment_form: {
-                type: DataTypes.INTEGER,
-                primaryKey: true,
-                allowNull: false,
-            },
-},
-{
+SubscriptionPaymentModel.init(
+  {
+    id_subscription: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
+    },
+    id_payment_form: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
+    },
+  },
+  {
     sequelize,
     tableName: "subscriptionPayment",
     timestamps: false,
-  },
+  }
 );
 SubscriptionModel.belongsToMany(PaymentFormModel, {
   through: SubscriptionPaymentModel, // Define a tabela intermediária
