@@ -12,7 +12,6 @@ export const getEvaluationById = async (
   res: Response
 ) => {
   const evaluation = await EvaluationsModel.findByPk(req.params.id);
-
   return res.json(evaluation);
 };
 
@@ -20,7 +19,6 @@ export const addCommentController = async (req: Request, res: Response) => {
   const { comment } = req.body;
   const { id } = req.params;
   const id_user = req.user.user.id_user;
-
   try {
     console.log("Recebendo dados para salvar:", { id, comment, id_user });
     const newComment = await addCommentToFilm(Number(id), comment, id_user);
