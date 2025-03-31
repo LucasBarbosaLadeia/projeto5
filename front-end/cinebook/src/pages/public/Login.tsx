@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import api from "../../utils/api";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -13,10 +13,17 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await api.post("/login", {
-        username: email,
+        email,
         password: password,
       });
-      const token = response.data.accessToken;
+console.log("Resposta da API:", response.data);
+      const token = response.data.token;
+      if (!token) {
+        console.log("Token não encontrado!");
+        return; // Caso o token não exista, podemos retornar ou mostrar um erro
+      }
+      
+      console.log("Token recebido:", token);
       login(token);
       navigate("/movies");
     } catch (error) {
@@ -26,6 +33,7 @@ const Login = () => {
   };
 
   return (
+    <div>
     <form onSubmit={handleSubmit}>
       <input
         value={email}
@@ -40,6 +48,17 @@ const Login = () => {
       />
       <button type="submit">Entrar</button>
     </form>
+    <h1 >Entrar</h1>
+          <span>
+            Informe o e-mail e senha cadastrados. Novo por aqui?
+            <Link
+              to="/signup"
+            >
+              {" "}
+              Cadastre-se!
+            </Link>
+            </span>
+    </div>
   );
 };
 

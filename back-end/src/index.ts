@@ -7,7 +7,7 @@ import userRoutes from "./routes/UserRoutes";
 import filmRoutes from "./routes/FilmRoutes";
 import evaluations from "./routes/EvaluationsRoutes";
 import favorites from "./routes/FavoritesRoutes";
-import login from "./routes/loginRoutes";
+import loginRoutes from "./routes/loginRoutes";
 
 const app = express();
 const port = 3000;
@@ -29,7 +29,7 @@ app.use(userRoutes);
 app.use(filmRoutes);
 app.use(evaluations);
 app.use(favorites);
-app.use(login);
+app.use(loginRoutes);
 
 sequelize
   .sync({ alter: true })
