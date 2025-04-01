@@ -1,8 +1,9 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import Login from "./pages/public/Login";
 import SignUp from "./pages/public/SignUp";
-import Movies from "./pages/auth/Movies";
 import PrivateRoute from "./components/PrivateRoute";
+import Home from "./pages/auth/Home";
+import Movies from "./pages/auth/Movies";
 
 
 function App() {
@@ -18,8 +19,8 @@ function App() {
             </PrivateRoute>
           }
         >
-          <Route path="/movies" element={<Movies />} />
-        
+          <Route path="/home" element={<Home />} />
+          <Route path="/movies/:id" element={<Movies />} />
         </Route>
       </Routes>
     </BrowserRouter>

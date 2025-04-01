@@ -25,7 +25,7 @@ console.log("Resposta da API:", response.data);
       
       console.log("Token recebido:", token);
       login(token);
-      navigate("/movies");
+      navigate("/home");
     } catch (error) {
       console.log(error);
       alert("Erro ao fazer login.");
