@@ -1,20 +1,34 @@
+import { error } from "console";
 import FavoritesModel from "../models/FavoritesModel";
 import FilmModel from "../models/FilmModel";
 
-class FavoriteService {
-  static async addFavorite(id_user: number, id_film: number) {
-    const film = await FilmModel.findByPk(id_film);
+export const addFavoriteToUser = async (filmId: number, userId: number) => {
+  try {
+    console.log("Recebendo dados para favoritar:", { userId, filmId });
+
+    const film = await FilmModel.findByPk(filmId);
     if (!film) {
       throw new Error("Filme não encontrado");
     }
-    const existingFavorite = await FavoritesModel.findOne({
-      where: { id_user, id_film },
-    });
-    if (existingFavorite) {
-      throw new Error("Filme já favoritado");
-    }
-    return await FavoritesModel.create({ id_user, id_film });
-  }
-}
 
-export default FavoriteService;
+    const existingFavorite = await FavoritesModel.findOne({
+      where: { id_users: userId, id_film: filmId },
+    });
+
+    if (existingFavorite) {
+      return {
+        status: 400,
+        data: { message: "Esse filme já está nos seus favoritos." },
+      };
+    }
+    const newFavorite = await FavoritesModel.create({
+      id_users: userId,
+      id_film: filmId,
+    });
+
+    return newFavorite;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao favoritar filme");
+  }
+};

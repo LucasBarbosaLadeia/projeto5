@@ -2,7 +2,7 @@ import express from "express";
 import {
   getAll,
   addCommentController,
-} from "../controller/EvaluationsController";
+} from "../controller/CommentController";
 import { authMiddleware } from "../validators/authMiddleware";
 import { validateEvaluation } from "../schemas/EvaluatiosSchema";
 

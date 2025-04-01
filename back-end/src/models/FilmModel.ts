@@ -7,6 +7,8 @@ class FilmModel extends Model {
   name!: string;
   description!: string;
   images!: string;
+
+  declare film?: FilmModel;
 }
 
 FilmModel.init(
