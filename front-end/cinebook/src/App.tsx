@@ -4,6 +4,7 @@ import SignUp from "./pages/public/SignUp";
 import PrivateRoute from "./components/PrivateRoute";
 import Home from "./pages/auth/Home";
 import Movies from "./pages/auth/Movies";
+import CreateMovies from "./pages/auth/CreateMovies";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             </PrivateRoute>
           }
         >
+          <Route path="/createMovies" element={<CreateMovies />} />
           <Route path="/home" element={<Home />} />
           <Route path="/movies/:id" element={<Movies />} />
         </Route>

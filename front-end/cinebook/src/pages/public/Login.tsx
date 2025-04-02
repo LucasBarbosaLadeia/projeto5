@@ -20,7 +20,7 @@ console.log("Resposta da API:", response.data);
       const token = response.data.token;
       if (!token) {
         console.log("Token não encontrado!");
-        return; // Caso o token não exista, podemos retornar ou mostrar um erro
+        return; 
       }
       
       console.log("Token recebido:", token);

@@ -1,70 +1,80 @@
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #121212;
-    color: #ffffff;
-    margin: 0;
-    padding: 0;
-  }
-  
- 
-  .columnfilms {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    justify-content: center;
-  }
-  
- 
-  .cardfilme1 {
-    background-color: #1e1e1e;
-    border-radius: 10px;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s ease-in-out;
-  }
-  
-  .cardfilme1:hover {
-    transform: scale(1.05);
-  }
-  
-  /* Imagem do filme */
-  .cardfilme1 img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 10px;
-  }
-  
-  /* Nome do filme */
-  .cardfilme1 h3 {
-    margin: 10px 0;
-    font-size: 1.2em;
-    color: #ffcc00;
-  }
-  
-  /* Descrição do filme */
-  .cardfilme1 p {
-    font-size: 0.9em;
-    color: #b3b3b3;
-    margin-bottom: 10px;
-  }
-  
-  /* Link para detalhes */
-  .cardfilme1 a {
-    display: inline-block;
-    background-color: #d32929;
-    color: #121212;
-    padding: 8px 12px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background 0.2s ease-in-out;
-  }
-  
-  .cardfilme1 a:hover {
-    background-color: #a10808;
-  }
-  
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  color: #ffffff;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Container dos filmes */
+.columnfilms {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;  /* Limita a largura para centralizar melhor */
+}
+
+/* Estilização dos cards */
+.cardfilme1 {
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+  border: 3px solid #530303; 
+  border-radius: 10px;
+}
+
+.cardfilme1:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #a10808; 
+}
+
+/* Imagem do filme */
+.cardfilme1 img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Nome do filme */
+.cardfilme1 h3 {
+  margin: 10px 0;
+  font-size: 1.2em;
+  color: #ffcc00;
+}
+
+/* Descrição do filme */
+.cardfilme1 p {
+  font-size: 0.9em;
+  color: #b3b3b3;
+  margin-bottom: 10px;
+}
+
+/* Link para detalhes */
+.cardfilme1 a {
+  display: inline-block;
+  background-color: #d32929;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.2s ease-in-out;
+}
+
+.cardfilme1 a:hover {
+  background-color: #a10808;
+}
+
+.cardimg {
+  border: 3px solid #a10808; /* Define a cor e a espessura da borda */
+  border-radius: 10px;
+}

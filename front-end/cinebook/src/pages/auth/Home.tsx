@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // Corrigi a importação para "react-router-dom"
-import api from "../../utils/api";
+import { Link } from "react-router-dom";
 import "./Home.css"
+import api from "../../utils/api";
 interface Film {
   id_film: number;
   name: string;
@@ -17,8 +17,8 @@ const Home = () => {
     const fetchFilms = async () => {
       setLoading(true);
       try {
-        const response = await api.get("/films"); // Certifique-se de que a rota está correta
-        setFilms(response.data); // Supondo que a API retorna um array de filmes
+        const response = await api.get("/films"); 
+        setFilms(response.data);
         console.log(response.data)
       } catch (error) {
         console.error("Erro ao buscar filmes:", error);
@@ -40,9 +40,11 @@ const Home = () => {
         <div className="columnfilms">
           {films.map((film) => (
             <div className="cardfilme1">
-              <img src={film?.images} alt={film?.name} />
+              <div className="cardimg">
+              <img src={film?.images} alt={film?.name} /> 
+              </div>
               <h3>{film.name}</h3>
-              <p>{film.description}</p>
+           
               <Link to={`/movies/${film.id_film}`}>Ver detalhes</Link>
             </div>
           ))}

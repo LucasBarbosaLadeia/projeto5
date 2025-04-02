@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import FilmModel from "../models/FilmModel";
+import { z } from "zod";
+import { filmSchema } from "../schemas/FilmSchema";
 
 // método que busca todos
 export const getAll = async (req: Request, res: Response) => {
@@ -17,19 +19,20 @@ export const getFilmById = async (
   return res.json(user);
 };
 
-// método que cria um novo usuário
+
 export const createFilm = async (req: Request, res: Response) => {
   try {
-    const { name } = req.body;
+  const filmData = filmSchema.parse(req.body);
+    const newFilm = await FilmModel.create(filmData);
 
-    if (!name || name === "") {
-      return res.status(400).json({ error: "Name is required" });
-    }
-
-    const film = await FilmModel.create({ name });
-    res.status(201).json(film);
+    return res
+      .status(201)
+      .json({ message: "filme criado com sucesso", user: newFilm });
   } catch (error) {
-    res.status(500).json("Erro interno no servidor " + error);
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({ errors: error.errors });
+    }
+    return res.status(500).json({ error: "Erro interno no servidor " + error });
   }
 };
 
