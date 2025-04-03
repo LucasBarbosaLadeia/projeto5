@@ -1,4 +1,5 @@
 import { DataTypes, Model } from "sequelize";
+import ActorModel from "./ActorModel";
 import sequelize from "../config/database"; // Aqui, use o caminho correto para a configuração do sequelize
 
 class FilmModel extends Model {
@@ -9,6 +10,7 @@ class FilmModel extends Model {
   images!: string;
 
   declare film?: FilmModel;
+  public addActors!: (actors: ActorModel[]) => Promise<void>;
 }
 
 FilmModel.init(
