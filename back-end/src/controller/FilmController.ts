@@ -38,21 +38,14 @@ export const createFilm = async (req: Request, res: Response) => {
 
 // método que atualiza um usuário
 export const updateFilm = async (
-  req: Request<{ id: string }>,
+req: Request<{ id: string }>,
   res: Response
 ) => {
   try {
-    const { name } = req.body;
-    if (!name || name === "") {
-      return res.status(400).json({ error: "Name is required" });
-    }
-
     const film = await FilmModel.findByPk(req.params.id);
     if (!film) {
-      return res.status(404).json({ error: "Film not found" });
+      return res.status(404).json({ error: "film not found" });
     }
-
-    film.name = name;
 
     await film.save();
     res.status(201).json(film);

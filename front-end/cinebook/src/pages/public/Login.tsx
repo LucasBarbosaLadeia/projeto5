@@ -2,6 +2,14 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import api from "../../utils/api";
 import { useAuth } from "../../contexts/AuthContext";
+import { jwtDecode } from "jwt-decode";
+interface DecodedToken {
+  user: {
+    id_user: number;
+    name: string;
+    email: string;
+  };
+}
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -16,15 +24,25 @@ const Login = () => {
         email,
         password: password,
       });
-console.log("Resposta da API:", response.data);
-      const token = response.data.token;
+      
+console.log("Resposta da API:", response.data);      
+const token = response.data.token;
       if (!token) {
         console.log("Token não encontrado!");
         return; 
       }
       
-      console.log("Token recebido:", token);
+      const decodedToken: DecodedToken = jwtDecode(token);
+    const userId = decodedToken.user?.id_user || null;
+
+    
+    console.log("ID do usuário extraído do token:", userId);
+
+    if (userId !== null) {
+      localStorage.setItem("userId", String(userId));
+    }
       login(token);
+     
       navigate("/home");
     } catch (error) {
       console.log(error);
