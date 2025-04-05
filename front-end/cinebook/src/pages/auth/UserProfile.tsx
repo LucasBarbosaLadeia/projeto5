@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../../utils/api";
 import "./UserProfile.css"
 import { useAuth } from "../../contexts/AuthContext";
+import Header from "../../components/Header";
 
 interface User {
   name: string;
@@ -79,6 +80,8 @@ const UserProfile = () => {
   }
 
   return (
+    <div>
+      <Header />
     <div className="user-profile">
       <h2>Perfil do Usuário</h2><button onClick={HandleDeleteUser}>deletar perfil</button>
 
@@ -120,6 +123,7 @@ const UserProfile = () => {
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 };

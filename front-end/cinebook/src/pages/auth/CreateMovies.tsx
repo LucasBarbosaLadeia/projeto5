@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import "./CreateMovies.css";
 import api from "../../utils/api";
 import { Film } from "../../types/Film";
+import Header from "../../components/Header";
 
 const CreateMovies = () => {
   const [films, setFilms] = useState<Film[]>([]);
@@ -94,7 +95,9 @@ const CreateMovies = () => {
   }, []);
 
   return (
+    
     <div className="container">
+      <Header />
       <h2>Cadastro</h2>
       <input
         placeholder="Nome"
