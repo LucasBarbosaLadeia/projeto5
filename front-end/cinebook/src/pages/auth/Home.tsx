@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Home.css"
 import api from "../../utils/api";
+import Header from "../../components/Header";
 interface Film {
   id_film: number;
   name: string;
@@ -33,6 +34,7 @@ const Home = () => {
 
   return (
     <div>
+      <Header />
       <h1>Catálogo de Filmes</h1>
       {loading ? (
         <p>Carregando...</p>

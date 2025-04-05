@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import ActorModel from "../models/ActorModel";
 import { actorSchema } from "../schemas/ActorSchema";
+import { z } from "zod";
 
 // método que busca todos
 export const getAll = async (req: Request, res: Response) => {
@@ -21,8 +22,8 @@ export const getActorById = async (
 // método que cria um novo ator
 export const createActor = async (req: Request, res: Response) => {
   try {
-    const actor = actorSchema.parse(req.body);
-    const newActor = await ActorModel.create(actor);
+    const actorData = actorSchema.parse(req.body);
+    const newActor = await ActorModel.create(actorData);
 
     return res
       .status(201)
@@ -38,17 +39,24 @@ export const updateActor = async (
   res: Response
 ) => {
   try {
-    const actor = await ActorModel.findByPk(req.params.id);
-    if (!actor) {
-      return res.status(404).json({ error: "actor not found" });
-    }
+      const actorData = actorSchema.parse(req.body);
 
-    await actor.save();
-    res.status(201).json(actor);
-  } catch (error) {
-    res.status(500).json("Erro interno no servidor " + error);
-  }
-};
+      const actor = await ActorModel.findByPk(req.params.id);
+        if (!actor) {
+          return res.status(404).json({ error: "Ator não encontrado" });
+        }
+    
+        actor.set(actorData);
+    
+        await actor.save();
+        return res.status(200).json({ message: "Ator atualizado com sucesso" });
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          return res.status(400).json({ errors: error.errors });
+        }
+        return res.status(500).json({ error: "Erro interno no servidor " + error });
+      }
+    };
 
 // método que destrói
 export const destroyActorById = async (

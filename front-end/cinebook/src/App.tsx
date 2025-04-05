@@ -5,6 +5,9 @@ import PrivateRoute from "./components/PrivateRoute";
 import Home from "./pages/auth/Home";
 import Movies from "./pages/auth/Movies";
 import CreateMovies from "./pages/auth/CreateMovies";
+import UserProfile from "./pages/auth/UserProfile";
+import CreateActor from "./pages/auth/CreateActor";
+import Favorites from "./pages/auth/Favorites";
 
 
 function App() {
@@ -20,7 +23,10 @@ function App() {
             </PrivateRoute>
           }
         >
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/createActor" element={<CreateActor />} />
           <Route path="/createMovies" element={<CreateMovies />} />
+          <Route path="/userProfile" element={<UserProfile />} />
           <Route path="/home" element={<Home />} />
           <Route path="/movies/:id" element={<Movies />} />
         </Route>

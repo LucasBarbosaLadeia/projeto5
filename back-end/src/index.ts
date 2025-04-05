@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import sequelize from "./config/database";
-import userRoute from "./routes/UserRoutes";
 import actorRoutes from "./routes/ActorRoutes";
 import userRoutes from "./routes/UserRoutes";
 import filmRoutes from "./routes/FilmRoutes";
@@ -22,7 +21,7 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
-app.use(userRoute);
+
 app.use(actorRoutes);
 app.use(filmRoutes);
 app.use(userRoutes);
