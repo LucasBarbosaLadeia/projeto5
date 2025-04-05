@@ -32,7 +32,6 @@ export const createFilm = async (req: Request, res: Response) => {
   const { name, description, launch_date, images, actorIds } = req.body;
 
   try {
-    // Chama o serviço addActorFilm para criar o filme e associar os atores
     const newFilm = await addActorFilm(
       name,
       description,

@@ -1,13 +1,13 @@
-module.exports = {
-  preset: "ts-jest/presets/default", // Garantindo que ts-jest está sendo usado corretamente
+import type { Config } from "jest";
+
+const config: Config = {
+  preset: "ts-jest",
   testEnvironment: "node",
+  testMatch: ["**/tests/*.test.ts"], // ou ajuste conforme seu diretório
   transform: {
-    "^.+\\.ts$": "ts-jest", // Usar ts-jest para arquivos TypeScript
+    "^.+\\.ts$": "ts-jest",
   },
-  moduleFileExtensions: ["ts", "js", "json", "node"],
-  globals: {
-    "ts-jest": {
-      isolatedModules: true, // Melhora a velocidade, mas pode causar problemas com tipos mais avançados
-    },
-  },
+  moduleFileExtensions: ["ts", "js", "json"],
 };
+
+export default config;
