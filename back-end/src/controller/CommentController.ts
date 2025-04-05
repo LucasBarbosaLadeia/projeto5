@@ -33,3 +33,30 @@ export const addCommentController = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const updateCommentController = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { comment } = req.body;
+  try {
+    await EvaluationsModel.update({ comment }, { where: { id } });
+    res.status(200).json({ message: "Comentário atualizado com sucesso!" });
+  } catch (error) {
+    res.status(500).json({
+      message:
+        error instanceof Error ? error.message : "An unknown error occurred",
+    });
+  }
+};
+
+export const deleteCommentController = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    await EvaluationsModel.destroy({ where: { id } });
+    res.status(200).json({ message: "Comentário deletado com sucesso!" });
+  } catch (error) {
+    res.status(500).json({
+      message:
+        error instanceof Error ? error.message : "An unknown error occurred",
+    });
+  }
+};

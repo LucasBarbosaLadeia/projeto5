@@ -4,7 +4,7 @@ import userRoute from "./routes/UserRoutes";
 import actorRoutes from "./routes/ActorRoutes";
 import userRoutes from "./routes/UserRoutes";
 import filmRoutes from "./routes/FilmRoutes";
-import evaluations from "./routes/EvaluationsRoutes";
+import evaluations from "./routes/Comment";
 import favorites from "./routes/FavoritesRoutes";
 import login from "./routes/loginRoutes";
 import adminRoutes from "./routes/adminRoutes";
@@ -21,7 +21,7 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
-app.use("admin", adminRoutes);
+app.use(adminRoutes);
 app.use(express.json());
 app.use(userRoute);
 app.use(actorRoutes);
