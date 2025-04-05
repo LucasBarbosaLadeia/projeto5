@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../config/database"; // Importa a conexão com o banco
+import sequelize from "../config/database";
 import bcrypt from "bcryptjs";
 
 export class UserModel extends Model {
@@ -8,6 +8,8 @@ export class UserModel extends Model {
   public password!: string;
   public email!: string;
   public endereco!: string;
+  public cpf!: string;
+  public admin!: boolean;
   public async hashPassword() {
     this.password = await bcrypt.hash(this.password!, 10);
   }
@@ -30,26 +32,32 @@ UserModel.init(
       allowNull: false,
     },
     password: {
-      type: DataTypes.STRING(255), // Armazena senhas criptografadas
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     email: {
       type: DataTypes.STRING(100),
       allowNull: false,
+      unique: true,
     },
     endereco: {
       type: DataTypes.STRING(200),
-      allowNull: true, // Pode ser nulo
+      allowNull: true,
     },
     cpf: {
       type: DataTypes.STRING(11),
       allowNull: false,
     },
+    admin: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
   {
-    sequelize, // Conexão com o banco de dados
-    tableName: "users", // Nome da tabela no BD
-    timestamps: false, // Se não houver `created_at` e `updated_at`
+    sequelize,
+    tableName: "users",
+    timestamps: false,
   }
 );
 

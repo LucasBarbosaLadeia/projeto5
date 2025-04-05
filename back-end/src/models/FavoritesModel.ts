@@ -7,6 +7,7 @@ export class FavoritesModel extends Model {
   public id_favorito!: number;
   public id_user!: number;
   public id_film!: number;
+  declare film?: FilmModel;
 }
 
 FavoritesModel.init(
@@ -17,13 +18,17 @@ FavoritesModel.init(
       primaryKey: true,
       allowNull: false,
     },
-    id_user: {
-      type: DataTypes.INTEGER, // Perguntar para o professor se é auto increment
+
+    id_users: {
+      type: DataTypes.INTEGER,
+
+  // Perguntar para o professor se é auto increment
+
       primaryKey: false,
       allowNull: false,
     },
     id_film: {
-      type: DataTypes.INTEGER, // Perguntar para o professor se é auto increment
+      type: DataTypes.INTEGER,
       primaryKey: false,
       allowNull: false,
     },
@@ -36,8 +41,8 @@ FavoritesModel.init(
 );
 
 FavoritesModel.belongsTo(FilmModel, {
-  foreignKey: "id_film", // Definindo a chave estrangeira correta
-  as: "films", // Nome da relação
+  foreignKey: "id_film",
+  as: "film",
 });
 
 FavoritesModel.belongsTo(UserModel, {

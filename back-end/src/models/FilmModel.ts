@@ -1,12 +1,16 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../config/database";
+import ActorModel from "./ActorModel";
+import sequelize from "../config/database"; // Aqui, use o caminho correto para a configuração do sequelize
 
-export class FilmModel extends Model {
-  public id_film!: number;
-  public launch_date!: Date;
-  public name!: string;
-  public description!: string;
-  public images!: string;
+class FilmModel extends Model {
+  id_film!: number;
+  launch_date!: Date;
+  name!: string;
+  description!: string;
+  images!: string;
+
+  declare film?: FilmModel;
+  public addActors!: (actors: ActorModel[]) => Promise<void>;
 }
 
 FilmModel.init(
@@ -17,7 +21,6 @@ FilmModel.init(
       primaryKey: true,
       allowNull: false,
     },
-
     launch_date: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -36,9 +39,9 @@ FilmModel.init(
     },
   },
   {
-    sequelize, // Conexão com o banco de dados
-    tableName: "films", // Nome da tabela no BD
-    timestamps: false, // Se não houver created_at e updated_at
+    sequelize,
+    tableName: "films",
+    timestamps: false,
   }
 );
 

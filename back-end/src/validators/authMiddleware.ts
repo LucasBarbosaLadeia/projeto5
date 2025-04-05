@@ -29,3 +29,10 @@ export const authMiddleware = (
     return res.status(401).json({ msg: "Token inválido" });
   }
 };
+
+export const admin = (req: Request, res: Response, next: NextFunction) => {
+  if (!req.user?.admin) {
+    return res.status(403).json({ error: "Acesso negado" });
+  }
+  next();
+};
