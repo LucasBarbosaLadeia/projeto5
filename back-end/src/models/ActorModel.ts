@@ -1,39 +1,39 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../config/database"; // Importa a conexão com o banco
+import sequelize from "../config/database"; // Aqui, use o caminho correto para a configuração do sequelize
 
-export class ActorModel extends Model {
-  public id_actor!: number;
-  public name!:String ;
-  public age!: number;
-  public nacionality!: string;
+class ActorModel extends Model {
+  id_actor!: number;
+  name!: string;
+  age!: number;
+  nationality!: string;
 }
 
 ActorModel.init(
   {
-id_actor: {
-  type: DataTypes.INTEGER,
-  autoIncrement: true,
-  primaryKey: true,
-  allowNull: false,
-},
-name: {
-  type: DataTypes.STRING(100),
-  allowNull: false
-},
-age: {
-  type:DataTypes.INTEGER,
-  allowNull: false
-},
-nacionality: {
- type: DataTypes.STRING(100),
- allowNull: false
-},
-},
-{
-  sequelize, 
-  tableName: "actors", 
-  timestamps: false, 
-}
+    id_actor: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+    },
+    name: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    },
+    age: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    nationality: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    },
+  },
+  {
+    sequelize,
+    tableName: "actors",
+    timestamps: false,
+  }
 );
 
 export default ActorModel;

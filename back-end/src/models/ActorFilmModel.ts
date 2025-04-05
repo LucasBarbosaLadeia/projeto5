@@ -1,14 +1,13 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../config/database";
+import sequelize from "../config/database"; // Aqui, use o caminho correto para a configuração do sequelize
 import FilmModel from "./FilmModel";
 import ActorModel from "./ActorModel";
 
-export class ActorFilmModel extends Model {
-  public id_film!: number;
-  public id_actor!: number;
+class ActorFilmModel extends Model {
+  id_film!: number;
+  id_actor!: number;
 }
 
-// Inicialização da tabela intermediária
 ActorFilmModel.init(
   {
     id_film: {
@@ -32,12 +31,11 @@ ActorFilmModel.init(
   },
   {
     sequelize,
-    tableName: "atores_filmes",
-    timestamps: false, // Se precisar registrar data de associação, remova isso e adicione createdAt e updatedAt
+    tableName: "actor_film", // Pode ser outro nome de tabela se você quiser
+    timestamps: false,
   }
 );
 
-// Definição do relacionamento muitos-para-muitos
 FilmModel.belongsToMany(ActorModel, {
   through: ActorFilmModel,
   foreignKey: "id_film",

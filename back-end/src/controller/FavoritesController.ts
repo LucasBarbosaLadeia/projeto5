@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
 import FavoritesModel from "../models/FavoritesModel";
+
+import { addFavoriteToUser } from "../services/FavoriteService";
+import FilmModel from "../models/FilmModel";
+
 import { z } from "zod";
 
 
@@ -27,10 +31,12 @@ export const createFavorite = async (req: Request, res: Response) => {
   }
 };
 
+
 export const getAll = async (req: Request, res: Response) => {
   const favorites = await FavoritesModel.findAll();
   res.send(favorites);
 };
+
 export const getOne = async (req: Request, res: Response) => {
   try {
     const { id_user, id_film } = req.query;
@@ -57,3 +63,5 @@ export const getOne = async (req: Request, res: Response) => {
       .json({ error: "Erro interno no servidor: " + error });
   }
 };
+
+
