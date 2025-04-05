@@ -1,114 +1,112 @@
-/* Movies.css */
-
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background-color: #000;
-  font-family: 'Arial', sans-serif;
-}
-
-/* Container principal da página */
+/* movie-container cobre toda a tela */
 .movie-container {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #111;
-  padding: 40px 20px;
+  min-height: 100vh;
+  background-color: #0d0d0d;
+  padding: 40px;
   color: white;
- max-width: 1000px;
+  box-sizing: border-box;
 }
 
-/* Imagem do filme */
-.movie-image {
+/* conteúdo lado a lado */
+.movie-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  margin-bottom: 50px;
   width: 100%;
-  max-height: 60vh;
-  object-fit: cover;
-  border-radius: 12px;
-  margin-bottom: 20px;
 }
 
-/* Informações sobre o filme */
-.movie-info {
-  background-color: #1a1a1a;
-  padding: 24px;
+/* imagem */
+.movie-image {
+  width: 350px;
+  height: auto;
   border-radius: 10px;
-  margin-bottom: 20px;
+  object-fit: cover;
+  box-shadow: 0 0 10px rgba(229, 9, 20, 0.4);
+}
+
+/* infos do filme */
+.movie-info {
+  flex: 1;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .movie-info h1 {
-  font-size: 2rem;
-  margin-bottom: 12px;
+  font-size: 2.5rem;
+  color: #e50914;
+  margin-bottom: 10px;
 }
 
 .movie-info p {
-  font-size: 1rem;
+  font-size: 1.2rem;
   line-height: 1.6;
+  margin-bottom: 20px;
   color: #ccc;
 }
 
-/* Botão de favoritar */
 .favorite-btn {
   background-color: #e50914;
   border: none;
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-weight: bold;
   color: white;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 8px;
   cursor: pointer;
-  margin-top: 20px;
   transition: background 0.3s ease;
+  width: fit-content;
 }
 
 .favorite-btn:disabled {
-  background-color: #444;
+  background-color: #666;
   cursor: not-allowed;
 }
 
-.favorite-btn:hover:not(:disabled) {
+.favorite-btn:hover:enabled {
   background-color: #b00610;
 }
 
-/* Comentários */
+/* comentários */
 .movie-evaluations {
-  background-color: #1a1a1a;
-  padding: 24px;
-  border-radius: 10px;
-  flex-grow: 1;
-  overflow-y: auto;
+  margin-top: 20px;
+  border-top: 1px solid #444;
+  padding-top: 30px;
+  width: 100%;
 }
 
 .movie-evaluations h2 {
-  font-size: 1.5rem;
-  margin-bottom: 16px;
+  font-size: 1.8rem;
+  color: #e50914;
+  margin-bottom: 20px;
 }
 
 .evaluation-item {
-  border-top: 1px solid #333;
-  padding: 12px 0;
+  background-color: #1a1a1a;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  color: #eee;
 }
 
-.evaluation-item:first-child {
-  border-top: none;
-}
-
-.evaluation-item p {
-  margin: 5px 0;
-  color: #ddd;
-}
-
-/* Responsividade */
+/* responsivo */
 @media (max-width: 768px) {
-  .movie-info h1 {
-    font-size: 1.4rem;
+  .movie-content {
+    flex-direction: column;
+    align-items: center;
   }
 
-  .movie-info p,
-  .evaluation-item p {
-    font-size: 0.95rem;
+  .movie-info {
+    max-width: 100%;
+    text-align: center;
   }
 
-  .movie-evaluations h2 {
-    font-size: 1.2rem;
+  .movie-image {
+    width: 90%;
   }
 }
