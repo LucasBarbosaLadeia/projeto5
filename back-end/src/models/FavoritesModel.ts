@@ -5,7 +5,7 @@ import FilmModel from "./FilmModel";
 
 export class FavoritesModel extends Model {
   public id_favorito!: number;
-  public id_users!: number;
+  public id_user!: number;
   public id_film!: number;
   declare film?: FilmModel;
 }
@@ -18,8 +18,12 @@ FavoritesModel.init(
       primaryKey: true,
       allowNull: false,
     },
+
     id_users: {
       type: DataTypes.INTEGER,
+
+  // Perguntar para o professor se é auto increment
+
       primaryKey: false,
       allowNull: false,
     },
@@ -43,7 +47,7 @@ FavoritesModel.belongsTo(FilmModel, {
 
 FavoritesModel.belongsTo(UserModel, {
   foreignKey: "id_user",
-  as: "usues",
+  as: "users",
 });
 
 export default FavoritesModel;

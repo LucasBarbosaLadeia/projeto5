@@ -1,0 +1,44 @@
+/* Container principal da listagem */
+.movies-list {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+    color: #fff;
+}
+
+/* Cada filme em uma linha separada */
+.movie-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2a2a2a;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilização do texto dentro de cada item */
+.movie-details {
+    flex-grow: 1;
+}
+
+.movie-details p {
+    margin: 5px 0;
+}
+
+/* Botão de deletar */
+.delete-button {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.delete-button:hover {
+    background-color: #cc0000;
+}

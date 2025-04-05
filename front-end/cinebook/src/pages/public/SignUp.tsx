@@ -47,7 +47,7 @@ const SignUp = () => {
       });
 
       alert("Usuário criado com sucesso!");
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.error("Erro ao criar usuário:", error);
     } finally {

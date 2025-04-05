@@ -1,21 +1,19 @@
-<<<<<<< HEAD
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import Login from "./pages/public/Login";
 import SignUp from "./pages/public/SignUp";
-import Movies from "./pages/auth/Movies";
 import PrivateRoute from "./components/PrivateRoute";
+import Home from "./pages/auth/Home";
+import Movies from "./pages/auth/Movies";
+import CreateMovies from "./pages/auth/CreateMovies";
+import UserProfile from "./pages/auth/UserProfile";
+import CreateActor from "./pages/auth/CreateActor";
+import Favorites from "./pages/auth/Favorites";
 
-=======
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-import Login from "./pages/Login";
->>>>>>> aaed07f096c937496bde8a96e800eef39a4337c7
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-<<<<<<< HEAD
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route
@@ -25,12 +23,13 @@ function App() {
             </PrivateRoute>
           }
         >
-          <Route path="/" element={<Movies />} />
-        
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/createActor" element={<CreateActor />} />
+          <Route path="/createMovies" element={<CreateMovies />} />
+          <Route path="/userProfile" element={<UserProfile />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/movies/:id" element={<Movies />} />
         </Route>
-=======
-        <Route path="/login" element={<Login />} />
->>>>>>> aaed07f096c937496bde8a96e800eef39a4337c7
       </Routes>
     </BrowserRouter>
   );
