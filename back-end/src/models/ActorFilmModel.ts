@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../config/database"; // Aqui, use o caminho correto para a configuração do sequelize
+import sequelize from "../config/database";
 import FilmModel from "./FilmModel";
 import ActorModel from "./ActorModel";
 
@@ -31,7 +31,7 @@ ActorFilmModel.init(
   },
   {
     sequelize,
-    tableName: "actor_film", // Pode ser outro nome de tabela se você quiser
+    tableName: "actor_film",
     timestamps: false,
   }
 );

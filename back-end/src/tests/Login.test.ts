@@ -1,17 +1,15 @@
 import request from "supertest";
-import app from "../app"; // ajuste o caminho se necessário
+import app from "../app";
 import bcrypt from "bcryptjs";
 import UserModel from "../models/UserModel";
 import sequelize from "../config/database";
 
-jest.setTimeout(20000); // aumenta o timeout para testes mais pesados
+jest.setTimeout(20000);
 
 describe("Login API", () => {
   beforeAll(async () => {
-    // Conecta ao banco e garante sincronização
     await sequelize.sync({ force: true });
 
-    // Cria usuário com senha hasheada
     const hashedPassword = await bcrypt.hash("GabrielSpeciam2", 10);
 
     await UserModel.create({
@@ -69,6 +67,6 @@ describe("Login API", () => {
   });
 
   afterAll(async () => {
-    await sequelize.close(); // Fecha conexão com o banco após os testes
+    await sequelize.close();
   });
 });

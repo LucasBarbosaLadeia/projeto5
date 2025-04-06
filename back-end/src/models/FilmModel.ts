@@ -1,6 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import ActorModel from "./ActorModel";
-import sequelize from "../config/database"; // Aqui, use o caminho correto para a configuração do sequelize
+import sequelize from "../config/database";
 
 class FilmModel extends Model {
   id_film!: number;
