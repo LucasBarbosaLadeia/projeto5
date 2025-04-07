@@ -110,3 +110,21 @@
     width: 90%;
   }
 }
+.add-comment {
+  margin: 1rem 0;
+}
+
+.add-comment textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 0.5rem;
+}
+
+.add-comment button {
+  background-color: #d6336c;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 6px;
+}

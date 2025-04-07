@@ -4,7 +4,7 @@ import userRoute from "./routes/UserRoutes";
 import actorRoutes from "./routes/ActorRoutes";
 import userRoutes from "./routes/UserRoutes";
 import filmRoutes from "./routes/FilmRoutes";
-import evaluations from "./routes/Comment";
+import evaluations from "./routes/CommentRoutes";
 import favorites from "./routes/FavoritesRoutes";
 import login from "./routes/loginRoutes";
 import adminRoutes from "./routes/adminRoutes";

@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import ActorModel from "./ActorModel";
 import sequelize from "../config/database"; // Aqui, use o caminho correto para a configuração do sequelize
+import ActorFilmModel from "./ActorFilmModel";
 
 class FilmModel extends Model {
   id_film!: number;
@@ -10,7 +11,9 @@ class FilmModel extends Model {
   images!: string;
 
   declare film?: FilmModel;
-  public addActors!: (actors: ActorModel[]) => Promise<void>;
+  public setActors!: (actors: ActorModel[] | number[]) => Promise<void>;
+  public addActors!: (actors: ActorModel[] | number[]) => Promise<void>;
+  public getActors!: () => Promise<ActorModel[]>;
 }
 
 FilmModel.init(
@@ -44,5 +47,7 @@ FilmModel.init(
     timestamps: false,
   }
 );
+
+
 
 export default FilmModel;

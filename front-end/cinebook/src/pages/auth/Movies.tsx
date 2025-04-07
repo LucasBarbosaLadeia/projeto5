@@ -4,6 +4,9 @@ import api from "../../utils/api";
 import "./Movies.css";
 import { Evaluation } from "../../types/Evaluation";
 import Header from "../../components/Header";
+import EvaluationItem from "../../components/EvaluationItem";
+import CommentBox from "../../components/CommentBox";
+import FilmDetails from "../../components/FilmDetails"; // <- importando o componente novo
 
 interface Film {
   id_film: number;
@@ -13,98 +16,99 @@ interface Film {
 }
 
 const Movies = () => {
-  const userId = localStorage.getItem("userId");
+  const userId = Number(localStorage.getItem("userId"));
   const { id } = useParams();
-  const [loading, setLoading] = useState(false);
-  const [film, setFilm] = useState<Film | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [movie, setMovie] = useState<Film | null>(null);
   const [evaluations, setEvaluations] = useState<Evaluation[]>([]);
   const [favorited, setFavorited] = useState(false);
+  const [newComment, setNewComment] = useState("");
 
   const fetchMovie = async () => {
+    setIsLoading(true);
     try {
-      setLoading(true);
       const { data } = await api.get<Film>(`/films/${id}`);
-      setFilm(data);
-      console.log("Filme recebido:", data);
+      setMovie(data);
     } catch (error) {
       console.error("Erro ao buscar filme:", error);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   const fetchEvaluations = async () => {
+    setIsLoading(true);
     try {
-      setLoading(true);
       const { data } = await api.get(`/evaluations?id_film=${id}`);
       setEvaluations(data);
-      console.log("Avaliações recebidas:", data);
     } catch (error) {
       console.error("Erro ao buscar avaliações:", error);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
+    }
+  };
+
+  const checkIfFavorited = async () => {
+    try {
+      const { data } = await api.get("/favorites", {
+        params: { id_user: userId, id_film: Number(id) },
+      });
+      if (data?.favorited || data.length > 0) {
+        setFavorited(true);
+      }
+    } catch (error) {
+      console.error("Erro ao verificar favorito:", error);
+    }
+  };
+
+  const favoriteMovie = async () => {
+    try {
+      await api.post("/favorites", {
+        id_user: userId,
+        id_film: Number(id),
+      });
+      setFavorited(true);
+    } catch (error) {
+      console.error("Erro ao favoritar filme:", error);
     }
   };
 
   const handleDelete = async (id_evaluation: number) => {
     try {
       await api.delete(`/evaluations/${id_evaluation}`);
-      setEvaluations((prev) => prev.filter(e => e.id_evaluation !== id_evaluation));
-      console.log("Comentário excluído com sucesso.");
+      setEvaluations((prev) =>
+        prev.filter((e) => e.id_evaluation !== id_evaluation)
+      );
     } catch (error) {
       console.error("Erro ao excluir comentário:", error);
     }
   };
-  
-  const handleEdit = (evaluation: Evaluation) => {
-    const newComment = prompt("Edite seu comentário:", evaluation.comment);
-    if (newComment && newComment !== evaluation.comment) {
-      updateComment(evaluation.id_evaluation, newComment);
-    }
-  };
-  
-  const updateComment = async (id_evaluation: number, newComment: string) => {
+
+  const handleEdit = async (id_evaluation: number, newComment: string) => {
     try {
       await api.put(`/evaluations/${id_evaluation}`, { comment: newComment });
       setEvaluations((prev) =>
-        prev.map(e =>
+        prev.map((e) =>
           e.id_evaluation === id_evaluation ? { ...e, comment: newComment } : e
         )
       );
-      console.log("Comentário atualizado.");
     } catch (error) {
       console.error("Erro ao atualizar comentário:", error);
     }
   };
-  
 
-  const favoriteMovie = async () => {
+  const handleCreateComment = async () => {
+    if (!newComment.trim()) return;
     try {
-      await api.post("/favorites", {
-        id_user: Number(userId), 
-        id_film: Number(id),
+      const response = await api.post(`/films/${id}/comments`, {
+        comment: newComment,
+        id_user: userId,
       });
-      setFavorited(true);
-      console.log("Filme favoritado com sucesso!");
+      const created = response.data.comment;
+      setEvaluations((prev) => [...prev, created]);
+      setNewComment("");
     } catch (error) {
-      console.error("Erro ao favoritar filme:", error);
-    }
-  };
-  const checkIfFavorited = async () => {
-    try {
-      const { data } = await api.get(`/favorites`, {
-        params: {
-          id_user: Number(userId),
-          id_film: Number(id),
-        },
-      });
-  
-      // Suponha que o backend retorne { favorited: true } ou um array com o favorito
-      if (data && (data.favorited || data.length > 0)) {
-        setFavorited(true);
-      }
-    } catch (error) {
-      console.error("Erro ao verificar favorito:", error);
+      console.error("Erro ao criar comentário:", error);
     }
   };
 
@@ -116,54 +120,47 @@ const Movies = () => {
     }
   }, [id]);
 
-  if (loading) return <div>Carregando...</div>;
-  if (!film) return <div>Filme não encontrado.</div>;
+  if (isLoading) return <div>Carregando...</div>;
+  if (!movie) return <div>Filme não encontrado.</div>;
 
   return (
     <div className="movie-container">
       <Header />
-      
-      <div className="movie-content">
-        <img
-          className="movie-image"
-          src={film.images || "https://via.placeholder.com/300"}
-          alt={film.name}
-        />
-        <div className="movie-info">
-          <h1>{film.name}</h1>
-          <p>{film.description}</p>
-          <button className="favorite-btn" onClick={favoriteMovie} disabled={favorited}>
-            {favorited ? "Favoritado" : "Favoritar"}
-          </button>
-        </div>
-      </div>
-  
+
+      {/* ✅ componente de detalhes do filme */}
+      <FilmDetails
+        movie={movie}
+        favorited={favorited}
+        onFavorite={favoriteMovie}
+      />
+
       <div className="movie-evaluations">
         <h2 style={{ color: "red" }}>Comentários:</h2>
+
+        {/* ✅ componente de comentário */}
+        <CommentBox
+          value={newComment}
+          onChange={setNewComment}
+          onSubmit={handleCreateComment}
+        />
+
+        {/* lista de avaliações */}
         {evaluations.length === 0 ? (
           <p>Sem comentários ainda.</p>
         ) : (
-          evaluations.map((evaluation) => {
-            const isOwner = evaluation.id_user === Number(userId);
-            return (
-              <div key={evaluation.id_evaluation} className="evaluation-item">
-                <p><strong>Comentário:</strong> {evaluation.comment}</p>
-                <p><em>{new Date(evaluation.date_review).toLocaleDateString()}</em></p>
-  
-                {isOwner && (
-                  <div className="evaluation-actions">
-                    <button onClick={() => handleEdit(evaluation)}>Editar</button>
-                    <button onClick={() => handleDelete(evaluation.id_evaluation)}>Excluir</button>
-                  </div>
-                )}
-              </div>
-            );
-          })
+          evaluations.map((evaluation) => (
+            <EvaluationItem
+              key={evaluation.id_evaluation}
+              evaluation={evaluation}
+              isOwner={evaluation.id_user === userId}
+              onDelete={handleDelete}
+              onEdit={handleEdit}
+            />
+          ))
         )}
       </div>
     </div>
   );
-  
 };
 
 export default Movies;

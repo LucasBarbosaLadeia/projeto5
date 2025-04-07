@@ -1,26 +1,28 @@
 import { useState, useCallback, useEffect } from "react";
 import "./CreateMovies.css";
 import api from "../../utils/api";
-import { Film } from "../../types/Film";
+import { Film, Actor } from "../../types/Film";
 import Header from "../../components/Header";
 
 const CreateMovies = () => {
   const [films, setFilms] = useState<Film[]>([]);
+  const [actors, setActors] = useState<Actor[]>([]);
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState("");
   const [launch_date, setLaunch_date] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [editingFilmId, setEditingFilmId] = useState<number | null>(null); // ID do filme sendo editado
-  const [formData, setFormData] = useState<Film | null>(null); // Dados do filme sendo editado
+  const [selectedActorIds, setSelectedActorIds] = useState<number[]>([]);
 
-  // Busca os filmes
+  const [loading, setLoading] = useState(false);
+  const [editingFilmId, setEditingFilmId] = useState<number | null>(null);
+  const [formData, setFormData] = useState<Film | null>(null);
+
   const fetchFilms = async () => {
     setLoading(true);
     try {
       const response = await api.get("/films");
       setFilms(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Erro ao buscar filmes:", error);
     } finally {
@@ -28,38 +30,52 @@ const CreateMovies = () => {
     }
   };
 
-  // Criação de um novo filme
-  const onCreateMovie = useCallback(async () => {
-    if (!name || !description || !images || !launch_date) {
-      return;
+  const fetchActors = async () => {
+    try {
+      const response = await api.get("/actors");
+      setActors(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar atores:", error);
     }
+  };
+
+  const onCreateMovie = useCallback(async () => {
+    if (!name || !description || !images || !launch_date) return;
+
     try {
       setLoading(true);
-      await api.post("/films", { name, description, images, launch_date });
+      await api.post("/films", {
+        name,
+        description,
+        images,
+        launch_date,
+        actorIds: selectedActorIds,
+      });
       alert("Filme criado com sucesso!");
-      fetchFilms(); // Atualiza a lista após a criação
+      fetchFilms();
+      setName("");
+      setDescription("");
+      setImages("");
+      setLaunch_date("");
+      setSelectedActorIds([]);
     } catch (error) {
       console.error("Erro ao criar filme:", error);
     } finally {
       setLoading(false);
     }
-  }, [name, description, images, launch_date]);
+  }, [name, description, images, launch_date, selectedActorIds]);
 
-  // Inicia a edição de um filme
   const handleEditFilm = (film: Film) => {
     setEditingFilmId(film.id_film);
-    setFormData(film); // Define os dados do filme para edição
+    setFormData(film);
   };
 
-  // Atualiza os valores do formulário ao editar
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (formData) {
       setFormData({ ...formData, [e.target.name]: e.target.value });
-      console.log("Atualizando campo:", e.target.name, "=>", e.target.value);
     }
   };
 
-  // Salva as alterações no filme editado
   const handleUpdateFilm = async () => {
     if (!formData || editingFilmId === null) return;
 
@@ -67,9 +83,9 @@ const CreateMovies = () => {
       setLoading(true);
       await api.put(`/films/${editingFilmId}`, formData);
       alert("Filme atualizado com sucesso!");
-      setEditingFilmId(null); // Sai do modo de edição
+      setEditingFilmId(null);
       setFormData(null);
-      fetchFilms(); // Atualiza os filmes após editar
+      fetchFilms();
     } catch (error) {
       console.error("Erro ao atualizar filme:", error);
       alert("Erro ao atualizar os dados.");
@@ -78,12 +94,11 @@ const CreateMovies = () => {
     }
   };
 
-  // Exclui um filme
   const handleDeleteFilm = async (id: number) => {
     try {
       await api.delete(`/films/${id}`);
       alert("Filme deletado com sucesso");
-      fetchFilms(); // Atualiza os filmes após deletar
+      fetchFilms();
     } catch (error) {
       console.log(error);
       alert("Erro ao deletar filme");
@@ -92,13 +107,13 @@ const CreateMovies = () => {
 
   useEffect(() => {
     fetchFilms();
+    fetchActors();
   }, []);
 
   return (
-    
     <div className="container">
       <Header />
-      <h2>Cadastro</h2>
+      <h2>Cadastro de Filmes</h2>
       <input
         placeholder="Nome"
         value={name}
@@ -110,7 +125,7 @@ const CreateMovies = () => {
         onChange={(e) => setDescription(e.target.value)}
       />
       <input
-        placeholder="Imagens"
+        placeholder="Imagem"
         value={images}
         onChange={(e) => setImages(e.target.value)}
       />
@@ -120,6 +135,23 @@ const CreateMovies = () => {
         onChange={(e) => setLaunch_date(e.target.value)}
       />
 
+      <label>Selecione os Atores:</label>
+      <select
+        multiple
+        value={selectedActorIds.map(String)}
+        onChange={(e) =>
+          setSelectedActorIds(
+            Array.from(e.target.selectedOptions, (opt) => Number(opt.value))
+          )
+        }
+      >
+        {actors.map((actor) => (
+          <option key={actor.id_actor} value={actor.id_actor}>
+            {actor.name}
+          </option>
+        ))}
+      </select>
+
       <button onClick={onCreateMovie} disabled={loading}>
         {loading ? "Criando..." : "Criar Filme"}
       </button>
@@ -128,7 +160,6 @@ const CreateMovies = () => {
         {films.map((film) => (
           <div key={film.id_film} className="movie-item">
             {editingFilmId === film.id_film ? (
-              // Modo de edição
               <div>
                 <label>Nome:</label>
                 <input
@@ -164,16 +195,13 @@ const CreateMovies = () => {
                 <button onClick={() => setEditingFilmId(null)}>Cancelar</button>
               </div>
             ) : (
-              // Modo de visualização
               <>
-                <span>
-                  <strong>ID:</strong> {film.id_film}
-                </span>
-                <span>
-                  <strong>Nome:</strong> {film.name}
-                </span>
-                <span>
-                  <strong>Data de Lançamento:</strong> {film.launch_date}
+                <span><strong>ID:</strong> {film.id_film}</span>
+                <span><strong>Nome:</strong> {film.name}</span>
+                <span><strong>Descrição:</strong> {film.description}</span>
+                <span><strong>Data de Lançamento:</strong> {film.launch_date}</span>
+                <span><strong>Atores:</strong>{" "}
+                  {film.actors?.map((actor) => actor.name).join(", ") || "Nenhum"}
                 </span>
                 <button
                   onClick={() => handleDeleteFilm(film.id_film)}

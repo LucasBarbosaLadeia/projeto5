@@ -1,11 +1,10 @@
 import sequelize from "./config/database";
-
 import express from "express";
-
+import cors from "cors";
 import actorRoutes from "./routes/ActorRoutes";
 import userRoutes from "./routes/UserRoutes";
 import filmRoutes from "./routes/FilmRoutes";
-import evaluations from "./routes/EvaluationsRoutes";
+import commentRoutes from "./routes/CommentRoutes"
 import favorites from "./routes/FavoritesRoutes";
 import loginRoutes from "./routes/loginRoutes";
 
@@ -29,9 +28,10 @@ app.use(actorRoutes);
 app.use(filmRoutes);
 app.use(userRoutes);
 app.use(filmRoutes);
-app.use(evaluations);
+app.use(commentRoutes);
 app.use(favorites);
 app.use(loginRoutes);
+
 
 
 sequelize

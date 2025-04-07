@@ -11,8 +11,7 @@ import { validateEvaluation } from "../schemas/EvaluatiosSchema";
 const router = express.Router();
 
 router.get("/evaluations", getAll);
-router.post(
-  "/films/:id/comments",
+router.post("/films/:id/comments",
   authMiddleware,
   validateEvaluation,
   addCommentController
