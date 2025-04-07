@@ -4,11 +4,7 @@ import {
   getFilmById,
   createFilm,
   updateFilm,
-
   destroyFilmById,
-
-
-
 } from "../controller/FilmController";
 
 const router = express.Router();
