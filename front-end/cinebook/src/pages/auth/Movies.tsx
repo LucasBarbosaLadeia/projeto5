@@ -7,13 +7,7 @@ import Header from "../../components/Header";
 import EvaluationItem from "../../components/EvaluationItem";
 import CommentBox from "../../components/CommentBox";
 import FilmDetails from "../../components/FilmDetails"; // <- importando o componente novo
-
-interface Film {
-  id_film: number;
-  name: string;
-  description: string;
-  images: string;
-}
+import { Film } from "../../types/Film"; // <- importando o tipo Film
 
 const Movies = () => {
   const userId = Number(localStorage.getItem("userId"));
