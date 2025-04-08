@@ -1,9 +1,14 @@
 import express from "express";
-import { getAll, getActorFilmById } from "../controller/ActorFilmController";
+import {
+  getAll,
+  getById,
+
+} from "../controller/ActorFilmController";
 
 const router = express.Router();
 
-router.get("/actorfilms", getAll);
-router.get("/actorfilms/:id", getActorFilmById);
+router.get("/actors-films", getAll);
+router.get("/actors-films/:id_film/:id_actor", getById);
+
 
 export default router;

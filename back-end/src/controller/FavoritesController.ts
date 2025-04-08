@@ -37,80 +37,31 @@ export const getAll = async (req: Request, res: Response) => {
   res.send(favorites);
 };
 
-export const addFavoriteController = async (req: Request, res: Response) => {
-  const { id } = req.params; // ID do filme a ser favoritado
-  const id_user = req.user.user.id_user; // Obtém o usuário autenticado do token
-
+export const getOne = async (req: Request, res: Response) => {
   try {
-    if (!id_user) {
-      return res.status(401).json({ error: "Token não fornecido ou inválido" });
+    const { id_user, id_film } = req.query;
+
+    if (!id_user || !id_film) {
+      return res.status(400).json({ error: "id_user e id_film são obrigatórios" });
     }
 
-    // Verifica se o filme e o usuário estão sendo passados corretamente
-    console.log("Recebendo dados para favoritar:", {
-      filmID: id,
-      userID: id_user,
+    const favorite = await FavoritesModel.findOne({
+      where: {
+        id_user: Number(id_user),
+        id_film: Number(id_film),
+      },
     });
 
-    // Chama a função de serviço para favoritar o filme
-    const newFavorite = await addFavoriteToUser(Number(id), id_user);
-
-    // Resposta de sucesso
-    return res.status(201).json({
-      message: "Filme favoritado com sucesso!",
-      favorite: newFavorite,
-    });
+    if (favorite) {
+      return res.status(200).json({ favorited: true });
+    } else {
+      return res.status(200).json({ favorited: false });
+    }
   } catch (error) {
-    return res.status(500).json({
-      message:
-        error instanceof Error ? error.message : "Erro ao favoritar filme",
-    });
+    return res
+      .status(500)
+      .json({ error: "Erro interno no servidor: " + error });
   }
 };
 
-export const getFavoriteFilmsByUserController = async (
-  req: Request,
-  res: Response
-) => {
-  const id_user = req.user.user.id_user;
-  console.log("Recebendo filmes favoritos do usuário:", id_user);
 
-  try {
-    const favoriteFilms = await FavoritesModel.findAll({
-      where: { id_users: id_user },
-      include: [
-        {
-          model: FilmModel,
-          as: "film",
-          required: true,
-          attributes: [
-            "id_film",
-            "name",
-            "description",
-            "launch_date",
-            "images",
-          ],
-        },
-      ],
-    });
-
-    if (favoriteFilms.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "Nenhum filme favorito encontrado." });
-    }
-
-    res.status(200).json({
-      message: "Filmes favoritos encontrados com sucesso.",
-      favoriteFilms: favoriteFilms.map((favorite) => favorite.film),
-    });
-  } catch (error) {
-    console.error("Erro ao buscar filmes favoritos:", error);
-    res.status(500).json({
-      message:
-        error instanceof Error
-          ? error.message
-          : "Erro ao buscar filmes favoritos.",
-    });
-  }
-};

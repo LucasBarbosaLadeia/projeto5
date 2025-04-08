@@ -22,6 +22,7 @@ export const createActor = async (req: Request, res: Response) => {
     const actorData = actorSchema.parse(req.body);
     const newActor = await ActorModel.create(actorData);
 
+
     return res
       .status(201)
       .json({ message: "Ator criado com sucesso", actor: newActor });
@@ -53,6 +54,7 @@ export const updateActor = async (
     return res.status(500).json({ error: "Erro interno no servidor " + error });
   }
 };
+
 
 export const destroyActorById = async (
   req: Request<{ id: string }>,
