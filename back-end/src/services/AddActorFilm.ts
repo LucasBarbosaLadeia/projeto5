@@ -17,12 +17,10 @@ export async function addActorFilm(
       images,
     });
 
-    // Associando atores ao filme diretamente
     const actors = await ActorModel.findAll({
       where: { id_actor: actorIds },
     });
 
-    // Chama o método setActors diretamente
     await newFilm.addActors(actors);
 
     console.log("Sucesso ao criar filme:");

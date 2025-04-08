@@ -32,7 +32,7 @@ describe("Email Validation with Zod Schema", () => {
 
     invalidEmails.forEach((email) => {
       const result = userSchema.safeParse({ ...validData, email });
-      console.log(email, result); // <- use isso pra debug
+      console.log(email, result);
       expect(result.success).toBe(false);
       if (!result.success) {
         expect(result.error.issues[0].message).toBe("E-mail inválido");

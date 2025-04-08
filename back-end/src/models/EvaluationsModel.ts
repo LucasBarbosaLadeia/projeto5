@@ -20,7 +20,6 @@ EvaluationsModel.init(
       autoIncrement: true,
     },
     film_id: {
-      // Corrigido: mantivemos como film_id para consistência
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -29,7 +28,6 @@ EvaluationsModel.init(
       },
     },
     id_user: {
-      // Corrigido: mantivemos como id_user para consistência
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -53,16 +51,14 @@ EvaluationsModel.init(
   }
 );
 
-// Relacionamento com o filme
 EvaluationsModel.belongsTo(FilmModel, {
-  foreignKey: "film_id", // Chave estrangeira film_id para o filme
-  as: "film", // Relação com o filme
+  foreignKey: "film_id",
+  as: "film",
 });
 
-// Relacionamento com o usuário
 EvaluationsModel.belongsTo(UserModel, {
-  foreignKey: "id_user", // Chave estrangeira id_user para o usuário
-  as: "user", // Relação com o usuário
+  foreignKey: "id_user",
+  as: "user",
 });
 
 export default EvaluationsModel;
