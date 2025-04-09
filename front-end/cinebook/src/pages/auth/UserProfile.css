@@ -1,0 +1,81 @@
+/* Faz a página cobrir toda a tela */
+.user-profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 100vh;
+  width: 100vw;
+  background-color: #1e1e1e;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  padding: 40px;
+}
+
+/* Título "Perfil do Usuário" no topo esquerdo */
+.profile-title {
+  font-size: 2em;
+  font-weight: bold;
+  color: #ffcc00;
+  margin-bottom: 40px;
+}
+
+/* Container principal dividindo em duas seções */
+.user-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 40px;
+}
+
+/* Card do usuário na esquerda */
+.user-card {
+  background-color: #2a2a2a;
+  padding: 90px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  text-align: center;
+  gap: 30px;
+}
+
+/* Círculo para imitar a foto de perfil */
+.user-avatar {
+  width: 150px;
+  height: 150px;
+  background-color: #555;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+/* Nome do usuário */
+.user-name {
+  font-size: 1.5em;
+  color: #ffcc00;
+}
+
+/* Container das informações na direita */
+.user-info {
+  display: flex;
+  flex-direction: column;
+  padding: 80px;
+  gap: 20px;
+  font-size: 20px;
+  background-color: #2a2a2a;
+  flex-grow: 1;
+}
+
+/* Estilo das informações do usuário */
+.user-info p {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #444;
+}
+
+/* Remove a linha da última informação */
+.user-info p:last-child {
+  border-bottom: none;
+}
+  
