@@ -10,7 +10,7 @@ const CreateActor = () => {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [nacionality, setNacionality] = useState("");
- 
+
   const [loading, setLoading] = useState(false);
   const [editingActorId, setEditingActorId] = useState<number | null>(null); // ID do filme sendo editado
   const [formData, setFormData] = useState<Actor | null>(null); // Dados do filme sendo editado
@@ -31,7 +31,7 @@ const CreateActor = () => {
 
   // Criação de um novo filme
   const onCreateActor = useCallback(async () => {
-    if (!name || !age || !nacionality ) {
+    if (!name || !age || !nacionality) {
       return;
     }
     try {
@@ -96,7 +96,6 @@ const CreateActor = () => {
   }, []);
 
   return (
-    
     <div className="container">
       <Header />
       <h2>Cadastro</h2>
@@ -115,7 +114,6 @@ const CreateActor = () => {
         value={nacionality}
         onChange={(e) => setNacionality(e.target.value)}
       />
-      
 
       <button onClick={onCreateActor} disabled={loading}>
         {loading ? "Criando..." : "Criar Filme"}
@@ -151,7 +149,9 @@ const CreateActor = () => {
                 <button onClick={handleUpdateActor} disabled={loading}>
                   {loading ? "Salvando..." : "Salvar Alterações"}
                 </button>
-                <button onClick={() => setEditingActorId(null)}>Cancelar</button>
+                <button onClick={() => setEditingActorId(null)}>
+                  Cancelar
+                </button>
               </div>
             ) : (
               // Modo de visualização

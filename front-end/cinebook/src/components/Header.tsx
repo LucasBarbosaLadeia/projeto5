@@ -9,9 +9,15 @@ const Header = () => {
           <Link to="/home">🎬 Cinebook</Link>
         </div>
         <div className="nav-buttons">
-          <Link to="/createMovies" className="nav-link">MovieAdm</Link>
-          <Link to="/createActor" className="nav-link">ActorAdm</Link>
-          <Link to="/userProfile" className="nav-link">Perfil</Link>
+          <Link to="/createMovies" className="nav-link">
+            MovieAdm
+          </Link>
+          <Link to="/createActor" className="nav-link">
+            ActorAdm
+          </Link>
+          <Link to="/userProfile" className="nav-link">
+            Perfil
+          </Link>
         </div>
       </div>
     </header>

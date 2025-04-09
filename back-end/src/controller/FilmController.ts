@@ -78,7 +78,6 @@ export const updateFilm = async (
     if (!film) {
       return res.status(404).json({ error: "Filme não encontrado." });
     }
-
     await film.save();
     res.status(200).json(film);
   } catch (error) {

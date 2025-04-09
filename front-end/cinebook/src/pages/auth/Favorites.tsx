@@ -14,7 +14,9 @@ const Favorites = () => {
   const fetchFavorites = async () => {
     setLoading(true);
     try {
-      const { data } = await api.get<Favorite[]>(`/favorites?user_id=${userId}`);
+      const { data } = await api.get<Favorite[]>(
+        `/favorites?user_id=${userId}`
+      );
 
       const filmRequests = data.map((fav) =>
         api.get<Film>(`/films/${fav.id_film}`)
