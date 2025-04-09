@@ -196,12 +196,22 @@ const CreateMovies = () => {
               </div>
             ) : (
               <>
-                <span><strong>ID:</strong> {film.id_film}</span>
-                <span><strong>Nome:</strong> {film.name}</span>
-                <span><strong>Descrição:</strong> {film.description}</span>
-                <span><strong>Data de Lançamento:</strong> {film.launch_date}</span>
-                <span><strong>Atores:</strong>{" "}
-                  {film.actors?.map((actor) => actor.name).join(", ") || "Nenhum"}
+                <span>
+                  <strong>ID:</strong> {film.id_film}
+                </span>
+                <span>
+                  <strong>Nome:</strong> {film.name}
+                </span>
+                <span>
+                  <strong>Descrição:</strong> {film.description}
+                </span>
+                <span>
+                  <strong>Data de Lançamento:</strong> {film.launch_date}
+                </span>
+                <span>
+                  <strong>Atores:</strong>{" "}
+                  {film.actors?.map((actor) => actor.name).join(", ") ||
+                    "Nenhum"}
                 </span>
                 <button
                   onClick={() => handleDeleteFilm(film.id_film)}

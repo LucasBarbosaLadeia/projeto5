@@ -2,7 +2,10 @@ import { DataTypes, Model } from "sequelize";
 import ActorModel from "./ActorModel";
 import sequelize from "../config/database";
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 class FilmModel extends Model {
   id_film!: number;
   launch_date!: Date;
@@ -48,6 +51,9 @@ FilmModel.init(
   }
 );
 
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> main
 export default FilmModel;

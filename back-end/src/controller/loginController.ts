@@ -1,22 +1,38 @@
 import { Request, Response } from "express";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 import UserModel from "../models/UserModel";
-import { generateToken } from "../utils/jwt";
+import dotenv from "dotenv";
 
-export const loginUser = async (req: Request, res: Response) => {
-  console.log(' recebido:', req.body);
+export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  if (!email || !password) {
-    console.log(' recebido:', req.body);
-    return res.status(400).json({ error: "Informe e-mail e senha" });
+
+  try {
+    const user = await UserModel.findOne({ where: { email } });
+
+    if (!user) {
+      return res.status(401).json({ error: "Credenciais inválidas" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Credenciais inválidas" });
+    }
+
+    const token = jwt.sign(
+      {
+        id_user: user.id_user,
+        email: user.email,
+        admin: user.admin,
+      },
+      process.env.JWT_SECRET!,
+      { expiresIn: "1d" }
+    );
+
+    return res.status(200).json({ token });
+  } catch (error) {
+    console.error("Erro ao fazer login:", error);
+    return res.status(500).json({ error: "Erro ao fazer login" });
   }
-  const user = await UserModel.findOne({ where: { email } });
-  if (!user) {
-    return res.status(404).json({ error: "Usuário não encontrado" });
-  }
-  const isValidPassword = await user.validatePassword(password);
-  if (!isValidPassword) {
-    return res.status(401).json({ error: "Senha ou e-mail inválida" });
-  }
-  const token = generateToken(user);
-  res.status(200).json({ message: "Usuário logado com sucesso", token });
 };

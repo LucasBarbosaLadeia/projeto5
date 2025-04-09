@@ -8,7 +8,13 @@ interface EditUserForm {
   loading: boolean;
 }
 
-const EditUserForm = ({ formData, onChange, onSave, onCancel, loading }: EditUserForm) => (
+const EditUserForm = ({
+  formData,
+  onChange,
+  onSave,
+  onCancel,
+  loading,
+}: EditUserForm) => (
   <div>
     <label>Nome:</label>
     <input name="name" value={formData.name} onChange={onChange} />
@@ -27,7 +33,6 @@ const EditUserForm = ({ formData, onChange, onSave, onCancel, loading }: EditUse
       onChange={onChange}
       placeholder="Deixe em branco para não alterar"
     />
-    
 
     <button onClick={onSave} disabled={loading}>
       {loading ? "Salvando..." : "Salvar Alterações"}

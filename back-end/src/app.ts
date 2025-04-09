@@ -1,8 +1,10 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
 import userRoute from "./routes/UserRoutes";
 import actorRoutes from "./routes/ActorRoutes";
-import userRoutes from "./routes/UserRoutes";
 import filmRoutes from "./routes/FilmRoutes";
 import evaluations from "./routes/CommentRoutes";
 import favorites from "./routes/FavoritesRoutes";
@@ -19,13 +21,12 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(userRoute);
 
 app.use(adminRoutes);
 app.use(express.json());
-app.use(userRoute);
 app.use(actorRoutes);
 app.use(filmRoutes);
-app.use(userRoutes);
 app.use(filmRoutes);
 app.use(evaluations);
 app.use(favorites);

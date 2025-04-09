@@ -1,4 +1,3 @@
-
 body {
   font-family: Arial, sans-serif;
   background-color: #121212;
@@ -16,7 +15,7 @@ body {
   gap: 20px;
   padding: 20px;
   width: 100%;
-  max-width: 1200px;  /* Limita a largura para centralizar melhor */
+  max-width: 1200px; /* Limita a largura para centralizar melhor */
 }
 
 /* Estilização dos cards */

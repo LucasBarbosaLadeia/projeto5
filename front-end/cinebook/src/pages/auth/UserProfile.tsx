@@ -80,7 +80,9 @@ const UserProfile = () => {
   };
 
   const handleDeleteUser = async () => {
-    const confirmDelete = window.confirm("Tem certeza que deseja deletar sua conta?");
+    const confirmDelete = window.confirm(
+      "Tem certeza que deseja deletar sua conta?"
+    );
     if (!confirmDelete) return;
 
     try {
@@ -121,8 +123,12 @@ const UserProfile = () => {
               />
             ) : (
               <div>
-                <p><strong>Endereço:</strong> {user.endereco}</p>
-                <p><strong>CPF:</strong> {user.cpf}</p>
+                <p>
+                  <strong>Endereço:</strong> {user.endereco}
+                </p>
+                <p>
+                  <strong>CPF:</strong> {user.cpf}
+                </p>
                 <button onClick={logout}>Logout</button>
               </div>
             )}
