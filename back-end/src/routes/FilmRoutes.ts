@@ -6,16 +6,18 @@ import {
   updateFilm,
   destroyFilmById,
 } from "../controller/FilmController";
+import { authMiddleware } from "../validators/authMiddleware";
+import { adminMiddleware } from "../validators/adminMiddleware";
 
 import { getCommentsByFilmId } from "../controller/CommentController";
 
 const router = express.Router();
 
-router.get("/films", getAll);
-router.get("/films/:id", getFilmById);
-router.get("/films/:id/comments", getCommentsByFilmId); // Assuming this is the correct route for comments
-router.post("/films", createFilm);
-router.delete("/films/:id", destroyFilmById);
-router.put("/films/:id", updateFilm);
-
+router.get("/films", getAll, authMiddleware);
+router.get("/films/:id", getFilmById, authMiddleware);
+router.get("/films/:id/comments", getCommentsByFilmId, authMiddleware);
+router.post("/films", createFilm, authMiddleware);
+router.delete("/films/:id", adminMiddleware, adminMiddleware, destroyFilmById);
+router.put("/films/:id", adminMiddleware, adminMiddleware, updateFilm);
+//router.delete('/usuarios/:id', authMiddleware, adminMiddleware, deleteUserController);
 export default router;
