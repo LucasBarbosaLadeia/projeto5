@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import "./Home.css"
 import api from "../../utils/api";
+import { Film } from "../../types/Film";
 import Header from "../../components/Header";
-interface Film {
-  id_film: number;
-  name: string;
-  description: string;
-  images: string;
-}
+import FilmCard from "../../components/FilmCard";
+import StatusMessage from "../../components/StatusMessage";
+import "./Home.css";
 
 const Home = () => {
   const [films, setFilms] = useState<Film[]>([]);
@@ -18,15 +14,13 @@ const Home = () => {
     const fetchFilms = async () => {
       setLoading(true);
       try {
-        const response = await api.get("/films"); 
+        const response = await api.get("/films");
         setFilms(response.data);
-        console.log(response.data)
       } catch (error) {
         console.error("Erro ao buscar filmes:", error);
       } finally {
         setLoading(false);
       }
-      
     };
 
     fetchFilms();
@@ -37,18 +31,13 @@ const Home = () => {
       <Header />
       <h1>Catálogo de Filmes</h1>
       {loading ? (
-        <p>Carregando...</p>
+        <StatusMessage message="Carregando..." />
+      ) : films.length === 0 ? (
+        <StatusMessage message="Nenhum filme encontrado." />
       ) : (
         <div className="columnfilms">
           {films.map((film) => (
-            <div className="cardfilme1">
-              <div className="cardimg">
-              <img src={film?.images} alt={film?.name} /> 
-              </div>
-              <h3>{film.name}</h3>
-           
-              <Link to={`/movies/${film.id_film}`}>Ver detalhes</Link>
-            </div>
+            <FilmCard key={film.id_film} film={film} />
           ))}
         </div>
       )}
@@ -57,4 +46,3 @@ const Home = () => {
 };
 
 export default Home;
-

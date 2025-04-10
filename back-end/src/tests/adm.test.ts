@@ -2,8 +2,7 @@ import request from "supertest";
 import app from "../app";
 import jwt from "jsonwebtoken";
 
-// Simula um JWT secret igual ao usado na função real
-const JWT_SECRET = "Segredo_kkk"; // substitua conforme seu .env
+const JWT_SECRET = "Segredo_kkk";
 
 describe("Testando rota /dashboard protegida por authMiddleware e admin", () => {
   it("deve retornar 401 se nenhum token for fornecido", async () => {

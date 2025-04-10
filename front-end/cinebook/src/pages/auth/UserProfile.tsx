@@ -1,19 +1,23 @@
 import { useEffect, useState } from "react";
 import api from "../../utils/api";
-import "./UserProfile.css"
 import { useAuth } from "../../contexts/AuthContext";
 import Header from "../../components/Header";
+import UserCard from "../../components/UserCard";
+import EditUserForm from "../../components/EditUserForm";
+import "./UserProfile.css";
 
 interface User {
   name: string;
   cpf: string;
   endereco: string;
-  password: string;
+  password?: string;
+  email: string;
 }
 
 const UserProfile = () => {
   const userId = localStorage.getItem("userId");
   const { logout } = useAuth();
+
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [editing, setEditing] = useState(false);
@@ -22,15 +26,27 @@ const UserProfile = () => {
     cpf: "",
     endereco: "",
     password: "",
+    email: "",
   });
 
-  // Busca os dados do usuário
-  const fetchUser = async () => {
+  useEffect(() => {
+    if (userId) {
+      fetchUserData();
+    }
+  }, [userId]);
+
+  const fetchUserData = async () => {
     try {
       setLoading(true);
       const { data } = await api.get<User>(`/users/${userId}`);
       setUser(data);
-      setFormData(data); // Preenche o formulário com os dados do usuário
+      setFormData({
+        name: data.name,
+        cpf: data.cpf,
+        endereco: data.endereco,
+        password: "",
+        email: data.email,
+      });
     } catch (error) {
       console.error("Erro ao buscar usuário:", error);
     } finally {
@@ -38,14 +54,23 @@ const UserProfile = () => {
     }
   };
 
-  // Atualiza os dados do usuário
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   const handleUpdateUser = async () => {
     try {
       setLoading(true);
-      await api.put(`/users/${userId}`, formData); // Envia os dados editados
+
+      const updatedData: Partial<User> = { ...formData };
+      if (!formData.password) {
+        delete updatedData.password;
+      }
+
+      await api.put(`/users/${userId}`, updatedData);
       alert("Usuário atualizado com sucesso!");
       setEditing(false);
-      fetchUser(); // Atualiza os dados na tela
+      fetchUserData();
     } catch (error) {
       console.error("Erro ao atualizar usuário:", error);
       alert("Erro ao atualizar os dados.");
@@ -54,76 +79,62 @@ const UserProfile = () => {
     }
   };
 
-  // Captura alterações no formulário
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const handleDeleteUser = async () => {
+    const confirmDelete = window.confirm(
+      "Tem certeza que deseja deletar sua conta?"
+    );
+    if (!confirmDelete) return;
 
-  useEffect(() => {
-    if (userId) {
-      fetchUser();
+    try {
+      await api.delete(`/users/${userId}`);
+      alert("Usuário deletado com sucesso!");
+      logout();
+    } catch (error) {
+      console.error("Erro ao deletar usuário:", error);
+      alert("Erro ao deletar usuário.");
     }
-  }, [userId]);
+  };
 
   if (loading) return <div>Carregando...</div>;
   if (!user) return <div>Usuário não encontrado.</div>;
 
-  const HandleDeleteUser = async () => {
-    try {
-      await api.delete(`/users/${userId}`)
-      alert("usuario deletado com sucesso")
-      
-    } catch (error) {
-      console.log(error)
-      alert("erro ao deletar usuario")
-    }
-  }
-
   return (
     <div>
       <Header />
-    <div className="user-profile">
-      <h2>Perfil do Usuário</h2><button onClick={HandleDeleteUser}>deletar perfil</button>
+      <div className="user-profile">
+        <h2>Perfil do Usuário</h2>
+        <button onClick={handleDeleteUser} className="delete-button">
+          Deletar Perfil
+        </button>
 
-      <div className="user-container">
-        {/* Card do Usuário */}
-        <div className="user-card">
-          <div className="user-avatar"></div>
-          <h3>{user.name}</h3>
-          {!editing && <button onClick={() => setEditing(true)}>Editar</button>}
-        </div>
+        <div className="user-container">
+          <div className="user-card">
+            <UserCard name={user.name} onEdit={() => setEditing(true)} />
+          </div>
 
-        {/* Formulário de Edição */}
-        <div className="user-info">
-          {editing ? (
-            <div>
-              <label>Nome:</label>
-              <input name="name" value={formData.name} onChange={handleChange} />
-
-              <label>Endereço:</label>
-              <input name="endereco" value={formData.endereco} onChange={handleChange} />
-
-              <label>CPF:</label>
-              <input name="cpf" value={formData.cpf} onChange={handleChange} />
-
-              <label>Senha</label>
-              <input name="senha" value={formData.password} onChange={handleChange} />
-
-              <button onClick={handleUpdateUser} disabled={loading}>
-                {loading ? "Salvando..." : "Salvar Alterações"}
-              </button>
-              <button onClick={() => setEditing(false)}>Cancelar</button>
-            </div>
-          ) : (
-            <div>
-              <p><strong>Endereço:</strong></p> <p>{user.endereco}</p>
-              <p><strong>CPF:</strong></p> <p>{user.cpf}</p>
-              <button onClick={() => logout()}>Log out</button>
-            </div>
-          )}
+          <div className="user-info">
+            {editing ? (
+              <EditUserForm
+                formData={formData}
+                onChange={handleInputChange}
+                onSave={handleUpdateUser}
+                onCancel={() => setEditing(false)}
+                loading={loading}
+              />
+            ) : (
+              <div>
+                <p>
+                  <strong>Endereço:</strong> {user.endereco}
+                </p>
+                <p>
+                  <strong>CPF:</strong> {user.cpf}
+                </p>
+                <button onClick={logout}>Logout</button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };

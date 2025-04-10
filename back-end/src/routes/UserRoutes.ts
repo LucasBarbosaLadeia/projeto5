@@ -19,4 +19,3 @@ router.put("/users/:id", authMiddleware, updateUser);
 router.delete("/users/:id", authMiddleware, destroyUserById);
 
 export default router;
-//
