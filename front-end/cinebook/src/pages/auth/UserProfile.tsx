@@ -5,14 +5,9 @@ import Header from "../../components/Header";
 import UserCard from "../../components/UserCard";
 import EditUserForm from "../../components/EditUserForm";
 import "./UserProfile.css";
+import { User } from "../../types/User";
 
-interface User {
-  name: string;
-  cpf: string;
-  endereco: string;
-  password?: string;
-  email: string;
-}
+
 
 const UserProfile = () => {
   const userId = localStorage.getItem("userId");

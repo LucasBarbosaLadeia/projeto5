@@ -6,7 +6,7 @@ import userRoutes from "./routes/UserRoutes";
 import filmRoutes from "./routes/FilmRoutes";
 import evaluations from "./routes/CommentRoutes";
 import favorites from "./routes/FavoritesRoutes";
-import login from "./routes/loginRoutes";
+import login from "./routes/LoginRoutes";
 import adminRoutes from "./routes/adminRoutes";
 
 const app = express();

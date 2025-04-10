@@ -7,16 +7,11 @@ import Header from "../../components/Header";
 import EvaluationItem from "../../components/EvaluationItem";
 import CommentBox from "../../components/CommentBox";
 import FilmDetails from "../../components/FilmDetails"; // <- importando o componente novo
+import { Film } from "../../types/Film";
 
-interface Film {
-  id_film: number;
-  name: string;
-  description: string;
-  images: string;
-}
 
 const Movies = () => {
-  const userId = Number(localStorage.getItem("userId"));
+  const userId = localStorage.getItem("userId");
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [movie, setMovie] = useState<Film | null>(null);
@@ -102,7 +97,8 @@ const Movies = () => {
     try {
       const response = await api.post(`/films/${id}/comments`, {
         comment: newComment,
-        id_user: userId,
+        
+
       });
       const created = response.data.comment;
       setEvaluations((prev) => [...prev, created]);
@@ -152,7 +148,7 @@ const Movies = () => {
             <EvaluationItem
               key={evaluation.id_evaluation}
               evaluation={evaluation}
-              isOwner={evaluation.id_user === userId}
+              isOwner={evaluation.id_user === Number(userId)}
               onDelete={handleDelete}
               onEdit={handleEdit}
             />

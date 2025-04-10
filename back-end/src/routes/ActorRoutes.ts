@@ -4,7 +4,8 @@ import {
   getActorById,
   createActor,
   updateActor,
-  addActorToFilm,
+  destroyActorById,
+  addActorToFilm
 } from "../controller/ActorController";
 
 const router = express.Router();
@@ -14,6 +15,5 @@ router.get("/actors/:id", getActorById);
 router.post("/actors", createActor);
 router.post("/actors/addActorToFilm", addActorToFilm);
 router.put("/actors/:id", updateActor);
-router.delete("/actors/:id", updateActor);
-
+router.delete("/actors/:id", destroyActorById);
 export default router;

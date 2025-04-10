@@ -49,7 +49,7 @@ const CreateMovies = () => {
         description,
         images,
         launch_date,
-        actorIds: selectedActorIds,
+       
       });
       alert("Filme criado com sucesso!");
       fetchFilms();

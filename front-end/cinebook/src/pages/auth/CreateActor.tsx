@@ -1,27 +1,24 @@
 import { useState, useCallback, useEffect } from "react";
 import "./createActor.css";
 import api from "../../utils/api";
-
 import Header from "../../components/Header";
+import TextInput from "../../components/TextInput";
 import { Actor } from "../../types/Actor";
 
 const CreateActor = () => {
   const [actors, setActors] = useState<Actor[]>([]);
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
-  const [nacionality, setNacionality] = useState("");
- 
+  const [nationality, setNationality] = useState("");
   const [loading, setLoading] = useState(false);
-  const [editingActorId, setEditingActorId] = useState<number | null>(null); // ID do filme sendo editado
-  const [formData, setFormData] = useState<Actor | null>(null); // Dados do filme sendo editado
+  const [editingActorId, setEditingActorId] = useState<number | null>(null);
+  const [formData, setFormData] = useState<Actor | null>(null);
 
-  // Busca os filmes
   const fetchActors = async () => {
     setLoading(true);
     try {
       const response = await api.get("/actors");
       setActors(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Erro ao buscar atores:", error);
     } finally {
@@ -29,65 +26,64 @@ const CreateActor = () => {
     }
   };
 
-  // Criação de um novo filme
   const onCreateActor = useCallback(async () => {
-    if (!name || !age || !nacionality ) {
-      return;
-    }
+    if (!name || !age || !nationality) return;
+
     try {
       setLoading(true);
-      await api.post("/actors", { name, age: Number(age), nacionality });
-      alert("Filme criado com sucesso!");
-      fetchActors(); // Atualiza a lista após a criação
+      await api.post("/actors", { name, age: Number(age), nationality });
+      alert("Ator criado com sucesso!");
+      fetchActors();
+      setName("");
+      setAge("");
+      setNationality("");
     } catch (error) {
-      console.error("Erro ao criar filme:", error);
+      console.error("Erro ao criar ator:", error);
     } finally {
       setLoading(false);
     }
-  }, [name, age, nacionality]);
+  }, [name, age, nationality]);
 
-  // Inicia a edição de um filme
   const handleEditActor = (actor: Actor) => {
     setEditingActorId(actor.id_actor);
-    setFormData(actor); // Define os dados do filme para edição
+    setFormData(actor);
   };
 
-  // Atualiza os valores do formulário ao editar
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (formData) {
       setFormData({ ...formData, [e.target.name]: e.target.value });
-      console.log("Atualizando campo:", e.target.name, "=>", e.target.value);
     }
   };
 
-  // Salva as alterações no filme editado
   const handleUpdateActor = async () => {
     if (!formData || editingActorId === null) return;
 
     try {
       setLoading(true);
-      await api.put(`/actors/${editingActorId}`, formData);
-      alert("Filme atualizado com sucesso!");
-      setEditingActorId(null); // Sai do modo de edição
+      await api.put(`/actors/${editingActorId}`, {
+        ...formData,
+        age: Number(formData.age),
+      });
+      alert("Ator atualizado com sucesso!");
+      setEditingActorId(null);
       setFormData(null);
-      fetchActors(); // Atualiza os filmes após editar
+      fetchActors();
     } catch (error) {
-      console.error("Erro ao atualizar filme:", error);
+      console.error("Erro ao atualizar ator:", error);
       alert("Erro ao atualizar os dados.");
     } finally {
       setLoading(false);
     }
   };
 
-  // Exclui um filme
   const handleDeleteActor = async (id: number) => {
     try {
       await api.delete(`/actors/${id}`);
-      alert("Filme deletado com sucesso");
-      fetchActors(); // Atualiza os filmes após deletar
+      alert("Ator deletado com sucesso");
+      fetchActors();
     } catch (error) {
       console.log(error);
-      alert("Erro ao deletar filme");
+      alert("Erro ao deletar ator");
     }
   };
 
@@ -96,65 +92,68 @@ const CreateActor = () => {
   }, []);
 
   return (
-    
     <div className="container">
       <Header />
-      <h2>Cadastro</h2>
-      <input
-        placeholder="Nome"
+      <h2>Cadastro de Atores</h2>
+
+      <TextInput
+        label="Nome"
+        placeholder="Nome do ator"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        name="name"
       />
-      <input
-        placeholder="idade"
+      <TextInput
+        label="Idade"
+        placeholder="Idade do ator"
         value={age}
         onChange={(e) => setAge(e.target.value)}
+        name="age"
       />
-      <input
-        placeholder="nacionalidade"
-        value={nacionality}
-        onChange={(e) => setNacionality(e.target.value)}
+      <TextInput
+        label="Nacionalidade"
+        placeholder="Nacionalidade do ator"
+        value={nationality}
+        onChange={(e) => setNationality(e.target.value)}
+        name="nationality"
       />
-      
 
       <button onClick={onCreateActor} disabled={loading}>
-        {loading ? "Criando..." : "Criar Filme"}
+        {loading ? "Criando..." : "Criar ator"}
       </button>
 
       <div className="movies-container">
         {actors.map((actor) => (
           <div key={actor.id_actor} className="movie-item">
             {editingActorId === actor.id_actor ? (
-              // Modo de edição
               <div>
-                <label>Nome:</label>
-                <input
-                  name="name"
+                <TextInput
+                  label="Nome"
                   value={formData?.name || ""}
                   onChange={handleChange}
+                  name="name"
+                  placeholder="Nome"
                 />
-
-                <label>idade:</label>
-                <input
+                <TextInput
+                  label="Idade"
+                  value={formData?.age.toString() || ""}
+                  onChange={handleChange}
                   name="age"
-                  value={formData?.age || ""}
-                  onChange={handleChange}
+                  placeholder="Idade"
                 />
-
-                <label>nacionalidade:</label>
-                <input
-                  name="nacionality"
-                  value={formData?.nacionality || ""}
+                <TextInput
+                  label="Nacionalidade"
+                  value={formData?.nationality || ""}
                   onChange={handleChange}
+                  name="nationality"
+                  placeholder="Nacionalidade"
                 />
-
                 <button onClick={handleUpdateActor} disabled={loading}>
                   {loading ? "Salvando..." : "Salvar Alterações"}
                 </button>
                 <button onClick={() => setEditingActorId(null)}>Cancelar</button>
               </div>
             ) : (
-              // Modo de visualização
               <>
                 <span>
                   <strong>ID:</strong> {actor.id_actor}
@@ -163,10 +162,10 @@ const CreateActor = () => {
                   <strong>Nome:</strong> {actor.name}
                 </span>
                 <span>
-                  <strong>idade:</strong> {actor.age}
+                  <strong>Idade:</strong> {actor.age}
                 </span>
                 <span>
-                  <strong>nacionalidade:</strong> {actor.nacionality}
+                  <strong>Nacionalidade:</strong> {actor.nationality}
                 </span>
                 <button
                   onClick={() => handleDeleteActor(actor.id_actor)}
