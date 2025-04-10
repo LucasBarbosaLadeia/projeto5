@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import api from "../../utils/api";
 import { Film } from "../../types/Film";
-import HeaderUser from "../../components/Header";
+import HeaderAdm from "../../components/HeaderAdm";
 import FilmCard from "../../components/FilmCard";
 import StatusMessage from "../../components/StatusMessage";
-import "./Home.css";
+import "./HomeAdmin.css";
 
-const Home = () => {
+const HomeAdmin = () => {
   const [films, setFilms] = useState<Film[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -28,8 +28,8 @@ const Home = () => {
 
   return (
     <div>
-      <HeaderUser />
-      <h1>Catálogo de Filmes</h1>
+      <HeaderAdm />
+      <h1>Catálogo de Filmes ADM</h1>
       {loading ? (
         <StatusMessage message="Carregando..." />
       ) : films.length === 0 ? (
@@ -45,4 +45,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomeAdmin;

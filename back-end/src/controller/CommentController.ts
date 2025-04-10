@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import EvaluationsModel from "../models/EvaluationsModel";
 import { addCommentToFilm } from "../services/AddCommentFilm";
 
-// Buscar todas as avaliações
 export const getAll = async (req: Request, res: Response) => {
   try {
     const evaluations = await EvaluationsModel.findAll();
@@ -13,7 +12,6 @@ export const getAll = async (req: Request, res: Response) => {
   }
 };
 
-// Buscar avaliação por ID
 export const getEvaluationById = async (
   req: Request<{ id: string }>,
   res: Response
@@ -30,11 +28,10 @@ export const getEvaluationById = async (
   }
 };
 
-// Adicionar comentário
 export const addCommentController = async (req: Request, res: Response) => {
   const { comment } = req.body;
   const { id } = req.params;
-  const id_user = req.user?.user?.id_user;
+  const id_user = req.user.id_user;
 
   try {
     if (!comment) {
@@ -50,21 +47,27 @@ export const addCommentController = async (req: Request, res: Response) => {
     console.error("Erro ao adicionar comentário:", error);
     res.status(500).json({
       message:
-        error instanceof Error ? error.message : "Erro ao adicionar comentário.",
+        error instanceof Error
+          ? error.message
+          : "Erro ao adicionar comentário.",
     });
   }
 };
 
-// Atualizar comentário
 export const updateCommentController = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { comment } = req.body;
 
   try {
-    const updated = await EvaluationsModel.update({ comment }, { where: { id_evaluation: id } });
+    const updated = await EvaluationsModel.update(
+      { comment },
+      { where: { id_evaluation: id } }
+    );
 
     if (updated[0] === 0) {
-      return res.status(404).json({ message: "Comentário não encontrado para atualização." });
+      return res
+        .status(404)
+        .json({ message: "Comentário não encontrado para atualização." });
     }
 
     res.status(200).json({ message: "Comentário atualizado com sucesso!" });
@@ -72,20 +75,25 @@ export const updateCommentController = async (req: Request, res: Response) => {
     console.error("Erro ao atualizar comentário:", error);
     res.status(500).json({
       message:
-        error instanceof Error ? error.message : "Erro ao atualizar comentário.",
+        error instanceof Error
+          ? error.message
+          : "Erro ao atualizar comentário.",
     });
   }
 };
 
-// Deletar comentário
 export const deleteCommentController = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    const deleted = await EvaluationsModel.destroy({ where: { id_evaluation: id } });
+    const deleted = await EvaluationsModel.destroy({
+      where: { id_evaluation: id },
+    });
 
     if (deleted === 0) {
-      return res.status(404).json({ message: "Comentário não encontrado para exclusão." });
+      return res
+        .status(404)
+        .json({ message: "Comentário não encontrado para exclusão." });
     }
 
     res.status(200).json({ message: "Comentário deletado com sucesso!" });
@@ -94,6 +102,35 @@ export const deleteCommentController = async (req: Request, res: Response) => {
     res.status(500).json({
       message:
         error instanceof Error ? error.message : "Erro ao deletar comentário.",
+    });
+  }
+};
+
+export const getCommentsByFilmId = async (
+  req: Request<{ id: string }>,
+  res: Response
+) => {
+  const { id } = req.params;
+
+  try {
+    const comments = await EvaluationsModel.findAll({
+      where: { film_id: id },
+    });
+
+    if (comments.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "Nenhum comentário encontrado para este filme." });
+    }
+
+    res.status(200).json(comments);
+  } catch (error) {
+    console.error("Erro ao buscar comentários do filme:", error);
+    res.status(500).json({
+      message:
+        error instanceof Error
+          ? error.message
+          : "Erro ao buscar comentários do filme.",
     });
   }
 };

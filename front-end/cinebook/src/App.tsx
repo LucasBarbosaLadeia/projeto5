@@ -8,7 +8,7 @@ import CreateMovies from "./pages/auth/CreateMovies";
 import UserProfile from "./pages/auth/UserProfile";
 import CreateActor from "./pages/auth/CreateActor";
 import Favorites from "./pages/auth/Favorites";
-
+import HomeAdmin from "./pages/auth/HomeAdmin";
 
 function App() {
   return (
@@ -29,6 +29,7 @@ function App() {
           <Route path="/userProfile" element={<UserProfile />} />
           <Route path="/home" element={<Home />} />
           <Route path="/movies/:id" element={<Movies />} />
+          <Route path="/auth/HomeAdmin" element={<HomeAdmin />} />
         </Route>
       </Routes>
     </BrowserRouter>

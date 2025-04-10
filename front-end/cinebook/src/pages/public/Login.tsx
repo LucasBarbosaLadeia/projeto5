@@ -6,11 +6,10 @@ import { jwtDecode } from "jwt-decode";
 import "./Login.css";
 
 interface DecodedToken {
-  user: {
-    id_user: number;
-    name: string;
-    email: string;
-  };
+  id_user: number;
+  name: string;
+  email: string;
+  admin: boolean;
 }
 
 const Login = () => {
@@ -29,10 +28,9 @@ const Login = () => {
     try {
       const response = await api.post("/login", {
         email,
-        password: password,
+        password,
       });
 
-      console.log("Resposta da API:", response.data);
       const token = response.data.token;
       if (!token) {
         console.log("Token não encontrado!");
@@ -40,16 +38,17 @@ const Login = () => {
       }
 
       const decodedToken: DecodedToken = jwtDecode(token);
-      const userId = decodedToken.user?.id_user || null;
+      const { id_user, admin } = decodedToken;
 
-      console.log("ID do usuário extraído do token:", userId);
-
-      if (userId !== null) {
-        localStorage.setItem("userId", String(userId));
-      }
+      localStorage.setItem("userId", String(id_user));
       login(token);
 
-      navigate("/home");
+      // Redireciona baseado no tipo de usuário
+      if (admin) {
+        navigate("/auth/HomeAdmin"); // admin
+      } else {
+        navigate("/auth/Home"); // usuário comum
+      }
     } catch (error) {
       console.log(error);
       alert("Erro ao fazer login.");
