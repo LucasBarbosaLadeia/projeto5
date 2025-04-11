@@ -98,9 +98,6 @@ const UserProfile = () => {
       <Header />
       <div className="user-profile">
         <h2>Perfil do Usuário</h2>
-        <button onClick={handleDeleteUser} className="delete-button">
-          Deletar Perfil
-        </button>
 
         <div className="user-container">
           <div className="user-card">
@@ -108,6 +105,14 @@ const UserProfile = () => {
           </div>
 
           <div className="user-info">
+          <div className="w-full flex justify-end px-4 mb-4">
+  <button
+    onClick={handleDeleteUser}
+    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+  >
+    Deletar Perfil
+  </button>
+</div>
             {editing ? (
               <EditUserForm
                 formData={formData}
@@ -118,9 +123,10 @@ const UserProfile = () => {
               />
             ) : (
               <div>
-               
+                <p><strong>Email:</strong>{user.email}</p>
                 <p><strong>CPF:</strong> {user.cpf}</p>
-                <button onClick={logout}>Logout</button>
+                <button onClick={logout}  className="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+                >Logout</button>
               </div>
             )}
           </div>
