@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../../utils/api";
 import { useAuth } from "../../contexts/AuthContext";
 import { jwtDecode } from "jwt-decode";
+import { AxiosError } from "axios";
 
-// Corrigido: a estrutura do token tem as propriedades diretamente, sem "user"
 interface DecodedToken {
   id_user: number;
   name: string;
@@ -49,9 +49,14 @@ const Login = () => {
       } else {
         navigate("/home");
       }
-    } catch (error) {
-      console.error(error);
-      alert("Erro ao fazer login.");
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+
+      if (error.response?.status === 404) {
+        alert("E-mail não encontrado. Verifique se digitou corretamente.");
+      } else {
+        alert("Erro ao fazer login. Tente novamente.");
+      }
     }
   };
 
