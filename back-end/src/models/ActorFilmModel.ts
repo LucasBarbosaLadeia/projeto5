@@ -37,7 +37,7 @@ ActorFilmModel.init(
 );
 
 FilmModel.belongsToMany(ActorModel, {
-  through: "actor_films", // Nome da tabela intermediária
+  through: "actor_films",
   as: "actors",
   foreignKey: "film_id",
 });

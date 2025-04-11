@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./Header.css";
 
-const Header = () => {
+const HeaderUser = () => {
   return (
     <header className="header">
       <div className="header-container">
@@ -9,12 +9,6 @@ const Header = () => {
           <Link to="/home">🎬 Cinebook</Link>
         </div>
         <div className="nav-buttons">
-          <Link to="/createMovies" className="nav-link">
-            MovieAdm
-          </Link>
-          <Link to="/createActor" className="nav-link">
-            ActorAdm
-          </Link>
           <Link to="/userProfile" className="nav-link">
             Perfil
           </Link>
@@ -24,4 +18,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeaderUser;

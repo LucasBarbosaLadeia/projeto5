@@ -47,6 +47,4 @@ FilmModel.init(
   }
 );
 
-
-
 export default FilmModel;

@@ -17,7 +17,6 @@ describe("Login API", () => {
       email: "GabrielSanches2@gmail.com",
       password: "GabrielSpeciam2",
       cpf: "12345678900",
-      endereco: "Rua dos Testes",
       admin: false,
     });
   });
@@ -53,7 +52,7 @@ describe("Login API", () => {
     });
 
     expect(response.status).toBe(401);
-    expect(response.body).toHaveProperty("error", "Senha ou e-mail inválida");
+    expect(response.body).toHaveProperty("error", "Credenciais inválidas");
   });
 
   it("deve falhar ao tentar logar sem e-mail ou senha", async () => {

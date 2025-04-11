@@ -1,5 +1,5 @@
 export function isValidCPF(cpf: string): boolean {
-  const cleanCPF = cpf.replace(/\D/g, ""); // remove tudo que não for número
+  const cleanCPF = cpf.replace(/\D/g, "");
 
   if (!cleanCPF || cleanCPF.length !== 11 || /^(\d)\1+$/.test(cleanCPF)) {
     return false;

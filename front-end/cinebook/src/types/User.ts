@@ -1,3 +1,9 @@
+
+export type Actor = {
+  id_actor?: number;
+  name: string;
+};
+
 export type User = {
     name: string;
     cpf: string;
@@ -5,3 +11,4 @@ export type User = {
     email: string;
     password?: string;
   }
+
