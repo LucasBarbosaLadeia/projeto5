@@ -4,7 +4,8 @@ import api from "../../utils/api";
 import { Film, Actor } from "../../types/Film";
 import Header from "../../components/Header";
 import GenericForm from "../../components/GenericForm";
-import CreateMovieCard from "../../components/createMovieCard";
+import CreateMovieCard from "../../components/CreateMovieCard";
+import TextInput from "../../components/TextInput"; // ✅ importado aqui
 
 const CreateMovies = () => {
   const [films, setFilms] = useState<Film[]>([]);
@@ -54,7 +55,7 @@ const CreateMovies = () => {
         description,
         images,
         launch_date,
-        actorIds: actors, // já é um array de IDs
+        actorIds: actors,
       });
       alert("Filme criado com sucesso!");
       fetchFilms();
@@ -78,7 +79,7 @@ const CreateMovies = () => {
     setFormData(film);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (formData) {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
@@ -86,10 +87,20 @@ const CreateMovies = () => {
 
   const handleUpdateFilm = async () => {
     if (!formData || editingFilmId === null) return;
-
+  
     try {
       setLoading(true);
-      await api.put(`/films/${editingFilmId}`, formData);
+      console.log("Dados enviados no PUT:", {
+        name: formData.name,
+        description: formData.description,
+        launch_date: formData.launch_date,
+      });
+      await api.put(`/films/${editingFilmId}`, {
+        
+        name: formData.name,
+        description: formData.description,
+        launch_date: formData.launch_date,
+      });
       alert("Filme atualizado com sucesso!");
       setEditingFilmId(null);
       setFormData(null);
@@ -181,7 +192,6 @@ const CreateMovies = () => {
               setFormState((prev) => ({ ...prev, [name]: value }));
             }
           }}
-          
         />
       )}
 
@@ -193,31 +203,24 @@ const CreateMovies = () => {
           >
             {editingFilmId === film.id_film ? (
               <div className="flex flex-wrap gap-4 items-center w-full">
-                <input
-                  type="text"
+                <TextInput
                   name="name"
+                  label="Nome"
                   value={formData?.name || ""}
                   onChange={handleChange}
-                  className="bg-zinc-800 text-white p-2 rounded-xl"
-                  placeholder="Nome"
                 />
-                <input
-                  type="text"
+                <TextInput
                   name="description"
+                  label="Descrição"
                   value={formData?.description || ""}
                   onChange={handleChange}
-                  className="bg-zinc-800 text-white p-2 rounded-xl"
-                  placeholder="Descrição"
                 />
-                <input
-                  type="text"
+                <TextInput
                   name="launch_date"
+                  label="Data de Lançamento"
                   value={formData?.launch_date || ""}
                   onChange={handleChange}
-                  className="bg-zinc-800 text-white p-2 rounded-xl"
-                  placeholder="Data de lançamento"
                 />
-                
                 <button
                   onClick={handleUpdateFilm}
                   disabled={loading}

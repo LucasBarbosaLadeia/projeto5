@@ -3,7 +3,6 @@ import { useNavigate } from "react-router";
 import { cpf } from "cpf-cnpj-validator";
 import api from "../../utils/api";
 import TextInput from "../../components/TextInput";
-import "./Login.css";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -23,37 +22,18 @@ const SignUp = () => {
   });
   const navigate = useNavigate();
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
-
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword((prev) => !prev);
-  };
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
 
   const validateField = (field: string, value: string) => {
     let isValid = false;
-
     switch (field) {
-      case "name":
-        isValid = value.trim().length > 0;
-        break;
-      case "email":
-        isValid = /\S+@\S+\.\S+/.test(value);
-        break;
-      case "password":
-        isValid = value.length >= 6;
-        break;
-      case "confirmPassword":
-        isValid = value === password;
-        break;
-      case "document":
-        isValid = cpf.isValid(value);
-        break;
-      default:
-        break;
+      case "name": isValid = value.trim().length > 0; break;
+      case "email": isValid = /\S+@\S+\.\S+/.test(value); break;
+      case "password": isValid = value.length >= 6; break;
+      case "confirmPassword": isValid = value === password; break;
+      case "document": isValid = cpf.isValid(value); break;
     }
-
     setValidations((prev) => ({ ...prev, [field]: isValid }));
   };
 
@@ -94,15 +74,16 @@ const SignUp = () => {
   }, [name, email, password, confirmPassword, document, navigate]);
 
   return (
-    <div className="login-container signup-container">
-      <h1 className="logo">CineBook</h1>
+    <div className="w-full min-h-screen bg-black flex flex-col justify-center items-center px-4 ">
+      <h1 className="text-4xl font-bold text-red-600 mb-6">Cadastre-se</h1>
       <form
         onSubmit={(e) => {
           e.preventDefault();
           onCreateUser();
         }}
+        className="w-full max-w-md bg-zinc-900 p-6 rounded-2xl shadow-lg space-y-4"
       >
-        <div className="input-container">
+        <div className="relative">
           <TextInput
             label=""
             name="name"
@@ -114,13 +95,13 @@ const SignUp = () => {
             }}
           />
           {validations.name !== null && (
-            <span className={validations.name ? "valid-icon" : "invalid-icon"}>
+            <span className={`absolute right-2 top-1/2 transform -translate-y-1/2 text-xl ${validations.name ? "text-green-500" : "text-red-500"}`}>
               {validations.name ? "✔" : "✖"}
             </span>
           )}
         </div>
 
-        <div className="input-container">
+        <div className="relative">
           <TextInput
             label=""
             name="email"
@@ -133,13 +114,13 @@ const SignUp = () => {
             }}
           />
           {validations.email !== null && (
-            <span className={validations.email ? "valid-icon" : "invalid-icon"}>
+            <span className={`absolute right-2 top-1/2 transform -translate-y-1/2 text-xl ${validations.email ? "text-green-500" : "text-red-500"}`}>
               {validations.email ? "✔" : "✖"}
             </span>
           )}
         </div>
 
-        <div className="input-container">
+        <div className="relative">
           <TextInput
             label=""
             name="document"
@@ -151,13 +132,13 @@ const SignUp = () => {
             }}
           />
           {validations.document !== null && (
-            <span className={validations.document ? "valid-icon" : "invalid-icon"}>
+            <span className={`absolute right-2 top-1/2 transform -translate-y-1/2 text-xl ${validations.document ? "text-green-500" : "text-red-500"}`}>
               {validations.document ? "✔" : "✖"}
             </span>
           )}
         </div>
 
-        <div className="input-container">
+        <div className="relative">
           <TextInput
             label=""
             name="password"
@@ -169,17 +150,20 @@ const SignUp = () => {
               validateField("password", e.target.value);
             }}
           />
-          <span className="toggle-password" onClick={togglePasswordVisibility}>
+          <span
+            className="absolute right-8 top-1/2 transform -translate-y-1/2 cursor-pointer text-lg"
+            onClick={togglePasswordVisibility}
+          >
             {showPassword ? "👁️" : "🙈"}
           </span>
           {validations.password !== null && (
-            <span className={validations.password ? "valid-icon" : "invalid-icon"}>
+            <span className={`absolute right-2 top-1/2 transform -translate-y-1/2 text-xl ${validations.password ? "text-green-500" : "text-red-500"}`}>
               {validations.password ? "✔" : "✖"}
             </span>
           )}
         </div>
 
-        <div className="input-container">
+        <div className="relative">
           <TextInput
             label=""
             name="confirmPassword"
@@ -191,27 +175,31 @@ const SignUp = () => {
               validateField("confirmPassword", e.target.value);
             }}
           />
-          <span className="toggle-password" onClick={toggleConfirmPasswordVisibility}>
+          <span
+            className="absolute right-8 top-1/2 transform -translate-y-1/2 cursor-pointer text-lg"
+            onClick={toggleConfirmPasswordVisibility}
+          >
             {showConfirmPassword ? "👁️" : "🙈"}
           </span>
           {validations.confirmPassword !== null && (
-            <span
-              className={
-                validations.confirmPassword ? "valid-icon" : "invalid-icon"
-              }
-            >
+            <span className={`absolute right-2 top-1/2 transform -translate-y-1/2 text-xl ${validations.confirmPassword ? "text-green-500" : "text-red-500"}`}>
               {validations.confirmPassword ? "✔" : "✖"}
             </span>
           )}
         </div>
 
-        <button type="submit" disabled={loading}>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-red-600 text-white font-semibold py-2 rounded-xl hover:bg-red-700 transition disabled:opacity-50"
+        >
           {loading ? "Criando..." : "Criar Conta"}
         </button>
       </form>
-      <span>
+
+      <span className="mt-4 text-sm text-white text-center">
         Já possui uma conta? <br />
-        <a href="/">Faça login!</a>
+        <a href="/" className="text-red-400 underline">Faça login!</a>
       </span>
     </div>
   );

@@ -8,7 +8,7 @@ interface Props {
   onEdit: (id: number, newComment: string) => void;
 }
 
-const EvaluationItem = ({ evaluation, isOwner, onDelete, onEdit }: Props) => {
+const CommentsCard = ({ evaluation, isOwner, onDelete, onEdit }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [comment, setComment] = useState(evaluation.comment);
 
@@ -54,4 +54,4 @@ const EvaluationItem = ({ evaluation, isOwner, onDelete, onEdit }: Props) => {
   );
 };
 
-export default EvaluationItem;
+export default CommentsCard;
