@@ -1,16 +1,15 @@
-/* Container dos filmes */
+
 .columnfilms {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
   padding: 20px;
   width: 100%;
-  max-width: 1200px; /* Limita a largura para centralizar melhor */
+  max-width: 1200px; 
 }
 
-/* Estilização dos cards */
 
 .cardimg {
-  border: 3px solid #a10808; /* Define a cor e a espessura da borda */
+  border: 3px solid #a10808; 
   border-radius: 10px;
 }

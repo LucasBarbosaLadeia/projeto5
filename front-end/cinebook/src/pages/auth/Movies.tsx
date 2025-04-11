@@ -137,9 +137,7 @@ const Movies = () => {
             name="comment"
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
-            multiline
             placeholder="Escreva seu comentário aqui..."
-            rows={3}
           />
           <button
             onClick={handleCreateComment}

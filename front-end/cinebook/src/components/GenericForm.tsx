@@ -11,8 +11,8 @@ interface Field {
   name: string;
   label: string;
   type: FieldType;
-  value: string | string[]; // para input normal ou select-multiple
-  options?: FieldOption[]; // só necessário no caso de select-multiple
+  value: string | string[]; 
+  options?: FieldOption[]; 
 }
 
 interface GenericFormProps {

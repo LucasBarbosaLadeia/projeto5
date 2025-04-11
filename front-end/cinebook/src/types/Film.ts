@@ -9,5 +9,5 @@ export interface Film {
   description: string;
   images: string;
   launch_date: string;
-  actors?: Actor[]; // <- Aqui está a correção
+  actors?: Actor[]; 
 }
