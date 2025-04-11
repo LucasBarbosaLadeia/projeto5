@@ -19,5 +19,5 @@ router.get("/films/:id/comments", getCommentsByFilmId, authMiddleware);
 router.post("/films", createFilm, authMiddleware);
 router.delete("/films/:id", adminMiddleware, adminMiddleware, destroyFilmById);
 router.put("/films/:id", adminMiddleware, adminMiddleware, updateFilm);
-//router.delete('/usuarios/:id', authMiddleware, adminMiddleware, deleteUserController);
+
 export default router;

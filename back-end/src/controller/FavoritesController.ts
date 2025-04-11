@@ -42,8 +42,8 @@ export const getAll = async (req: Request, res: Response) => {
 
 export const addFavoriteController = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params; // ID do filme a ser favoritado
-    const id_user = req.user?.user?.id_user; // Obtém o usuário autenticado do token
+    const { id } = req.params;
+    const id_user = req.user?.user?.id_user;
 
     if (!id_user) {
       return res.status(401).json({ error: "Token não fornecido ou inválido" });
@@ -80,7 +80,6 @@ export const getOne = async (req: Request, res: Response) => {
         .json({ error: "id_user e id_film são obrigatórios" });
     }
 
-    // Verifica se o filme e o usuário estão sendo passados corretamente
     console.log("Recebendo dados para favoritar:", {
       filmID: id_film,
       userID: id_user,
@@ -110,7 +109,7 @@ export const getFavoriteFilmsByUserController = async (
   res: Response
 ) => {
   try {
-    const id_user = req.user?.user?.id_user; // Obtém o usuário autenticado do token
+    const id_user = req.user?.user?.id_user;
     console.log("Recebendo filmes favoritos do usuário:", id_user);
 
     if (!id_user) {

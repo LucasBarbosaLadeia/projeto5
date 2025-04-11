@@ -11,7 +11,7 @@ export const getAll = async (req: Request, res: Response) => {
       include: {
         model: ActorModel,
         as: "actors",
-        through: { attributes: [] }, // 👈 isso remove "actor_films"
+        through: { attributes: [] },
       },
     });
 
@@ -22,7 +22,6 @@ export const getAll = async (req: Request, res: Response) => {
   }
 };
 
-// Buscar filme por ID com atores
 export const getFilmById = async (
   req: Request<{ id: string }>,
   res: Response
@@ -47,7 +46,7 @@ export const createFilm = async (req: Request, res: Response) => {
   try {
     const filmData = filmSchema.parse(req.body);
 
-    const newFilm = await addActorFilm(filmData); // Agora só passa o objeto validado
+    const newFilm = await addActorFilm(filmData);
 
     return res.status(201).json({
       message: "Filme criado com sucesso",

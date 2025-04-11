@@ -7,7 +7,6 @@ const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+$/;
 export const userSchema = z.object({
   name: z.string().min(1, "O nome é obrigatório"),
   password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
-  endereco: z.string().min(1, "O endereço é obrigatório"),
   email: z
     .string()
     .min(1, "O e-mail é obrigatório")

@@ -6,9 +6,7 @@ export const adminMiddleware = (
   next: NextFunction
 ) => {
   if (!req.user?.admin) {
-    return res
-      .status(403)
-      .json({ message: "Acesso negado: administrador apenas." });
+    return res.status(403).json({ error: "Acesso negado" });
   }
   next();
 };

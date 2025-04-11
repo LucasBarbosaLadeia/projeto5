@@ -21,9 +21,6 @@ FavoritesModel.init(
 
     id_users: {
       type: DataTypes.INTEGER,
-
-  // Perguntar para o professor se é auto increment
-
       primaryKey: false,
       allowNull: false,
     },

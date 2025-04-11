@@ -11,7 +11,7 @@ describe("PUT /users/:id - Atualização de usuário", () => {
   let tokenB: string;
 
   beforeAll(async () => {
-    await UserModel.destroy({ where: {} }); // limpa antes de começar
+    await UserModel.destroy({ where: {} });
 
     userA = await UserModel.create({
       name: "User A",
@@ -35,7 +35,7 @@ describe("PUT /users/:id - Atualização de usuário", () => {
     tokenB = generateToken(userB);
   });
 
-  it("✅ Deve permitir que o usuário edite seu próprio nome", async () => {
+  it("Deve permitir que o usuário edite seu próprio nome", async () => {
     const res = await request(app)
       .put(`/users/${userA.id_user}`)
       .set("Authorization", `Bearer ${tokenA}`)
@@ -49,7 +49,7 @@ describe("PUT /users/:id - Atualização de usuário", () => {
     expect(res.body.user.name).toBe("User A Atualizado");
   });
 
-  it("❌ Não deve permitir alteração do e-mail", async () => {
+  it("Não deve permitir alteração do e-mail", async () => {
     const res = await request(app)
       .put(`/users/${userA.id_user}`)
       .set("Authorization", `Bearer ${tokenA}`)
@@ -62,10 +62,10 @@ describe("PUT /users/:id - Atualização de usuário", () => {
     );
   });
 
-  it("❌ Não deve permitir que um usuário edite outro", async () => {
+  it("Não deve permitir que um usuário edite outro", async () => {
     const res = await request(app)
       .put(`/users/${userB.id_user}`)
-      .set("Authorization", `Bearer ${tokenA}`) // userA tentando editar userB
+      .set("Authorization", `Bearer ${tokenA}`)
       .send({ name: "Hacker" });
 
     expect(res.status).toBe(403);
@@ -75,7 +75,7 @@ describe("PUT /users/:id - Atualização de usuário", () => {
     );
   });
 
-  it("❌ Deve retornar 401 se token for inválido", async () => {
+  it("Deve retornar 401 se token for inválido", async () => {
     const res = await request(app)
       .put(`/users/${userA.id_user}`)
       .set("Authorization", "Bearer tokenInvalido")
@@ -84,7 +84,7 @@ describe("PUT /users/:id - Atualização de usuário", () => {
     expect(res.status).toBe(401);
   });
 
-  it("❌ Deve retornar 401 se token não for enviado", async () => {
+  it("Deve retornar 401 se token não for enviado", async () => {
     const res = await request(app)
       .put(`/users/${userA.id_user}`)
       .send({ name: "Sem token" });
