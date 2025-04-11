@@ -7,7 +7,6 @@ export class UserModel extends Model {
   public name!: string;
   public password!: string;
   public email!: string;
-  public endereco!: string;
   public cpf!: string;
   public admin!: boolean;
   public async hashPassword() {
@@ -39,10 +38,6 @@ UserModel.init(
       type: DataTypes.STRING(100),
       allowNull: false,
       unique: true,
-    },
-    endereco: {
-      type: DataTypes.STRING(200),
-      allowNull: true,
     },
     cpf: {
       type: DataTypes.STRING(11),

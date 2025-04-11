@@ -7,3 +7,5 @@ export const filmSchema = z.object({
   launch_date: z.string().min(1, "A data de lançamento do Filme é obrigatória"),
   actorIds: z.array(z.number()).min(1, "Informe pelo menos um ator."),
 });
+
+export const updateFilmSchema = filmSchema.partial();

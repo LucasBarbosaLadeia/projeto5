@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getAll,
+  getEvaluationById,
   addCommentController,
   updateCommentController,
   deleteCommentController,
@@ -10,14 +11,15 @@ import { validateEvaluation } from "../schemas/EvaluatiosSchema";
 
 const router = express.Router();
 
-router.get("/evaluations", getAll);
+router.get("/evaluations", authMiddleware, getAll);
 router.post(
   "/films/:id/comments",
 
   authMiddleware,
   validateEvaluation,
-  addCommentController
-);
+  addCommentController);
+  router.get("/evaluations", getEvaluationById);
+
 router.put("/evaluations/:id", authMiddleware, updateCommentController);
 router.delete("/evaluations/:id", authMiddleware, deleteCommentController);
 

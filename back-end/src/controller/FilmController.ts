@@ -11,7 +11,7 @@ export const getAll = async (req: Request, res: Response) => {
       include: {
         model: ActorModel,
         as: "actors",
-        through: { attributes: [] }, // 👈 isso remove "actor_films"
+        through: { attributes: [] },
       },
     });
 
@@ -22,7 +22,6 @@ export const getAll = async (req: Request, res: Response) => {
   }
 };
 
-// Buscar filme por ID com atores
 export const getFilmById = async (
   req: Request<{ id: string }>,
   res: Response
@@ -47,7 +46,7 @@ export const createFilm = async (req: Request, res: Response) => {
   try {
     const filmData = filmSchema.parse(req.body);
 
-    const newFilm = await addActorFilm(filmData); // Agora só passa o objeto validado
+    const newFilm = await addActorFilm(filmData);
 
     return res.status(201).json({
       message: "Filme criado com sucesso",
@@ -67,26 +66,29 @@ export const createFilm = async (req: Request, res: Response) => {
 export const updateFilm = async (
   req: Request<{ id: string }>,
   res: Response
-) => {
+): Promise<Response> => {
   try {
-    const { name } = req.body;
-    if (!name || name === "") {
-      return res.status(400).json({ error: "O nome é obrigatório." });
+    const filmData = filmSchema.partial().parse(req.body);
+    const film = await FilmModel.findByPk(req.params.id);
+
+    if (!film) {
+      return res.status(404).json({ error: "Filme não encontrado" });
     }
 
-    const film = await FilmModel.findByPk(req.params.id);
-    if (!film) {
-      return res.status(404).json({ error: "Filme não encontrado." });
-    }
+    film.set(filmData); 
     await film.save();
-    res.status(200).json(film);
+
+    return res.status(200).json({ message: "Filme atualizado com sucesso" });
   } catch (error) {
-    console.error("Erro ao atualizar filme:", error);
-    res.status(500).json({ error: "Erro ao atualizar filme." });
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({ errors: error.errors });
+    }
+    return res.status(500).json({ error: "Erro ao atualizar filme: " + error });
   }
 };
 
-// Deletar
+
+
 export const destroyFilmById = async (
   req: Request<{ id: string }>,
   res: Response

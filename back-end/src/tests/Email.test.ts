@@ -1,4 +1,3 @@
-// src/tests/Email.test.ts
 import { userSchema } from "../schemas/userSchema";
 
 describe("Email Validation with Zod Schema", () => {

@@ -5,14 +5,9 @@ import Header from "../../components/Header";
 import UserCard from "../../components/UserCard";
 import EditUserForm from "../../components/EditUserForm";
 import "./UserProfile.css";
+import { User } from "../../types/User";
 
-interface User {
-  name: string;
-  cpf: string;
-  endereco: string;
-  password?: string;
-  email: string;
-}
+
 
 const UserProfile = () => {
   const userId = localStorage.getItem("userId");
@@ -24,7 +19,6 @@ const UserProfile = () => {
   const [formData, setFormData] = useState<User>({
     name: "",
     cpf: "",
-    endereco: "",
     password: "",
     email: "",
   });
@@ -43,7 +37,6 @@ const UserProfile = () => {
       setFormData({
         name: data.name,
         cpf: data.cpf,
-        endereco: data.endereco,
         password: "",
         email: data.email,
       });
@@ -61,12 +54,16 @@ const UserProfile = () => {
   const handleUpdateUser = async () => {
     try {
       setLoading(true);
-
+  
       const updatedData: Partial<User> = { ...formData };
+  
+      // Remover campos que não podem ser atualizados
+      delete updatedData.email;
+  
       if (!formData.password) {
         delete updatedData.password;
       }
-
+  
       await api.put(`/users/${userId}`, updatedData);
       alert("Usuário atualizado com sucesso!");
       setEditing(false);
@@ -80,9 +77,7 @@ const UserProfile = () => {
   };
 
   const handleDeleteUser = async () => {
-    const confirmDelete = window.confirm(
-      "Tem certeza que deseja deletar sua conta?"
-    );
+    const confirmDelete = window.confirm("Tem certeza que deseja deletar sua conta?");
     if (!confirmDelete) return;
 
     try {
@@ -109,7 +104,7 @@ const UserProfile = () => {
 
         <div className="user-container">
           <div className="user-card">
-            <UserCard name={user.name} onEdit={() => setEditing(true)} />
+            <UserCard name={user.name} onEdit ={() => setEditing(true)} />
           </div>
 
           <div className="user-info">
@@ -123,12 +118,8 @@ const UserProfile = () => {
               />
             ) : (
               <div>
-                <p>
-                  <strong>Endereço:</strong> {user.endereco}
-                </p>
-                <p>
-                  <strong>CPF:</strong> {user.cpf}
-                </p>
+               
+                <p><strong>CPF:</strong> {user.cpf}</p>
                 <button onClick={logout}>Logout</button>
               </div>
             )}

@@ -48,14 +48,15 @@ export const updateUser = async (
   res: Response
 ) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, cpf } = req.body;
     const userId = req.params.id;
-    const authenticatedUserId = req.user.id;
+    const authenticatedUserId = req.user.id_user;
 
     const updatedUser = await updateUserService(userId, authenticatedUserId, {
       name,
       email,
       password,
+      cpf,
     });
 
     res

@@ -4,13 +4,14 @@ import api from "../../utils/api";
 import "./Movies.css";
 import { Evaluation } from "../../types/Evaluation";
 import Header from "../../components/Header";
-import EvaluationItem from "../../components/EvaluationItem";
-import CommentBox from "../../components/CommentBox";
-import FilmDetails from "../../components/FilmDetails"; // <- importando o componente novo
-import { Film } from "../../types/Film"; // <- importando o tipo Film
+
+import FilmDetails from "../../components/FilmDetails";
+import { Film } from "../../types/Film";
+import TextInput from "../../components/TextInput"; // Novo import
+import CommentsCard from "../../components/CommentsCard";
 
 const Movies = () => {
-  const userId = Number(localStorage.getItem("userId"));
+  const userId = localStorage.getItem("userId");
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [movie, setMovie] = useState<Film | null>(null);
@@ -96,7 +97,6 @@ const Movies = () => {
     try {
       const response = await api.post(`/films/${id}/comments`, {
         comment: newComment,
-        id_user: userId,
       });
       const created = response.data.comment;
       setEvaluations((prev) => [...prev, created]);
@@ -121,7 +121,6 @@ const Movies = () => {
     <div className="movie-container">
       <Header />
 
-      {/* ✅ componente de detalhes do filme */}
       <FilmDetails
         movie={movie}
         favorited={favorited}
@@ -131,22 +130,33 @@ const Movies = () => {
       <div className="movie-evaluations">
         <h2 style={{ color: "red" }}>Comentários:</h2>
 
-        {/* ✅ componente de comentário */}
-        <CommentBox
-          value={newComment}
-          onChange={setNewComment}
-          onSubmit={handleCreateComment}
-        />
+        {/* Comentário com TextInput genérico */}
+        <div className="mb-4">
+          <TextInput
+            label="Adicionar Comentário"
+            name="comment"
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            multiline
+            placeholder="Escreva seu comentário aqui..."
+            rows={3}
+          />
+          <button
+            onClick={handleCreateComment}
+            className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
+            Adicionar Comentário
+          </button>
+        </div>
 
-        {/* lista de avaliações */}
         {evaluations.length === 0 ? (
           <p>Sem comentários ainda.</p>
         ) : (
           evaluations.map((evaluation) => (
-            <EvaluationItem
+            <CommentsCard
               key={evaluation.id_evaluation}
               evaluation={evaluation}
-              isOwner={evaluation.id_user === userId}
+              isOwner={evaluation.id_user === Number(userId)}
               onDelete={handleDelete}
               onEdit={handleEdit}
             />
@@ -158,3 +168,4 @@ const Movies = () => {
 };
 
 export default Movies;
+
