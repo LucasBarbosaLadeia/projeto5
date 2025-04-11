@@ -2,17 +2,22 @@ import { useState, useCallback, useEffect } from "react";
 import "./createActor.css";
 import api from "../../utils/api";
 import Header from "../../components/Header";
-import TextInput from "../../components/TextInput";
 import { Actor } from "../../types/Actor";
+import ActorCard from "../../components/ActorCard";
+import GenericForm from "../../components/GenericForm";
 
 const CreateActor = () => {
   const [actors, setActors] = useState<Actor[]>([]);
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
-  const [nationality, setNationality] = useState("");
   const [loading, setLoading] = useState(false);
   const [editingActorId, setEditingActorId] = useState<number | null>(null);
   const [formData, setFormData] = useState<Actor | null>(null);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+
+  const [formState, setFormState] = useState({
+    name: "",
+    age: "",
+    nationality: "",
+  });
 
   const fetchActors = async () => {
     setLoading(true);
@@ -27,22 +32,26 @@ const CreateActor = () => {
   };
 
   const onCreateActor = useCallback(async () => {
+    const { name, age, nationality } = formState;
     if (!name || !age || !nationality) return;
 
     try {
       setLoading(true);
-      await api.post("/actors", { name, age: Number(age), nationality });
+      await api.post("/actors", {
+        name,
+        age: Number(age),
+        nationality,
+      });
       alert("Ator criado com sucesso!");
       fetchActors();
-      setName("");
-      setAge("");
-      setNationality("");
+      setFormState({ name: "", age: "", nationality: "" });
+      setShowCreateForm(false);
     } catch (error) {
       console.error("Erro ao criar ator:", error);
     } finally {
       setLoading(false);
     }
-  }, [name, age, nationality]);
+  }, [formState]);
 
   const handleEditActor = (actor: Actor) => {
     setEditingActorId(actor.id_actor);
@@ -92,89 +101,101 @@ const CreateActor = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container mx-auto px-4 py-6 text-white font-sans">
       <Header />
-      <h2>Cadastro de Atores</h2>
+      <h2 className="text-2xl font-bold mb-4">Cadastro de Atores</h2>
 
-      <TextInput
-        label="Nome"
-        placeholder="Nome do ator"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        name="name"
-      />
-      <TextInput
-        label="Idade"
-        placeholder="Idade do ator"
-        value={age}
-        onChange={(e) => setAge(e.target.value)}
-        name="age"
-      />
-      <TextInput
-        label="Nacionalidade"
-        placeholder="Nacionalidade do ator"
-        value={nationality}
-        onChange={(e) => setNationality(e.target.value)}
-        name="nationality"
-      />
+      <div className="flex justify-center mb-4">
+        <button
+          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded"
+          onClick={() => setShowCreateForm(true)}
+        >
+          Novo Ator
+        </button>
+      </div>
 
-      <button onClick={onCreateActor} disabled={loading}>
-        {loading ? "Criando..." : "Criar ator"}
-      </button>
+      {showCreateForm && (
+        <GenericForm
+          title="Cadastrar Novo Ator"
+          loading={loading}
+          onSubmit={onCreateActor}
+          onCancel={() => setShowCreateForm(false)}
+          fields={[
+            {
+              name: "name",
+              label: "Nome",
+              type: "text",
+              value: formState.name,
+            },
+            {
+              name: "age",
+              label: "Idade",
+              type: "text",
+              value: formState.age,
+            },
+            {
+              name: "nationality",
+              label: "Nacionalidade",
+              type: "text",
+              value: formState.nationality,
+            },
+          ]}
+          onChange={(name, value) => setFormState((prev) => ({ ...prev, [name]: value }))}
+        />
+      )}
 
-      <div className="movies-container">
+      <div className="w-full max-w-3xl mx-auto mt-6 space-y-4">
         {actors.map((actor) => (
-          <div key={actor.id_actor} className="movie-item">
+          <div
+            key={actor.id_actor}
+            className="bg-gray-800 rounded-lg shadow-md p-4 flex justify-between items-center"
+          >
             {editingActorId === actor.id_actor ? (
-              <div>
-                <TextInput
-                  label="Nome"
+              <div className="flex flex-wrap gap-4 items-center w-full">
+                <input
+                  type="text"
+                  name="name"
                   value={formData?.name || ""}
                   onChange={handleChange}
-                  name="name"
+                  className="bg-zinc-800 text-white p-2 rounded-xl"
                   placeholder="Nome"
                 />
-                <TextInput
-                  label="Idade"
+                <input
+                  type="text"
+                  name="age"
                   value={formData?.age.toString() || ""}
                   onChange={handleChange}
-                  name="age"
+                  className="bg-zinc-800 text-white p-2 rounded-xl"
                   placeholder="Idade"
                 />
-                <TextInput
-                  label="Nacionalidade"
+                <input
+                  type="text"
+                  name="nationality"
                   value={formData?.nationality || ""}
                   onChange={handleChange}
-                  name="nationality"
+                  className="bg-zinc-800 text-white p-2 rounded-xl"
                   placeholder="Nacionalidade"
                 />
-                <button onClick={handleUpdateActor} disabled={loading}>
+                <button
+                  onClick={handleUpdateActor}
+                  disabled={loading}
+                  className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded"
+                >
                   {loading ? "Salvando..." : "Salvar Alterações"}
                 </button>
-                <button onClick={() => setEditingActorId(null)}>Cancelar</button>
+                <button
+                  onClick={() => setEditingActorId(null)}
+                  className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded"
+                >
+                  Cancelar
+                </button>
               </div>
             ) : (
-              <>
-                <span>
-                  <strong>ID:</strong> {actor.id_actor}
-                </span>
-                <span>
-                  <strong>Nome:</strong> {actor.name}
-                </span>
-                <span>
-                  <strong>Idade:</strong> {actor.age}
-                </span>
-                <span>
-                  <strong>Nacionalidade:</strong> {actor.nationality}
-                </span>
-                <button
-                  onClick={() => handleDeleteActor(actor.id_actor)}
-                  className="delete-button"
-                >
-                  Deletar
-                </button>
-                <button onClick={() => handleEditActor(actor)}>Editar</button>
-              </>
+              <ActorCard
+                actor={actor}
+                onEdit={handleEditActor}
+                onDelete={handleDeleteActor}
+              />
             )}
           </div>
         ))}

@@ -5,5 +5,5 @@ export const filmSchema = z.object({
   description: z.string().min(1, "A descricao do Filme é obrigatória"),
   images: z.string().min(1, "A imagem do Filme é obrigatória"),
   launch_date: z.string().min(1, "A data de lançamento do Filme é obrigatória"),
- 
+  actorIds: z.array(z.number()).min(1, "Informe pelo menos um ator."),
 });

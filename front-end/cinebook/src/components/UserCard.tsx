@@ -1,21 +1,14 @@
-type TextInputProps = {
-  label?: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  name?: string;
-  placeholder?: string;
-};
+interface UserCardProps {
+  name: string;
+  onEdit: () => void;
+}
 
-const TextInput = ({ label, value, onChange, name, placeholder }: TextInputProps) => (
-  <div className="text-input">
-    {label && <label>{label}</label>}
-    <input
-      name={name}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-    />
+const UserCard = ({ name, onEdit }: UserCardProps) => (
+  <div className="user-card">
+    <div className="user-avatar"></div>
+    <h3>{name}</h3>
+    <button onClick={onEdit}>Editar</button>
   </div>
 );
 
-export default TextInput;
+export default UserCard;

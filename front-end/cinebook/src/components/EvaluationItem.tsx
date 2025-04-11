@@ -43,7 +43,9 @@ const EvaluationItem = ({ evaluation, isOwner, onDelete, onEdit }: Props) => {
           {isOwner && (
             <div className="evaluation-actions">
               <button onClick={() => setIsEditing(true)}>Editar</button>
-              <button onClick={() => onDelete(evaluation.id_evaluation)}>Excluir</button>
+              <button onClick={() => onDelete(evaluation.id_evaluation)}>
+                Excluir
+              </button>
             </div>
           )}
         </>

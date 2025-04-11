@@ -1,6 +1,6 @@
 import { Film } from "../types/Film";
 import { Link } from "react-router-dom";
-import "./FilmCard.css"
+import "./FilmCard.css";
 
 const FilmCard = ({ film }: { film: Film }) => {
   return (

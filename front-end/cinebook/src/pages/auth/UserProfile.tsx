@@ -102,7 +102,7 @@ const UserProfile = () => {
 
         <div className="user-container">
           <div className="user-card">
-            <UserCard name={user.name} onEdit={() => setEditing(true)} />
+            <UserCard name={user.name} onEdit ={() => setEditing(true)} />
           </div>
 
           <div className="user-info">
