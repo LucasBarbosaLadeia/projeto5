@@ -19,7 +19,6 @@ const UserProfile = () => {
   const [formData, setFormData] = useState<User>({
     name: "",
     cpf: "",
-    endereco: "",
     password: "",
     email: "",
   });
@@ -38,7 +37,6 @@ const UserProfile = () => {
       setFormData({
         name: data.name,
         cpf: data.cpf,
-        endereco: data.endereco,
         password: "",
         email: data.email,
       });
@@ -56,12 +54,16 @@ const UserProfile = () => {
   const handleUpdateUser = async () => {
     try {
       setLoading(true);
-
+  
       const updatedData: Partial<User> = { ...formData };
+  
+      // Remover campos que não podem ser atualizados
+      delete updatedData.email;
+  
       if (!formData.password) {
         delete updatedData.password;
       }
-
+  
       await api.put(`/users/${userId}`, updatedData);
       alert("Usuário atualizado com sucesso!");
       setEditing(false);
@@ -116,7 +118,7 @@ const UserProfile = () => {
               />
             ) : (
               <div>
-                <p><strong>Endereço:</strong> {user.endereco}</p>
+               
                 <p><strong>CPF:</strong> {user.cpf}</p>
                 <button onClick={logout}>Logout</button>
               </div>

@@ -16,3 +16,5 @@ export const userSchema = z.object({
     .transform((cpf) => cpf.replace(/\D/g, ""))
     .refine((cpf) => isValidCPF(cpf), { message: "CPF inválido" }),
 });
+
+export const updateUserSchema = userSchema.partial();

@@ -5,7 +5,7 @@ import { Film, Actor } from "../../types/Film";
 import Header from "../../components/Header";
 import GenericForm from "../../components/GenericForm";
 import CreateMovieCard from "../../components/CreateMovieCard";
-import TextInput from "../../components/TextInput"; // ✅ importado aqui
+import TextInput from "../../components/TextInput"; 
 
 const CreateMovies = () => {
   const [films, setFilms] = useState<Film[]>([]);
