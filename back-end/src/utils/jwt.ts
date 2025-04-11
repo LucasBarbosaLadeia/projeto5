@@ -6,7 +6,7 @@ const JWT_EXPIRATION = "7d";
 
 export const generateToken = (user: UserModel): string => {
   return jwt.sign(
-    { id: user.id_user, email: user.email, admin: user.admin },
+    { id_user: user.id_user, email: user.email, admin: user.admin },
     JWT_SECRET,
     { expiresIn: JWT_EXPIRATION }
   );

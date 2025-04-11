@@ -1,22 +1,27 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./CreateMovies.css";
 import api from "../../utils/api";
 import { Film, Actor } from "../../types/Film";
 import Header from "../../components/Header";
+import GenericForm from "../../components/GenericForm";
+import CreateMovieCard from "../../components/CreateMovieCard";
+import TextInput from "../../components/TextInput"; // ✅ importado aqui
 
 const CreateMovies = () => {
   const [films, setFilms] = useState<Film[]>([]);
   const [actors, setActors] = useState<Actor[]>([]);
-
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [images, setImages] = useState("");
-  const [launch_date, setLaunch_date] = useState("");
-  const [selectedActorIds, setSelectedActorIds] = useState<number[]>([]);
-
   const [loading, setLoading] = useState(false);
   const [editingFilmId, setEditingFilmId] = useState<number | null>(null);
   const [formData, setFormData] = useState<Film | null>(null);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+
+  const [formState, setFormState] = useState({
+    name: "",
+    description: "",
+    images: "",
+    launch_date: "",
+    actors: [] as number[],
+  });
 
   const fetchFilms = async () => {
     setLoading(true);
@@ -39,7 +44,8 @@ const CreateMovies = () => {
     }
   };
 
-  const onCreateMovie = useCallback(async () => {
+  const onCreateMovie = async () => {
+    const { name, description, images, launch_date, actors } = formState;
     if (!name || !description || !images || !launch_date) return;
 
     try {
@@ -49,28 +55,31 @@ const CreateMovies = () => {
         description,
         images,
         launch_date,
-        actorIds: selectedActorIds,
+        actorIds: actors,
       });
       alert("Filme criado com sucesso!");
       fetchFilms();
-      setName("");
-      setDescription("");
-      setImages("");
-      setLaunch_date("");
-      setSelectedActorIds([]);
+      setFormState({
+        name: "",
+        description: "",
+        images: "",
+        launch_date: "",
+        actors: [],
+      });
+      setShowCreateForm(false);
     } catch (error) {
       console.error("Erro ao criar filme:", error);
     } finally {
       setLoading(false);
     }
-  }, [name, description, images, launch_date, selectedActorIds]);
+  };
 
   const handleEditFilm = (film: Film) => {
     setEditingFilmId(film.id_film);
     setFormData(film);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (formData) {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
@@ -78,10 +87,20 @@ const CreateMovies = () => {
 
   const handleUpdateFilm = async () => {
     if (!formData || editingFilmId === null) return;
-
+  
     try {
       setLoading(true);
-      await api.put(`/films/${editingFilmId}`, formData);
+      console.log("Dados enviados no PUT:", {
+        name: formData.name,
+        description: formData.description,
+        launch_date: formData.launch_date,
+      });
+      await api.put(`/films/${editingFilmId}`, {
+        
+        name: formData.name,
+        description: formData.description,
+        launch_date: formData.launch_date,
+      });
       alert("Filme atualizado com sucesso!");
       setEditingFilmId(null);
       setFormData(null);
@@ -111,116 +130,117 @@ const CreateMovies = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container mx-auto px-4 py-6 text-white font-sans">
       <Header />
-      <h2>Cadastro de Filmes</h2>
-      <input
-        placeholder="Nome"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <input
-        placeholder="Descrição"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-      <input
-        placeholder="Imagem"
-        value={images}
-        onChange={(e) => setImages(e.target.value)}
-      />
-      <input
-        placeholder="Data de Lançamento"
-        value={launch_date}
-        onChange={(e) => setLaunch_date(e.target.value)}
-      />
+      <h2 className="text-2xl font-bold mb-4">Cadastro de Filmes</h2>
 
-      <label>Selecione os Atores:</label>
-      <select
-        multiple
-        value={selectedActorIds.map(String)}
-        onChange={(e) =>
-          setSelectedActorIds(
-            Array.from(e.target.selectedOptions, (opt) => Number(opt.value))
-          )
-        }
-      >
-        {actors.map((actor) => (
-          <option key={actor.id_actor} value={actor.id_actor}>
-            {actor.name}
-          </option>
-        ))}
-      </select>
+      <div className="flex justify-center mb-4">
+        <button
+          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded"
+          onClick={() => setShowCreateForm(true)}
+        >
+          Novo filme
+        </button>
+      </div>
 
-      <button onClick={onCreateMovie} disabled={loading}>
-        {loading ? "Criando..." : "Criar Filme"}
-      </button>
+      {showCreateForm && (
+        <GenericForm
+          title="Cadastrar Novo Filme"
+          loading={loading}
+          onSubmit={onCreateMovie}
+          onCancel={() => setShowCreateForm(false)}
+          fields={[
+            {
+              name: "name",
+              label: "Nome",
+              type: "text",
+              value: formState.name,
+            },
+            {
+              name: "description",
+              label: "Descrição",
+              type: "text",
+              value: formState.description,
+            },
+            {
+              name: "images",
+              label: "Imagens",
+              type: "text",
+              value: formState.images,
+            },
+            {
+              name: "launch_date",
+              label: "Data de Lançamento",
+              type: "text",
+              value: formState.launch_date,
+            },
+            {
+              name: "actors",
+              label: "IDs dos Atores (separados por vírgula)",
+              type: "text",
+              value: formState.actors.join(","),
+            },
+          ]}
+          onChange={(name, value) => {
+            if (name === "actors") {
+              const ids = (value as string)
+                .split(",")
+                .map((id) => parseInt(id.trim()))
+                .filter((id) => !isNaN(id));
+              setFormState((prev) => ({ ...prev, actors: ids }));
+            } else {
+              setFormState((prev) => ({ ...prev, [name]: value }));
+            }
+          }}
+        />
+      )}
 
-      <div className="movies-container">
+      <div className="w-full max-w-3xl mx-auto mt-6 space-y-4">
         {films.map((film) => (
-          <div key={film.id_film} className="movie-item">
+          <div
+            key={film.id_film}
+            className="bg-gray-800 rounded-lg shadow-md p-4 flex justify-between items-center"
+          >
             {editingFilmId === film.id_film ? (
-              <div>
-                <label>Nome:</label>
-                <input
+              <div className="flex flex-wrap gap-4 items-center w-full">
+                <TextInput
                   name="name"
+                  label="Nome"
                   value={formData?.name || ""}
                   onChange={handleChange}
                 />
-
-                <label>Descrição:</label>
-                <input
+                <TextInput
                   name="description"
+                  label="Descrição"
                   value={formData?.description || ""}
                   onChange={handleChange}
                 />
-
-                <label>Imagem:</label>
-                <input
-                  name="images"
-                  value={formData?.images || ""}
-                  onChange={handleChange}
-                />
-
-                <label>Data de Lançamento:</label>
-                <input
+                <TextInput
                   name="launch_date"
+                  label="Data de Lançamento"
                   value={formData?.launch_date || ""}
                   onChange={handleChange}
                 />
-
-                <button onClick={handleUpdateFilm} disabled={loading}>
+                <button
+                  onClick={handleUpdateFilm}
+                  disabled={loading}
+                  className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded"
+                >
                   {loading ? "Salvando..." : "Salvar Alterações"}
                 </button>
-                <button onClick={() => setEditingFilmId(null)}>Cancelar</button>
+                <button
+                  onClick={() => setEditingFilmId(null)}
+                  className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded"
+                >
+                  Cancelar
+                </button>
               </div>
             ) : (
-              <>
-                <span>
-                  <strong>ID:</strong> {film.id_film}
-                </span>
-                <span>
-                  <strong>Nome:</strong> {film.name}
-                </span>
-                <span>
-                  <strong>Descrição:</strong> {film.description}
-                </span>
-                <span>
-                  <strong>Data de Lançamento:</strong> {film.launch_date}
-                </span>
-                <span>
-                  <strong>Atores:</strong>{" "}
-                  {film.actors?.map((actor) => actor.name).join(", ") ||
-                    "Nenhum"}
-                </span>
-                <button
-                  onClick={() => handleDeleteFilm(film.id_film)}
-                  className="delete-button"
-                >
-                  Deletar
-                </button>
-                <button onClick={() => handleEditFilm(film)}>Editar</button>
-              </>
+              <CreateMovieCard
+                film={film}
+                onEdit={handleEditFilm}
+                onDelete={handleDeleteFilm}
+              />
             )}
           </div>
         ))}

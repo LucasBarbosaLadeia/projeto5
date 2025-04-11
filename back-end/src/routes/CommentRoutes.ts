@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getAll,
+  getEvaluationById,
   addCommentController,
   updateCommentController,
   deleteCommentController,
@@ -16,8 +17,9 @@ router.post(
 
   authMiddleware,
   validateEvaluation,
-  addCommentController
-);
+  addCommentController);
+  router.get("/evaluations", getEvaluationById);
+
 router.put("/evaluations/:id", authMiddleware, updateCommentController);
 router.delete("/evaluations/:id", authMiddleware, deleteCommentController);
 

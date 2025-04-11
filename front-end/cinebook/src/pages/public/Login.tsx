@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router";
 import api from "../../utils/api";
 import { useAuth } from "../../contexts/AuthContext";
 import { jwtDecode } from "jwt-decode";
-import "./Login.css";
 
 interface DecodedToken {
   id_user: number;
@@ -15,20 +14,15 @@ interface DecodedToken {
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
-
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await api.post("/login", {
         email,
-        password,
+        password: password,
       });
 
       const token = response.data.token;
@@ -38,17 +32,16 @@ const Login = () => {
       }
 
       const decodedToken: DecodedToken = jwtDecode(token);
-      const { id_user, admin } = decodedToken;
+      const userId = decodedToken.user?.id_user || null;
 
-      localStorage.setItem("userId", String(id_user));
+      console.log("ID do usuário extraído do token:", userId);
+
+      if (userId !== null) {
+        localStorage.setItem("userId", String(userId));
+      }
       login(token);
 
-      // Redireciona baseado no tipo de usuário
-      if (admin) {
-        navigate("/auth/HomeAdmin"); // admin
-      } else {
-        navigate("/auth/Home"); // usuário comum
-      }
+      navigate("/home");
     } catch (error) {
       console.log(error);
       alert("Erro ao fazer login.");
@@ -56,34 +49,40 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <h1 className="logo">CineBook</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="w-full min-h-screen bg-black flex flex-col justify-center items-center px-4">
+      <h1 className="text-4xl font-bold text-red-600 mb-6">Entrar</h1>
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-md bg-zinc-900 p-6 rounded-2xl shadow-lg space-y-4"
+      >
         <input
+          className="w-full p-3 rounded-lg bg-zinc-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
+          type="email"
         />
-        <div className="input-container">
-          <input
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            type={showPassword ? "text" : "password"}
-            placeholder="Senha"
-          />
-          <span
-            className="toggle-password-login"
-            onClick={togglePasswordVisibility}
-          >
-            {showPassword ? "👁️" : "🙈"} {/* Ícone de olho */}
-          </span>
-        </div>
-        <button type="submit">Entrar</button>
+        <input
+          className="w-full p-3 rounded-lg bg-zinc-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          type="password"
+          placeholder="Senha"
+        />
+        <button
+          type="submit"
+          className="w-full bg-red-600 text-white font-semibold py-2 rounded-xl hover:bg-red-700 transition"
+        >
+          Entrar
+        </button>
       </form>
-      <span>
-        Informe o e-mail e senha cadastrados.
-        <br /> Novo por aqui?
-        <Link to="/signup"> Cadastre-se!</Link>
+
+      <span className="mt-4 text-sm text-white text-center">
+        Informe o e-mail e senha cadastrados. <br />
+        Novo por aqui?{" "}
+        <Link to="/signup" className="text-red-400 underline">
+          Cadastre-se!
+        </Link>
       </span>
     </div>
   );

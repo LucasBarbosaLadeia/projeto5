@@ -31,7 +31,7 @@ export const getEvaluationById = async (
 export const addCommentController = async (req: Request, res: Response) => {
   const { comment } = req.body;
   const { id } = req.params;
-  const id_user = req.user.id_user;
+  const id_user = req.user?.id_user;
 
   try {
     if (!comment) {

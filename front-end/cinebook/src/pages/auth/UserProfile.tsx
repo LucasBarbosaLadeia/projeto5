@@ -5,14 +5,9 @@ import Header from "../../components/Header";
 import UserCard from "../../components/UserCard";
 import EditUserForm from "../../components/EditUserForm";
 import "./UserProfile.css";
+import { User } from "../../types/User";
 
-interface User {
-  name: string;
-  cpf: string;
-  endereco: string;
-  password?: string;
-  email: string;
-}
+
 
 const UserProfile = () => {
   const userId = localStorage.getItem("userId");
@@ -80,9 +75,7 @@ const UserProfile = () => {
   };
 
   const handleDeleteUser = async () => {
-    const confirmDelete = window.confirm(
-      "Tem certeza que deseja deletar sua conta?"
-    );
+    const confirmDelete = window.confirm("Tem certeza que deseja deletar sua conta?");
     if (!confirmDelete) return;
 
     try {
@@ -109,7 +102,7 @@ const UserProfile = () => {
 
         <div className="user-container">
           <div className="user-card">
-            <UserCard name={user.name} onEdit={() => setEditing(true)} />
+            <UserCard name={user.name} onEdit ={() => setEditing(true)} />
           </div>
 
           <div className="user-info">
@@ -123,12 +116,8 @@ const UserProfile = () => {
               />
             ) : (
               <div>
-                <p>
-                  <strong>Endereço:</strong> {user.endereco}
-                </p>
-                <p>
-                  <strong>CPF:</strong> {user.cpf}
-                </p>
+                <p><strong>Endereço:</strong> {user.endereco}</p>
+                <p><strong>CPF:</strong> {user.cpf}</p>
                 <button onClick={logout}>Logout</button>
               </div>
             )}
