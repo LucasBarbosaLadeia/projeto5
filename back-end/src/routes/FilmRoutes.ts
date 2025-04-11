@@ -13,11 +13,11 @@ import { getCommentsByFilmId } from "../controller/CommentController";
 
 const router = express.Router();
 
-router.get("/films", getAll, authMiddleware);
-router.get("/films/:id", getFilmById, authMiddleware);
-router.get("/films/:id/comments", getCommentsByFilmId, authMiddleware);
-router.post("/films", createFilm, authMiddleware);
-router.delete("/films/:id", adminMiddleware, adminMiddleware, destroyFilmById);
-router.put("/films/:id", adminMiddleware, adminMiddleware, updateFilm);
+router.get("/films", authMiddleware, getAll);
+router.get("/films/:id", authMiddleware, getFilmById);
+router.get("/films/:id/comments", authMiddleware, getCommentsByFilmId);
+router.post("/films", authMiddleware, createFilm);
+router.delete("/films/:id", authMiddleware, adminMiddleware, destroyFilmById);
+router.put("/films/:id", authMiddleware, adminMiddleware, updateFilm);
 
 export default router;
