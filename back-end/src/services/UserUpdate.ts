@@ -3,7 +3,7 @@ import UserModel from "../models/UserModel";
 export const updateUserService = async (
   userId: string,
   authenticatedUserId: string,
-  updateData: { name?: string; email?: string; password?: string }
+  updateData: { name?: string; email?: string; password?: string; cpf?: string }
 ) => {
   if (String(userId) !== String(authenticatedUserId)) {
     throw new Error("Você só pode editar seus próprios dados");

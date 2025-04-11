@@ -8,7 +8,7 @@ import actorRoutes from "./routes/ActorRoutes";
 import filmRoutes from "./routes/FilmRoutes";
 import evaluations from "./routes/CommentRoutes";
 import favorites from "./routes/FavoritesRoutes";
-import login from "./routes/LoginRoutes";
+import login from "./routes/loginRoutes";
 import adminRoutes from "./routes/adminRoutes";
 
 const app = express();
