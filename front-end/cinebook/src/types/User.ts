@@ -2,6 +2,6 @@ export type User = {
     name: string;
     cpf: string;
     endereco: string;
-    email: string; // ← Adiciona aqui
+    email: string;
     password?: string;
   }

@@ -50,7 +50,7 @@ export const updateUser = async (
   try {
     const { name, email, password } = req.body;
     const userId = req.params.id;
-    const authenticatedUserId = req.user.id;
+    const authenticatedUserId = req.user.id_user;
 
     const updatedUser = await updateUserService(userId, authenticatedUserId, {
       name,

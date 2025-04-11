@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { User } from "../types/User";
+import TextInput from "./TextInput";
 
 interface Props {
   formData: User;
@@ -66,76 +67,48 @@ const EditUserForm: React.FC<Props> = ({
   };
 
   return (
-    <form className="edit-user-form" onSubmit={(e) => e.preventDefault()}>
-      <label>
-        Nome:
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={onChange}
-        />
-      </label>
+    <form className="edit-user-form flex flex-col gap-4" onSubmit={(e) => e.preventDefault()}>
+      <TextInput
+        name="name"
+        label="Nome"
+        value={formData.name}
+        onChange={onChange}
+      />
 
-      <label>
-        CPF:
-        <input
-          type="text"
-          name="cpf"
-          value={formData.cpf}
-          onChange={onChange}
-        />
-      </label>
+      <TextInput
+        name="cpf"
+        label="CPF"
+        value={formData.cpf}
+        onChange={onChange}
+      />
 
-      <label>
-        Endereço:
-        <input
-          type="text"
-          name="endereco"
-          value={formData.endereco}
-          onChange={onChange}
-        />
-      </label>
+      <TextInput
+        name="password"
+        label="Nova Senha"
+        value={formData.password || ""}
+        onChange={onChange}
+        type="password"
+        placeholder="Deixe em branco se não quiser mudar"
+      />
 
-      <label>
-        E-mail:
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          disabled
-        />
-      </label>
+      <TextInput
+        name="confirmPassword"
+        label="Confirmar Senha"
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+        type="password"
+      />
 
-      <label>
-        Nova Senha:
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={onChange}
-          placeholder="Deixe em branco se não quiser mudar"
-        />
-      </label>
-
-      <label>
-        Confirmar Senha:
-        <input
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
-      </label>
-
-      <div className="button-group">
-        <button type="button" onClick={validateAndSave} disabled={loading}>
+      <div className="flex gap-4 mt-4">
+        <button type="button" onClick={validateAndSave} disabled={loading} className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">
           {loading ? "Salvando..." : "Salvar"}
         </button>
-        <button type="button" onClick={onCancel}>Cancelar</button>
+        <button type="button" onClick={onCancel} className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded">
+          Cancelar
+        </button>
       </div>
     </form>
   );
 };
 
 export default EditUserForm;
-
