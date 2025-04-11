@@ -6,6 +6,7 @@
   padding: 20px;
   width: 100%;
   max-width: 1200px; /* Limita a largura para centralizar melhor */
+  margin: 0 auto;
 }
 
 /* Estilização dos cards */

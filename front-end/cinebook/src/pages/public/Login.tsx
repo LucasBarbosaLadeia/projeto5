@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // CORRIGIDO: "react-router" -> "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
 import api from "../../utils/api";
 import { useAuth } from "../../contexts/AuthContext";
 import { jwtDecode } from "jwt-decode";
 
+// Corrigido: a estrutura do token tem as propriedades diretamente, sem "user"
 interface DecodedToken {
-  user: {
-    id_user: number;
-    name: string;
-    email: string;
-  };
+  id_user: number;
+  name: string;
+  email: string;
+  admin: boolean;
+  iat: number;
+  exp: number;
 }
 
 const Login = () => {
@@ -30,13 +32,23 @@ const Login = () => {
       }
 
       const decodedToken: DecodedToken = jwtDecode(token);
-      const userId = decodedToken.user?.id_user;
+      const userId = decodedToken.id_user;
+      const isAdmin = decodedToken.admin;
+
       if (userId) {
         localStorage.setItem("userId", String(userId));
       }
 
       login(token);
-      navigate("/home");
+
+      console.log("Token decodificado:", decodedToken);
+      console.log("Admin?", isAdmin);
+
+      if (isAdmin) {
+        navigate("/admin/home");
+      } else {
+        navigate("/home");
+      }
     } catch (error) {
       console.error(error);
       alert("Erro ao fazer login.");
