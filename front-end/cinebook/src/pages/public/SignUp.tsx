@@ -169,7 +169,7 @@ const SignUp = () => {
             name="confirmPassword"
             type={showConfirmPassword ? "text" : "password"}
             value={confirmPassword}
-            placeholder="Confirme a senha"
+            placeholder="Confirme"
             onChange={(e) => {
               setConfirmPassword(e.target.value);
               validateField("confirmPassword", e.target.value);

@@ -13,6 +13,16 @@ const HeaderUser = () => {
             Perfil
           </Link>
         </div>
+        <div className="nav-buttons">
+          <Link to="/createMovies" className="nav-link">
+            createMovies
+          </Link>
+        </div>
+        <div className="nav-buttons">
+          <Link to="/createActor" className="nav-link">
+            createActors
+          </Link>
+        </div>
       </div>
     </header>
   );
