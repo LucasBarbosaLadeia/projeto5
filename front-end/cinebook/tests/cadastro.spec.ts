@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test("Cadastro de usuario", async ({ page }) => {
-    await page.goto("http://localhost:5173/")
+    await page.goto("http://localhost:/")
     const title = await page.getByText("Login")
 
 
@@ -10,7 +10,7 @@ test("Cadastro de usuario", async ({ page }) => {
 
     await page.getByRole("link", { name: "cadastre-se" }).click()
    
-    await expect(page).toHaveURL("http://localhost:5173/signup")
+    await expect(page).toHaveURL("http://localhost:/signup")
 
     await page.getByPlaceholder("nome").fill("nome")
     await page.getByPlaceholder("E-mail").fill("kkkkkk@gmail.com")
@@ -20,7 +20,7 @@ test("Cadastro de usuario", async ({ page }) => {
 
     await page.getByRole("button", { name: "criar conta" }).click()
 
-    await expect(page).toHaveURL("http://localhost:5173/");
+    await expect(page).toHaveURL("http://localhost:/");
     
    
 })
