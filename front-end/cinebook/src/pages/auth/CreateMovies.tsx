@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./CreateMovies.css";
 import api from "../../utils/api";
-import { Film, Actor } from "../../types/Film";
+import { Film,  } from "../../types/Film";
 import Header from "../../components/Header";
 import GenericForm from "../../components/GenericForm";
 import CreateMovieCard from "../../components/CreateMovieCard";
@@ -9,7 +9,7 @@ import TextInput from "../../components/TextInput";
 
 const CreateMovies = () => {
   const [films, setFilms] = useState<Film[]>([]);
-  const [actors, setActors] = useState<Actor[]>([]);
+  
   const [loading, setLoading] = useState(false);
   const [editingFilmId, setEditingFilmId] = useState<number | null>(null);
   const [formData, setFormData] = useState<Film | null>(null);
@@ -35,14 +35,7 @@ const CreateMovies = () => {
     }
   };
 
-  const fetchActors = async () => {
-    try {
-      const response = await api.get("/actors");
-      setActors(response.data);
-    } catch (error) {
-      console.error("Erro ao buscar atores:", error);
-    }
-  };
+
 
   const onCreateMovie = async () => {
     const { name, description, images, launch_date, actors } = formState;
@@ -126,7 +119,7 @@ const CreateMovies = () => {
 
   useEffect(() => {
     fetchFilms();
-    fetchActors();
+    
   }, []);
 
   return (

@@ -1,4 +1,4 @@
-// components/MovieDetails.tsx
+
 import { Film } from "../types/Film";
 
 interface Props {

@@ -10,7 +10,7 @@ interface ActorCardProps {
 const ActorCard: React.FC<ActorCardProps> = ({ actor, onEdit, onDelete }) => {
   return (
     <div className="flex items-center justify-between bg-gray-800 text-white p-4 rounded-lg w-full">
-      {/* Conteúdo dos dados do ator */}
+      
       <div className="flex flex-wrap gap-x-4 flex-1">
         <span>
           <strong>ID:</strong> {actor.id_actor}
@@ -26,7 +26,6 @@ const ActorCard: React.FC<ActorCardProps> = ({ actor, onEdit, onDelete }) => {
         </span>
       </div>
 
-      {/* Botões, fixos no canto direito */}
       <div className="flex gap-x-2 flex-shrink-0">
         <button
           className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"

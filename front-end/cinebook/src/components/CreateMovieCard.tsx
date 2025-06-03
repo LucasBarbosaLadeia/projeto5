@@ -15,7 +15,7 @@ const CreateMovieCard: React.FC<ActorCardProps> = ({
 }) => {
   return (
     <div className="flex items-center justify-between bg-gray-800 text-white p-4 rounded-lg w-full">
-      {/* Conteúdo dos dados do ator */}
+    
       <div className="flex flex-wrap gap-x-4 flex-1">
         <span>
           <strong>ID:</strong> {film.id_film}

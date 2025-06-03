@@ -3,12 +3,13 @@ import { Sequelize } from "sequelize";
 const isTest = process.env.NODE_ENV === "test";
 
 const sequelize = new Sequelize(
-  isTest ? "cinebookTest" : "cinebook",
-  "root",
-  "",
+  isTest ? process.env.DB_NAME_TEST! : process.env.DB_NAME!,
+  process.env.DB_USER!,
+  process.env.DB_PASSWORD!,
   {
-    host: "localhost",
+    host: process.env.DB_HOST,
     dialect: "mysql",
+    logging: !isTest
   }
 );
 

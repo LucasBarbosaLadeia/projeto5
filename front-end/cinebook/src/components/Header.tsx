@@ -13,8 +13,15 @@ const HeaderUser = () => {
             🎬 Cinebook
           </Link>
         </div>
-        <div className="text-lg text-red-400 hover:text-red-200 transition duration-200">
-          <Link to="/userProfile">Perfil</Link>
+        <div className="nav-buttons">
+          <Link to="/createMovies" className="nav-link">
+            createMovies
+          </Link>
+        </div>
+        <div className="nav-buttons">
+          <Link to="/createActor" className="nav-link">
+            createActors
+          </Link>
         </div>
       </div>
     </header>

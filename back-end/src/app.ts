@@ -14,7 +14,7 @@ import adminRoutes from "./routes/adminRoutes";
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "http://localhost",
   METHODS: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: "Content-Type,Authorization",
 };
