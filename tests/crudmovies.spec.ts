@@ -16,10 +16,11 @@ test("Listing movies", async ({ page }) => {
     await page.getByRole("link", { name: "createMovies" }).click()
     await expect(page.getByText('ID')).toBeVisible
 
-    await page.getByRole("button",{name: "editar - $1"}).click()
-    await page.getByLabel("Nome").fill("Novo Nome do Filme");
-    await page.getByLabel("Descrição").fill("Descrição atualizada");
-    await page.getByLabel("Data de Lançamento").fill("2024-04-04T00:00:00.000Z");
+   
+await page.locator("button", { hasText: "editar - $10" }).click();
+    await page.getByLabel("Nome").fill("Novo Filme");
+    await page.getByLabel("Descrição").fill("Descriç atualizada");
+    await page.getByLabel("Data de Lançamento").fill("2025-04-04T00:00:00.000Z");
     await page.getByRole("button",{name: "salvar alterações"}).click()
 
     await expect(page.getByText('Novo Nome do Filme')).toBeVisible
@@ -32,8 +33,7 @@ test("Listing movies", async ({ page }) => {
     await page.getByLabel("IDs dos Atores (separados por vírgula)").fill("1");
     await page.getByRole("button",{name: "salvar"}).click()
 
-    await page.getByRole("button",{name: "deletar"}).click()
     
-    
+
 
 })
