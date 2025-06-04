@@ -7,8 +7,6 @@ import EditUserForm from "../../components/EditUserForm";
 import "./UserProfile.css";
 import { User } from "../../types/User";
 
-
-
 const UserProfile = () => {
   const userId = localStorage.getItem("userId");
   const { logout } = useAuth();
@@ -27,6 +25,7 @@ const UserProfile = () => {
     if (userId) {
       fetchUserData();
     }
+    // eslint-disable-next-line
   }, [userId]);
 
   const fetchUserData = async () => {
@@ -54,16 +53,13 @@ const UserProfile = () => {
   const handleUpdateUser = async () => {
     try {
       setLoading(true);
-  
+
       const updatedData: Partial<User> = { ...formData };
-  
-      // Remover campos que não podem ser atualizados
       delete updatedData.email;
-  
       if (!formData.password) {
         delete updatedData.password;
       }
-  
+
       await api.put(`/users/${userId}`, updatedData);
       alert("Usuário atualizado com sucesso!");
       setEditing(false);
@@ -77,7 +73,9 @@ const UserProfile = () => {
   };
 
   const handleDeleteUser = async () => {
-    const confirmDelete = window.confirm("Tem certeza que deseja deletar sua conta?");
+    const confirmDelete = window.confirm(
+      "Tem certeza que deseja deletar sua conta?"
+    );
     if (!confirmDelete) return;
 
     try {
@@ -90,29 +88,31 @@ const UserProfile = () => {
     }
   };
 
-  if (loading) return <div>Carregando...</div>;
-  if (!user) return <div>Usuário não encontrado.</div>;
+  if (loading)
+    return (
+      <div className="text-center mt-10 text-lg text-red-600">
+        Carregando...
+      </div>
+    );
+  if (!user)
+    return (
+      <div className="text-center mt-10 text-lg text-red-600">
+        Usuário não encontrado.
+      </div>
+    );
 
   return (
-    <div>
+    <div className="min-h-screen bg-black text-white">
       <Header />
-      <div className="user-profile">
-        <h2>Perfil do Usuário</h2>
-
-        <div className="user-container">
-          <div className="user-card">
-            <UserCard name={user.name} onEdit ={() => setEditing(true)} />
+      <div className="flex flex-col items-center justify-center py-10 px-4">
+        <div className="bg-zinc-900 rounded-2xl shadow-lg p-8 w-full max-w-2xl">
+          <h2 className="text-2xl font-bold text-red-500 mb-6 text-center">
+            Perfil do Usuário
+          </h2>
+          <div className="flex flex-col items-center mb-6">
+            <UserCard name={user.name} onEdit={() => setEditing(true)} />
           </div>
-
-          <div className="user-info">
-          <div className="w-full flex justify-end px-4 mb-4">
-  <button
-    onClick={handleDeleteUser}
-    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
-  >
-    Deletar Perfil
-  </button>
-</div>
+          <div>
             {editing ? (
               <EditUserForm
                 formData={formData}
@@ -122,11 +122,43 @@ const UserProfile = () => {
                 loading={loading}
               />
             ) : (
-              <div>
-                <p><strong>Email:</strong>{user.email}</p>
-                <p><strong>CPF:</strong> {user.cpf}</p>
-                <button onClick={logout}  className="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
-                >Logout</button>
+              <div className="flex flex-col gap-8 sm:flex-row sm:gap-8 sm:items-center sm:justify-between">
+                {/* Dados do usuário */}
+                <div className="flex flex-col gap-2 sm:gap-4 min-w-[220px]">
+                  <div>
+                    <span className="font-semibold text-red-400">Nome:</span>{" "}
+                    {user.name}
+                  </div>
+                  <div>
+                    <span className="font-semibold text-red-400">Email:</span>{" "}
+                    {user.email}
+                  </div>
+                  <div>
+                    <span className="font-semibold text-red-400">CPF:</span>{" "}
+                    {user.cpf}
+                  </div>
+                </div>
+                {/* Botões */}
+                <div className="flex flex-col gap-3 sm:flex-row sm:gap-3 w-full sm:w-auto">
+                  <button
+                    onClick={() => setEditing(true)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition w-full sm:w-auto"
+                  >
+                    Editar Perfil
+                  </button>
+                  <button
+                    onClick={logout}
+                    className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded transition w-full sm:w-auto"
+                  >
+                    Logout
+                  </button>
+                  <button
+                    onClick={handleDeleteUser}
+                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition w-full sm:w-auto"
+                  >
+                    Deletar Perfil
+                  </button>
+                </div>
               </div>
             )}
           </div>
