@@ -11,8 +11,8 @@ interface Field {
   name: string;
   label: string;
   type: FieldType;
-  value: string | string[]; 
-  options?: FieldOption[]; 
+  value: string | string[];
+  options?: FieldOption[];
 }
 
 interface GenericFormProps {
@@ -41,11 +41,16 @@ const GenericForm: React.FC<GenericFormProps> = ({
 
         <div className="space-y-4">
           {fields.map((field) => {
+            const inputId = `field-${field.name}`;
+
             if (field.type === "select-multiple") {
               return (
                 <div key={field.name}>
-                  <label className="block mb-1">{field.label}</label>
+                  <label htmlFor={inputId} className="block mb-1">
+                    {field.label}
+                  </label>
                   <select
+                    id={inputId}
                     multiple
                     value={field.value as string[]}
                     onChange={(e) =>
@@ -68,8 +73,11 @@ const GenericForm: React.FC<GenericFormProps> = ({
 
             return (
               <div key={field.name}>
-                <label className="block mb-1">{field.label}</label>
+                <label htmlFor={inputId} className="block mb-1">
+                  {field.label}
+                </label>
                 <input
+                  id={inputId}
                   type={field.type}
                   value={field.value as string}
                   onChange={(e) => onChange(field.name, e.target.value)}
