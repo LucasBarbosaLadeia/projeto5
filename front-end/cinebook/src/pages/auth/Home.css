@@ -1,15 +1,94 @@
-
 .columnfilms {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
   padding: 20px;
   width: 100%;
-  max-width: 1200px; 
+  max-width: 1200px;
 }
 
-
 .cardimg {
-  border: 3px solid #a10808; 
+  border: 3px solid #a10808;
+  /* Container principal */
+  body {
+    background: #181818;
+    color: #fff;
+    font-family: "Segoe UI", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Título */
+  h1 {
+    text-align: center;
+    margin-top: 32px;
+    margin-bottom: 24px;
+    color: #e50914;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+  }
+
+  /* Grid dos filmes */
+  .columnfilms {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 28px;
+    padding: 32px 16px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Card do filme */
+  .film-card {
+    background: #232323;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid #e50914;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .film-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 6px 24px rgba(229, 9, 20, 0.15);
+  }
+
+  /* Imagem do filme */
+  .cardimg,
+  .film-card img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    border-bottom: 2px solid #e50914;
+  }
+
+  /* Título do filme */
+  .film-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 16px 0 8px 0;
+    color: #fff;
+    text-align: center;
+  }
+
+  /* Descrição do filme */
+  .film-description {
+    font-size: 1rem;
+    color: #ccc;
+    padding: 0 12px 16px 12px;
+    text-align: center;
+  }
+
+  /* Mensagem de status */
+  .status-message {
+    text-align: center;
+    margin-top: 40px;
+    color: #e50914;
+    font-size: 1.2rem;
+  }
   border-radius: 10px;
 }

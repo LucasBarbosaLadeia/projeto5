@@ -27,7 +27,6 @@ export const login = async (req: Request, res: Response) => {
       {
         id_user: user.id_user,
         email: user.email,
-        admin: user.admin,
       },
       process.env.JWT_SECRET!,
       { expiresIn: "1d" }
