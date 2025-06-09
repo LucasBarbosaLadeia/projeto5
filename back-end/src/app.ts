@@ -25,7 +25,6 @@ app.use(userRoute);
 app.use(express.json());
 app.use(actorRoutes);
 app.use(filmRoutes);
-app.use(filmRoutes);
 app.use(evaluations);
 app.use(favorites);
 app.use(login);

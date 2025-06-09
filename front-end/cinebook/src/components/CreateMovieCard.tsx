@@ -40,7 +40,7 @@ const CreateMovieCard: React.FC<ActorCardProps> = ({
           className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
           onClick={() => onEdit(film)}
         >
-          Editar
+        editar - ${film.id_film}
         </button>
         <button
           className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"

@@ -12,6 +12,7 @@ import { getCommentsByFilmId } from "../controller/CommentController";
 
 const router = express.Router();
 
+
 router.get("/films", authMiddleware, getAll);
 router.get("/films/:id", authMiddleware, getFilmById);
 router.get("/films/:id/comments", authMiddleware, getCommentsByFilmId);
