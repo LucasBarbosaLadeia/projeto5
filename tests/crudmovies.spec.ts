@@ -17,11 +17,7 @@ test("Listing movies", async ({ page }) => {
     await expect(page.getByText('ID')).toBeVisible
 
    
-await page.locator("button", { hasText: "editar - $10" }).click();
-    await page.getByLabel("Nome").fill("Novo Filme");
-    await page.getByLabel("Descrição").fill("Descriç atualizada");
-    await page.getByLabel("Data de Lançamento").fill("2025-04-04T00:00:00.000Z");
-    await page.getByRole("button",{name: "salvar alterações"}).click()
+
 
     await expect(page.getByText('Novo Nome do Filme')).toBeVisible
 
@@ -34,6 +30,12 @@ await page.locator("button", { hasText: "editar - $10" }).click();
     await page.getByRole("button",{name: "salvar"}).click()
 
     
+    await page.locator("button", { hasText: "deletar" }).last().click();
 
+await page.locator("button", { hasText: "editar - $97" }).click();
+    await page.getByLabel("Nome").fill("Novo Filme");
+    await page.getByLabel("Descrição").fill("Descriç atualizada");
+    await page.getByLabel("Data de Lançamento").fill("2025-04-04T00:00:00.000Z");
+    await page.getByRole("button",{name: "salvar alterações"}).click()
 
 })

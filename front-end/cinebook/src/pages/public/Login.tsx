@@ -5,11 +5,9 @@ import { useAuth } from "../../contexts/AuthContext";
 import { jwtDecode } from "jwt-decode";
 
 interface DecodedToken {
-  user: {
-    id_user: number;
-    name: string;
-    email: string;
-  };
+  id_user: number;
+  email: string;
+  admin: boolean;
 }
 
 const Login = () => {
@@ -30,7 +28,7 @@ const Login = () => {
       }
 
       const decodedToken: DecodedToken = jwtDecode(token);
-      const userId = decodedToken.user?.id_user;
+      const userId = decodedToken.id_user;
       if (userId) {
         localStorage.setItem("userId", String(userId));
       }

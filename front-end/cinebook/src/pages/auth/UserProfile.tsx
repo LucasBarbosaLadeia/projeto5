@@ -57,7 +57,7 @@ const UserProfile = () => {
   
       const updatedData: Partial<User> = { ...formData };
   
-      // Remover campos que não podem ser atualizados
+      
       delete updatedData.email;
   
       if (!formData.password) {
@@ -77,8 +77,7 @@ const UserProfile = () => {
   };
 
   const handleDeleteUser = async () => {
-    const confirmDelete = window.confirm("Tem certeza que deseja deletar sua conta?");
-    if (!confirmDelete) return;
+    
 
     try {
       await api.delete(`/users/${userId}`);

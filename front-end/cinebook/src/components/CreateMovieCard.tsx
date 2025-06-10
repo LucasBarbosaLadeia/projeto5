@@ -34,7 +34,7 @@ const CreateMovieCard: React.FC<ActorCardProps> = ({ film, onEdit, onDelete }) =
           className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
           onClick={() => onDelete(film.id_film)}
         >
-          Deletar
+          Deletar - ${film.id_film}
         </button>
       </div>
     </div>
