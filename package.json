@@ -1,0 +1,21 @@
+{
+  "name": "projeto5",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "prepare": "husky",
+    "test": "npx playwright test -ui"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.29",
+    "husky": "^9.1.7"
+  }
+}
