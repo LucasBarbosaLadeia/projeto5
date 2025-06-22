@@ -1,0 +1,24 @@
+.NomeDescription {
+  align-self: stretch;
+}
+
+.img {
+  width: 250px;
+  height: auto;
+  border-radius: 10px;
+  margin: 8px;
+}
+
+.botao {
+  background-color: #dc2626;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  /* cursor: pointer; */
+  /* transition: background-color 0.3s ease; */
+  width: 15%;
+  margin-block-start: auto;
+  margin-inline: auto;
+}

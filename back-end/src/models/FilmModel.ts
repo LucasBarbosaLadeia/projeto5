@@ -32,11 +32,11 @@ FilmModel.init(
       allowNull: false,
     },
     description: {
-      type: DataTypes.STRING(300),
+      type: DataTypes.STRING(500),
       allowNull: false,
     },
     images: {
-      type: DataTypes.STRING(300),
+      type: DataTypes.STRING,
       allowNull: true,
     },
   },

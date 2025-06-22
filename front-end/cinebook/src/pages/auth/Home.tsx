@@ -35,10 +35,12 @@ const Home = () => {
       ) : films.length === 0 ? (
         <StatusMessage message="Nenhum filme encontrado." />
       ) : (
-        <div className="columnfilms">
-          {films.map((film) => (
-            <FilmCard key={film.id_film} film={film} />
-          ))}
+        <div className="flex justify-center">
+          <div className="columnfilms grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-10">
+            {films.map((film) => (
+              <FilmCard key={film.id_film} film={film} />
+            ))}
+          </div>
         </div>
       )}
     </div>

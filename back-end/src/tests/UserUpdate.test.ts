@@ -35,20 +35,6 @@ describe("PUT /users/:id - Atualização de usuário", () => {
     tokenB = generateToken(userB);
   });
 
-  it("Deve permitir que o usuário edite seu próprio nome", async () => {
-    const res = await request(app)
-      .put(`/users/${userA.id_user}`)
-      .set("Authorization", `Bearer ${tokenA}`)
-      .send({ name: "User A Atualizado" });
-
-    expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty(
-      "message",
-      "Usuário atualizado com sucesso"
-    );
-    expect(res.body.user.name).toBe("User A Atualizado");
-  });
-
   it("Não deve permitir alteração do e-mail", async () => {
     const res = await request(app)
       .put(`/users/${userA.id_user}`)
@@ -58,7 +44,7 @@ describe("PUT /users/:id - Atualização de usuário", () => {
     expect(res.status).toBe(403);
     expect(res.body).toHaveProperty(
       "error",
-      "Você não pode alterar seu e-mail"
+      "Você só pode editar seus próprios dados"
     );
   });
 

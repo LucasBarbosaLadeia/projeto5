@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // CORRIGIDO: "react-router" -> "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
 import api from "../../utils/api";
 import { useAuth } from "../../contexts/AuthContext";
 import { jwtDecode } from "jwt-decode";
+import { AxiosError } from "axios";
 
 interface DecodedToken {
-  user: {
-    id_user: number;
-    name: string;
-    email: string;
-  };
+  id_user: number;
+  name: string;
+  email: string;
+  admin: boolean;
+  iat: number;
+  exp: number;
 }
 
 const Login = () => {
@@ -30,16 +32,31 @@ const Login = () => {
       }
 
       const decodedToken: DecodedToken = jwtDecode(token);
-      const userId = decodedToken.user?.id_user;
+      const userId = decodedToken.id_user;
+      const isAdmin = decodedToken.admin;
+
       if (userId) {
         localStorage.setItem("userId", String(userId));
       }
 
       login(token);
-      navigate("/home");
-    } catch (error) {
-      console.error(error);
-      alert("Erro ao fazer login.");
+
+      console.log("Token decodificado:", decodedToken);
+      console.log("Admin?", isAdmin);
+
+      if (isAdmin) {
+        navigate("/admin/home");
+      } else {
+        navigate("/home");
+      }
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+
+      if (error.response?.status === 404) {
+        alert("E-mail não encontrado. Verifique se digitou corretamente.");
+      } else {
+        alert("Erro ao fazer login. Tente novamente.");
+      }
     }
   };
 

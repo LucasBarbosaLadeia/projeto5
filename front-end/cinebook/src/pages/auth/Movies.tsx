@@ -120,13 +120,11 @@ const Movies = () => {
   return (
     <div className="movie-container">
       <Header />
-
       <FilmDetails
         movie={movie}
         favorited={favorited}
         onFavorite={favoriteMovie}
       />
-
       <div className="movie-evaluations">
         <h2 style={{ color: "red" }}>Comentários:</h2>
 
@@ -166,4 +164,3 @@ const Movies = () => {
 };
 
 export default Movies;
-
