@@ -8,7 +8,6 @@ export class UserModel extends Model {
   public password!: string;
   public email!: string;
   public cpf!: string;
-  public admin!: boolean;
   public async hashPassword() {
     this.password = await bcrypt.hash(this.password!, 10);
   }
@@ -42,11 +41,6 @@ UserModel.init(
     cpf: {
       type: DataTypes.STRING(11),
       allowNull: false,
-    },
-    admin: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
     },
   },
   {

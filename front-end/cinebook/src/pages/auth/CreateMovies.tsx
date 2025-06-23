@@ -1,15 +1,19 @@
 import { useState, useEffect } from "react";
 import "./CreateMovies.css";
 import api from "../../utils/api";
-import { Film,  } from "../../types/Film";
+import { Film } from "../../types/Film";
 import Header from "../../components/Header";
 import GenericForm from "../../components/GenericForm";
 import CreateMovieCard from "../../components/CreateMovieCard";
-import TextInput from "../../components/TextInput"; 
+import TextInput from "../../components/TextInput";
+
+interface Actor {
+  id_actor: number;
+  name: string;
+}
 
 const CreateMovies = () => {
   const [films, setFilms] = useState<Film[]>([]);
-  
   const [loading, setLoading] = useState(false);
   const [editingFilmId, setEditingFilmId] = useState<number | null>(null);
   const [formData, setFormData] = useState<Film | null>(null);
@@ -23,6 +27,8 @@ const CreateMovies = () => {
     actors: [] as number[],
   });
 
+  const [actorsList, setActorsList] = useState<Actor[]>([]);
+
   const fetchFilms = async () => {
     setLoading(true);
     try {
@@ -35,7 +41,14 @@ const CreateMovies = () => {
     }
   };
 
-
+  const fetchActors = async () => {
+    try {
+      const response = await api.get("/actors");
+      setActorsList(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar atores:", error);
+    }
+  };
 
   const onCreateMovie = async () => {
     const { name, description, images, launch_date, actors } = formState;
@@ -72,7 +85,9 @@ const CreateMovies = () => {
     setFormData(film);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     if (formData) {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
@@ -80,16 +95,10 @@ const CreateMovies = () => {
 
   const handleUpdateFilm = async () => {
     if (!formData || editingFilmId === null) return;
-  
+
     try {
       setLoading(true);
-      console.log("Dados enviados no PUT:", {
-        name: formData.name,
-        description: formData.description,
-        launch_date: formData.launch_date,
-      });
       await api.put(`/films/${editingFilmId}`, {
-        
         name: formData.name,
         description: formData.description,
         launch_date: formData.launch_date,
@@ -119,13 +128,15 @@ const CreateMovies = () => {
 
   useEffect(() => {
     fetchFilms();
-    
+    fetchActors();
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-6 text-white font-sans">
+    <div>
       <Header />
-      <h2 className="text-2xl font-bold mb-4">Cadastro de Filmes</h2>
+      <h2 className="text-2xl font-bold text-red-600 text-center my-8">
+        Cadastro de Filmes
+      </h2>
 
       <div className="flex justify-center mb-4">
         <button
@@ -169,18 +180,27 @@ const CreateMovies = () => {
             },
             {
               name: "actors",
-              label: "IDs dos Atores (separados por vírgula)",
-              type: "text",
-              value: formState.actors.join(","),
+              label: "Atores",
+              type: "select-multiple",
+              value: formState.actors.map(String),
+              options: actorsList.map((actor) => ({
+                value: actor.id_actor,
+                label: actor.name,
+              })),
             },
           ]}
           onChange={(name, value) => {
             if (name === "actors") {
-              const ids = (value as string)
-                .split(",")
-                .map((id) => parseInt(id.trim()))
-                .filter((id) => !isNaN(id));
-              setFormState((prev) => ({ ...prev, actors: ids }));
+              let actorsArray: number[] = [];
+              if (Array.isArray(value)) {
+                actorsArray = value.map((v) => Number(v));
+              } else if (typeof value === "string") {
+                actorsArray = [Number(value)];
+              }
+              setFormState((prev) => ({
+                ...prev,
+                actors: actorsArray,
+              }));
             } else {
               setFormState((prev) => ({ ...prev, [name]: value }));
             }

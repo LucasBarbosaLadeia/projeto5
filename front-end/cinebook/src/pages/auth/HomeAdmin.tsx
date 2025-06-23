@@ -4,7 +4,6 @@ import { Film } from "../../types/Film";
 import HeaderAdm from "../../components/HeaderAdm";
 import FilmCard from "../../components/FilmCard";
 import StatusMessage from "../../components/StatusMessage";
-import "./HomeAdmin.css";
 
 const HomeAdmin = () => {
   const [films, setFilms] = useState<Film[]>([]);
