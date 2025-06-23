@@ -2,10 +2,6 @@ FROM nginx:latest
 
 WORKDIR /etc/nginx
 
-COPY . .
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY certs /etc/nginx/certs
 
-RUN openssl req -x509 -newkey rsa:2048 \
-  -keyout chave.pem \
-  -out cert.pem \
-  -days 365 -nodes \
-  -config openssl-san.cnf

@@ -5,3 +5,5 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+/nginx/certs/cert.pem
+/nginx/certs/chave.pem
