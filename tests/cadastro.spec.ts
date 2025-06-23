@@ -16,7 +16,7 @@ const email = `user${random}@test.com`;
 
     await page.getByPlaceholder("nome").fill("nome")
     await page.getByPlaceholder("E-mail").fill(email)
-    await page.getByPlaceholder("CPF").fill("11770764976")
+    await page.getByPlaceholder("CPF").fill("94999548054")
     await page.getByPlaceholder("Senha").fill("12345678")
     await page.getByPlaceholder("Confirme").fill("12345678")
 

@@ -135,7 +135,7 @@ const CreateActor = () => {
             },
             {
               name: "nationality",
-              label: "Nacionalidade",
+              label: "Nacionality",
               type: "text",
               value: formState.nationality,
             },
@@ -170,11 +170,11 @@ const CreateActor = () => {
                 />
                 <input
                   type="text"
-                  name="nationality"
+                  name="nationalidade"
                   value={formData?.nationality || ""}
                   onChange={handleChange}
                   className="bg-zinc-800 text-white p-2 rounded-xl"
-                  placeholder="Nacionalidade"
+                  placeholder="Nacionality"
                 />
                 <button
                   onClick={handleUpdateActor}

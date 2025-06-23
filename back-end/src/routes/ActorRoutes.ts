@@ -14,14 +14,13 @@ const router = express.Router();
 
 router.get("/actors", authMiddleware, getAll);
 router.get("/actors/:id", authMiddleware, getActorById);
-router.post("/actors", authMiddleware, adminMiddleware, createActor);
+router.post("/actors", authMiddleware, createActor);
 router.post(
   "/actors/addActorToFilm",
   authMiddleware,
-  adminMiddleware,
   addActorToFilm
 );
-router.put("/actors/:id", authMiddleware, adminMiddleware, updateActor);
-router.delete("/actors/:id", authMiddleware, adminMiddleware, destroyActorById);
+router.put("/actors/:id", authMiddleware, updateActor);
+router.delete("/actors/:id", authMiddleware, destroyActorById);
 
 export default router;
