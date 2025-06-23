@@ -7,11 +7,10 @@ import { AxiosError } from "axios";
 
 interface DecodedToken {
   id_user: number;
-  name: string;
+
   email: string;
   admin: boolean;
-  iat: number;
-  exp: number;
+
 }
 
 const Login = () => {
@@ -33,7 +32,6 @@ const Login = () => {
 
       const decodedToken: DecodedToken = jwtDecode(token);
       const userId = decodedToken.id_user;
-      const isAdmin = decodedToken.admin;
 
       if (userId) {
         localStorage.setItem("userId", String(userId));

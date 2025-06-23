@@ -34,6 +34,7 @@ const ActorCard: React.FC<ActorCardProps> = ({ actor, onEdit, onDelete }) => {
           Editar
         </button>
         <button
+          data-testid={`delete-film-${actor.name}`}
           className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
           onClick={() => onDelete(actor.id_actor)}
         >

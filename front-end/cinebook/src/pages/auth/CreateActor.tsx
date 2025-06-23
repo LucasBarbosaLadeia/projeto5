@@ -140,8 +140,10 @@ const CreateActor = () => {
             },
             {
               name: "nationality",
-              label: "Nacionalidade",
+
+              label: "Nacionality",
               type: "select",
+
               value: formState.nationality,
               options: NATIONALITIES.map((nac) => ({ value: nac, label: nac })),
             },
@@ -176,6 +178,7 @@ const CreateActor = () => {
                   className="bg-zinc-800 text-white p-2 rounded-xl"
                   placeholder="Idade"
                 />
+
                 <select
                   name="nationality"
                   value={formData?.nationality || ""}
@@ -189,6 +192,7 @@ const CreateActor = () => {
                     </option>
                   ))}
                 </select>
+
                 <button
                   onClick={handleUpdateActor}
                   disabled={loading}
