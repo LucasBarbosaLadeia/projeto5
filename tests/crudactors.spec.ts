@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("crud de movies", async ({ page }) => {
+test("crud de actors", async ({ page }) => {
     await page.goto("http://localhost/")
     const title = await page.getByText("Login")
 
@@ -12,45 +12,36 @@ test("crud de movies", async ({ page }) => {
     await page.getByRole("button", { name: "Entrar" }).click()
    
     await expect(page).toHaveURL("http://localhost/home")
-    await expect(page.getByRole("link", { name: "createMovies" })).toBeVisible();
-    await page.getByRole("link", { name: "createMovies" }).click()
+    await expect(page.getByRole("link", { name: "createActors" })).toBeVisible();
+    await page.getByRole("link", { name: "createActors" }).click()
 //listagem
     await expect(page.getByText('ID')).toBeVisible
 //falha de listagem
-    const falha = page.getByText('homem aranha');
+    const falha = page.getByText('matt');
     await expect(falha).not.toBeVisible();
 
-   
-
-//outra listagem 
-    await expect(page.getByText('Novo Nome do Filme')).toBeVisible
 //criação do filme
     const random = Math.floor(Math.random() * 100000);
     const nome = `${random}`;
-    await page.getByRole("button",{name: "Novo filme"}).click()
-    await page.getByLabel("Nome").fill(nome);
-    await page.getByLabel("Descrição").fill("Descrição");
-    await page.getByLabel("Imagens").fill("https://br.web.img3.acsta.net/pictures/15/10/15/22/24/429658.jpg");
-    await page.getByLabel("Data de Lançamento").fill("2024-04-04T00:00:00.000Z");
-    await page.getByLabel("IDs dos Atores (separados por vírgula)").fill("1");
+    await page.getByRole("button",{name: "Novo ator"}).click()
+   await page.getByLabel("Nome").fill(nome);
+    await page.getByLabel("Idade").fill("30");
+    await page.getByLabel("Nacionality").fill("brasileiro");
     await page.getByRole("button",{name: "salvar"}).click()
     await page.waitForTimeout(1000);
     const testefilme = page.getByText(nome);
     await expect(await testefilme.count()).toBeGreaterThan(0);
 
 //falha de criação
-    await page.getByRole("button",{name: "Novo filme"}).click()
-    await page.waitForSelector('input[id="field-name"]');
-    await page.getByLabel("Nome").fill("cachorro");
-    await page.getByLabel("Descrição").fill("Descrição");
-    await page.getByLabel("Imagens").fill("https://br.web.img3.acsta.net/pictures/15/10/15/22/24/429658.jpg");
-    await page.getByLabel("Data de Lançamento").fill("wifggvcldgc");
-    await page.getByLabel("IDs dos Atores (separados por vírgula)").fill("1");
+    await page.getByRole("button",{name: "Novo ator"}).click()
+    await page.getByLabel("Nome").fill("erro");
+    await page.getByLabel("idade").fill("cinquenta");
+    await page.getByLabel("Nacionality").fill("brasileiro");
     await page.getByRole("button",{name: "salvar"}).click()
     
     await page.getByRole("button",{name: "Cancelar"}).click()
 
-    const testefilmefalha = page.getByText('cachorro');
+    const testefilmefalha = page.getByText('erro');
     await expect(await testefilmefalha.count()).toBeLessThan(1)
 //delete
  await page.getByTestId(`delete-film-${nome}`).click();
@@ -62,16 +53,16 @@ test("crud de movies", async ({ page }) => {
     await expect(deleteButtonfalha).not.toBeVisible();
 //edição
     await page.locator("button", { hasText: "editar" }).first().click();
-    await page.getByLabel("Nome").fill("editado");
-    await page.getByLabel("Descrição").fill("Descriç atualizada");
-    await page.getByLabel("Data de Lançamento").fill("2025-04-04T00:00:00.000Z");
+    await page.getByPlaceholder("Nome").fill("Novoatorios");
+    await page.getByPlaceholder("Idade").fill("30");
+    await page.getByPlaceholder("Nacionality").fill("brasileiro");
     await page.getByRole("button",{name: "salvar alterações"}).click()
-     await page.waitForTimeout(1000);
-     await expect(page.getByText("editado")).toBeVisible();
+    await expect(page.getByText("Novoatorios")).toBeVisible();
+//edição falha
     await page.locator("button", { hasText: "editar" }).first().click();
-    await page.getByLabel("Nome").fill("Novo Filme");
-    await page.getByLabel("Descrição").fill("Descriç atualizada");
-    await page.getByLabel("Data de Lançamento").fill("fjnvsobgdb");
+    await page.getByPlaceholder("Nome").fill("Novo ator");
+    await page.getByPlaceholder("Idade").fill("quarenta");
+    await page.getByPlaceholder("Nacionality").fill("brasileiro");
     await page.getByRole("button",{name: "salvar alterações"}).click()
 
     await expect(page.getByRole('button', { name:'Salvar Alterações'})).toBeVisible();

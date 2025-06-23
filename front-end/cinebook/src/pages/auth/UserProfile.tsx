@@ -55,6 +55,7 @@ const UserProfile = () => {
       setLoading(true);
 
       const updatedData: Partial<User> = { ...formData };
+
       delete updatedData.email;
       if (!formData.password) {
         delete updatedData.password;
@@ -73,10 +74,8 @@ const UserProfile = () => {
   };
 
   const handleDeleteUser = async () => {
-    const confirmDelete = window.confirm(
-      "Tem certeza que deseja deletar sua conta?"
-    );
-    if (!confirmDelete) return;
+
+  
 
     try {
       await api.delete(`/users/${userId}`);

@@ -42,12 +42,13 @@ const CreateMovieCard: React.FC<ActorCardProps> = ({
         >
         editar - ${film.id_film}
         </button>
-        <button
-          className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
-          onClick={() => onDelete(film.id_film)}
-        >
-          Deletar
-        </button>
+      <button
+  data-testid={`delete-film-${film.name}`}
+  onClick={() => onDelete(film.id_film)}
+  className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
+>
+  Deletar
+</button>
       </div>
     </div>
   );

@@ -7,3 +7,6 @@ node_modules/
 /playwright/.cache/
 /nginx/certs
 /.env
+
+/nginx/certs/cert.pem
+/nginx/certs/chave.pem
