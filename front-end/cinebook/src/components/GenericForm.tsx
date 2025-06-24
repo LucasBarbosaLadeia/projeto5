@@ -51,6 +51,7 @@ const GenericForm: React.FC<GenericFormProps> = ({
                   </label>
                   <select
                     id={inputId}
+                   name={field.name}
                     multiple
                     value={field.value as string[]}
                     onChange={(e) =>
@@ -76,6 +77,7 @@ const GenericForm: React.FC<GenericFormProps> = ({
                 <div key={field.name}>
                   <label className="block mb-1">{field.label}</label>
                   <select
+                  name={field.name}
                     value={field.value as string}
                     onChange={(e) => onChange(field.name, e.target.value)}
                     className="w-full bg-zinc-800 text-white p-2 rounded-xl"

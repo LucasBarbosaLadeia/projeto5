@@ -7,9 +7,8 @@ import { AxiosError } from "axios";
 
 interface DecodedToken {
   id_user: number;
-
   email: string;
-  admin: boolean;
+    admin: boolean;
 
 }
 
@@ -39,14 +38,9 @@ const Login = () => {
 
       login(token);
 
-      console.log("Token decodificado:", decodedToken);
-      console.log("Admin?", isAdmin);
 
-      if (isAdmin) {
-        navigate("/admin/home");
-      } else {
-        navigate("/home");
-      }
+            navigate("/home");
+
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
 

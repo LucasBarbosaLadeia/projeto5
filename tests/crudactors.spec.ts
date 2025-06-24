@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test("crud de actors", async ({ page }) => {
-    await page.goto("http://localhost/")
+    await page.goto("https://cinebook.local/")
     const title = await page.getByText("Login")
 
     expect(title).toBeTruthy()
@@ -11,11 +11,11 @@ test("crud de actors", async ({ page }) => {
 
     await page.getByRole("button", { name: "Entrar" }).click()
    
-    await expect(page).toHaveURL("http://localhost/home")
-    await expect(page.getByRole("link", { name: "createActors" })).toBeVisible();
-    await page.getByRole("link", { name: "createActors" }).click()
+    await expect(page).toHaveURL("https://cinebook.local/home")
+    await expect(page.getByRole("link", { name: "create Actors" })).toBeVisible();
+    await page.getByRole("link", { name: "create Actors" }).click()
 //listagem
-    await expect(page.getByText('ID')).toBeVisible
+    await expect(page.getByText('Novoatorios')).toBeVisible();
 //falha de listagem
     const falha = page.getByText('matt');
     await expect(falha).not.toBeVisible();
@@ -24,9 +24,9 @@ test("crud de actors", async ({ page }) => {
     const random = Math.floor(Math.random() * 100000);
     const nome = `${random}`;
     await page.getByRole("button",{name: "Novo ator"}).click()
-   await page.getByLabel("Nome").fill(nome);
+    await page.getByLabel("Nome").fill(nome);
     await page.getByLabel("Idade").fill("30");
-    await page.getByLabel("Nacionality").fill("brasileiro");
+await page.selectOption('select[name="nationality"]', { value: 'Argentino(a)' });
     await page.getByRole("button",{name: "salvar"}).click()
     await page.waitForTimeout(1000);
     const testefilme = page.getByText(nome);
@@ -36,7 +36,7 @@ test("crud de actors", async ({ page }) => {
     await page.getByRole("button",{name: "Novo ator"}).click()
     await page.getByLabel("Nome").fill("erro");
     await page.getByLabel("idade").fill("cinquenta");
-    await page.getByLabel("Nacionality").fill("brasileiro");
+await page.selectOption('select[name="nationality"]', { value: 'Argentino(a)' });
     await page.getByRole("button",{name: "salvar"}).click()
     
     await page.getByRole("button",{name: "Cancelar"}).click()
@@ -55,14 +55,14 @@ test("crud de actors", async ({ page }) => {
     await page.locator("button", { hasText: "editar" }).first().click();
     await page.getByPlaceholder("Nome").fill("Novoatorios");
     await page.getByPlaceholder("Idade").fill("30");
-    await page.getByPlaceholder("Nacionality").fill("brasileiro");
+await page.selectOption('select[name="nationality"]', { value: 'Argentino(a)' });
     await page.getByRole("button",{name: "salvar alterações"}).click()
     await expect(page.getByText("Novoatorios")).toBeVisible();
 //edição falha
     await page.locator("button", { hasText: "editar" }).first().click();
     await page.getByPlaceholder("Nome").fill("Novo ator");
     await page.getByPlaceholder("Idade").fill("quarenta");
-    await page.getByPlaceholder("Nacionality").fill("brasileiro");
+await page.selectOption('select[name="nationality"]', { value: 'Argentino(a)' });
     await page.getByRole("button",{name: "salvar alterações"}).click()
 
     await expect(page.getByRole('button', { name:'Salvar Alterações'})).toBeVisible();
