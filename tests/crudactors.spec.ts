@@ -1,72 +1,80 @@
 import { test, expect } from "@playwright/test";
 
 test("crud de actors", async ({ page }) => {
-    await page.goto("https://cinebook.local/")
-    const title = await page.getByText("Login")
+  await page.goto("https://cinebook.local/");
+  const title = await page.getByText("Login");
 
-    expect(title).toBeTruthy()
+  expect(title).toBeTruthy();
 
-    await page.getByPlaceholder("Email").fill("email@gmail.com")
-    await page.getByPlaceholder("Senha").fill("12345678")
+  await page.getByPlaceholder("Email").fill("email@gmail.com");
+  await page.getByPlaceholder("Senha").fill("12345678");
 
-    await page.getByRole("button", { name: "Entrar" }).click()
-   
-    await expect(page).toHaveURL("https://cinebook.local/home")
-    await expect(page.getByRole("link", { name: "create Actors" })).toBeVisible();
-    await page.getByRole("link", { name: "create Actors" }).click()
-//listagem
-    await expect(page.getByText('Novoatorios')).toBeVisible();
-//falha de listagem
-    const falha = page.getByText('matt');
-    await expect(falha).not.toBeVisible();
+  await page.getByRole("button", { name: "Entrar" }).click();
 
-//criação do filme
-    const random = Math.floor(Math.random() * 100000);
-    const nome = `${random}`;
-    await page.getByRole("button",{name: "Novo ator"}).click()
-    await page.getByLabel("Nome").fill(nome);
-    await page.getByLabel("Idade").fill("30");
-await page.selectOption('select[name="nationality"]', { value: 'Argentino(a)' });
-    await page.getByRole("button",{name: "salvar"}).click()
-    await page.waitForTimeout(1000);
-    const testefilme = page.getByText(nome);
-    await expect(await testefilme.count()).toBeGreaterThan(0);
+  await expect(page).toHaveURL("https://cinebook.local/home");
+  await expect(page.getByRole("link", { name: "create Actors" })).toBeVisible();
+  await page.getByRole("link", { name: "create Actors" }).click();
+  //listagem
+  await expect(page.getByText("Gabriek")).toBeVisible();
+  //falha de listagem
+  const falha = page.getByText("matt");
+  await expect(falha).not.toBeVisible();
 
-//falha de criação
-    await page.getByRole("button",{name: "Novo ator"}).click()
-    await page.getByLabel("Nome").fill("erro");
-    await page.getByLabel("idade").fill("cinquenta");
-await page.selectOption('select[name="nationality"]', { value: 'Argentino(a)' });
-    await page.getByRole("button",{name: "salvar"}).click()
-    
-    await page.getByRole("button",{name: "Cancelar"}).click()
+  //criação do filme
+  const random = Math.floor(Math.random() * 100000);
+  const nome = `${random}`;
+  await page.getByRole("button", { name: "Novo ator" }).click();
+  await page.getByLabel("Nome").fill(nome);
+  await page.getByLabel("Idade").fill("30");
+  await page.selectOption('select[name="nationality"]', {
+    value: "Argentino(a)",
+  });
+  await page.getByRole("button", { name: "salvar" }).click();
+  await page.waitForTimeout(1000);
+  const testefilme = page.getByText(nome);
+  await expect(await testefilme.count()).toBeGreaterThan(0);
 
-    const testefilmefalha = page.getByText('erro');
-    await expect(await testefilmefalha.count()).toBeLessThan(1)
-//delete
- await page.getByTestId(`delete-film-${nome}`).click();
-  await expect(page.locator('div', { hasText: nome })).toHaveCount(0);
-//delete falha
-    const card = page.locator('div', { hasText: 'Homem Aranha' });
+  //falha de criação
+  await page.getByRole("button", { name: "Novo ator" }).click();
+  await page.getByLabel("Nome").fill("erro");
+  await page.getByLabel("idade").fill("cinquenta");
+  await page.selectOption('select[name="nationality"]', {
+    value: "Argentino(a)",
+  });
+  await page.getByRole("button", { name: "salvar" }).click();
 
-    const deleteButtonfalha = card.getByRole('button', { name: 'deletar' });
-    await expect(deleteButtonfalha).not.toBeVisible();
-//edição
-    await page.locator("button", { hasText: "editar" }).first().click();
-    await page.getByPlaceholder("Nome").fill("Novoatorios");
-    await page.getByPlaceholder("Idade").fill("30");
-await page.selectOption('select[name="nationality"]', { value: 'Argentino(a)' });
-    await page.getByRole("button",{name: "salvar alterações"}).click()
-    await expect(page.getByText("Novoatorios")).toBeVisible();
-//edição falha
-    await page.locator("button", { hasText: "editar" }).first().click();
-    await page.getByPlaceholder("Nome").fill("Novo ator");
-    await page.getByPlaceholder("Idade").fill("quarenta");
-await page.selectOption('select[name="nationality"]', { value: 'Argentino(a)' });
-    await page.getByRole("button",{name: "salvar alterações"}).click()
+  await page.getByRole("button", { name: "Cancelar" }).click();
 
-    await expect(page.getByRole('button', { name:'Salvar Alterações'})).toBeVisible();
-    await page.getByRole("button",{name: "Cancelar"}).click()
+  const testefilmefalha = page.getByText("erro");
+  await expect(await testefilmefalha.count()).toBeLessThan(1);
+  //delete
+  await page.getByTestId(`delete-film-${nome}`).click();
+  await expect(page.locator("div", { hasText: nome })).toHaveCount(0);
+  //delete falha
+  const card = page.locator("div", { hasText: "Homem Aranha" });
 
-    
-})
+  const deleteButtonfalha = card.getByRole("button", { name: "deletar" });
+  await expect(deleteButtonfalha).not.toBeVisible();
+  //edição
+  await page.locator("button", { hasText: "editar" }).first().click();
+  await page.getByPlaceholder("Nome").fill("Novoatorios");
+  await page.getByPlaceholder("Idade").fill("30");
+  await page.selectOption('select[name="nationality"]', {
+    value: "Argentino(a)",
+  });
+  await page.getByRole("button", { name: "salvar alterações" }).click();
+  await expect(page.getByText("Novoatorios")).toBeVisible();
+  //edição falha
+  await page.locator("button", { hasText: "editar" }).first().click();
+  await page.getByPlaceholder("Nome").fill("Novo ator");
+  await page.getByPlaceholder("Idade").fill("quarenta");
+  await page.selectOption('select[name="nationality"]', {
+    value: "Argentino(a)",
+  });
+  await page.getByRole("button", { name: "salvar alterações" }).click();
+
+  await expect(
+    page.getByRole("button", { name: "Salvar Alterações" })
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Cancelar" }).click();
+});
