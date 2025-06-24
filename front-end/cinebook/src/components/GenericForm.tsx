@@ -1,6 +1,6 @@
 import React from "react";
 
-type FieldType = "text" | "textarea" | "date" | "select-multiple";
+type FieldType = "text" | "textarea" | "date" | "select-multiple" | "select";
 
 interface FieldOption {
   label: string;
@@ -51,6 +51,7 @@ const GenericForm: React.FC<GenericFormProps> = ({
                   </label>
                   <select
                     id={inputId}
+                   name={field.name}
                     multiple
                     value={field.value as string[]}
                     onChange={(e) =>
@@ -61,6 +62,27 @@ const GenericForm: React.FC<GenericFormProps> = ({
                     }
                     className="w-full bg-zinc-800 text-white p-2 rounded-xl"
                   >
+                    {field.options?.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              );
+            }
+
+            if (field.type === "select") {
+              return (
+                <div key={field.name}>
+                  <label className="block mb-1">{field.label}</label>
+                  <select
+                  name={field.name}
+                    value={field.value as string}
+                    onChange={(e) => onChange(field.name, e.target.value)}
+                    className="w-full bg-zinc-800 text-white p-2 rounded-xl"
+                  >
+                    <option value="">Selecione...</option>
                     {field.options?.map((opt) => (
                       <option key={opt.value} value={opt.value}>
                         {opt.label}

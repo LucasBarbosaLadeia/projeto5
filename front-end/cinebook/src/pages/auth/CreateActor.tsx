@@ -5,6 +5,7 @@ import Header from "../../components/Header";
 import { Actor } from "../../types/Actor";
 import ActorCard from "../../components/ActorCard";
 import GenericForm from "../../components/GenericForm";
+import NATIONALITIES from "../../utils/nationalities";
 
 const CreateActor = () => {
   const [actors, setActors] = useState<Actor[]>([]);
@@ -58,7 +59,9 @@ const CreateActor = () => {
     setFormData(actor);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     if (formData) {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
@@ -101,9 +104,11 @@ const CreateActor = () => {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-6 text-white font-sans">
+    <div>
       <Header />
-      <h2 className="text-2xl font-bold mb-4">Cadastro de Atores</h2>
+      <h2 className="text-2xl font-bold text-red-600 text-center my-8">
+        Cadastro de Atores
+      </h2>
 
       <div className="flex justify-center mb-4">
         <button
@@ -135,12 +140,17 @@ const CreateActor = () => {
             },
             {
               name: "nationality",
-              label: "Nacionalidade",
-              type: "text",
+
+              label: "nacionality",
+              type: "select",
+
               value: formState.nationality,
+              options: NATIONALITIES.map((nac) => ({ value: nac, label: nac })),
             },
           ]}
-          onChange={(name, value) => setFormState((prev) => ({ ...prev, [name]: value }))}
+          onChange={(name, value) =>
+            setFormState((prev) => ({ ...prev, [name]: value }))
+          }
         />
       )}
 
@@ -168,14 +178,21 @@ const CreateActor = () => {
                   className="bg-zinc-800 text-white p-2 rounded-xl"
                   placeholder="Idade"
                 />
-                <input
-                  type="text"
+
+                <select
                   name="nationality"
                   value={formData?.nationality || ""}
                   onChange={handleChange}
                   className="bg-zinc-800 text-white p-2 rounded-xl"
-                  placeholder="Nacionalidade"
-                />
+                >
+                  <option value="">Selecione...</option>
+                  {NATIONALITIES.map((nac) => (
+                    <option key={nac} value={nac}>
+                      {nac}
+                    </option>
+                  ))}
+                </select>
+
                 <button
                   onClick={handleUpdateActor}
                   disabled={loading}
