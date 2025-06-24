@@ -141,7 +141,7 @@ const CreateActor = () => {
             {
               name: "nationality",
 
-              label: "Nacionality",
+              label: "nacionality",
               type: "select",
 
               value: formState.nationality,

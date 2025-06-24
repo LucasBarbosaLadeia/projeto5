@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test("crud de movies", async ({ page }) => {
-    await page.goto("http://localhost/")
+    await page.goto("https://cinebook.local/")
     const title = await page.getByText("Login")
 
     expect(title).toBeTruthy()
@@ -11,9 +11,9 @@ test("crud de movies", async ({ page }) => {
 
     await page.getByRole("button", { name: "Entrar" }).click()
    
-    await expect(page).toHaveURL("http://localhost/home")
-    await expect(page.getByRole("link", { name: "createMovies" })).toBeVisible();
-    await page.getByRole("link", { name: "createMovies" }).click()
+    await expect(page).toHaveURL("https://cinebook.local/home")
+    await expect(page.getByRole("link", { name: "create Movies" })).toBeVisible();
+    await page.getByRole("link", { name: "create Movies" }).click()
 //listagem
     await expect(page.getByText('ID')).toBeVisible
 //falha de listagem
@@ -32,7 +32,8 @@ test("crud de movies", async ({ page }) => {
     await page.getByLabel("Descrição").fill("Descrição");
     await page.getByLabel("Imagens").fill("https://br.web.img3.acsta.net/pictures/15/10/15/22/24/429658.jpg");
     await page.getByLabel("Data de Lançamento").fill("2024-04-04T00:00:00.000Z");
-    await page.getByLabel("IDs dos Atores (separados por vírgula)").fill("1");
+        await page.waitForTimeout(1000);
+await page.selectOption('select[name="actors"]', '1');
     await page.getByRole("button",{name: "salvar"}).click()
     await page.waitForTimeout(1000);
     const testefilme = page.getByText(nome);
@@ -45,7 +46,7 @@ test("crud de movies", async ({ page }) => {
     await page.getByLabel("Descrição").fill("Descrição");
     await page.getByLabel("Imagens").fill("https://br.web.img3.acsta.net/pictures/15/10/15/22/24/429658.jpg");
     await page.getByLabel("Data de Lançamento").fill("wifggvcldgc");
-    await page.getByLabel("IDs dos Atores (separados por vírgula)").fill("1");
+await page.selectOption('select[name="actors"]', '1');
     await page.getByRole("button",{name: "salvar"}).click()
     
     await page.getByRole("button",{name: "Cancelar"}).click()
